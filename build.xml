@@ -26,6 +26,7 @@
 
     <target name="init">
         <mkdir dir="bin"/>
+        <mkdir dir="src"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
                 <exclude name="**/*.java"/>
