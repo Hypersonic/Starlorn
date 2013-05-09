@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="build" name="Starlorn">
+    <property environment="env"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+    <mkdir dir="bin"/>
+    <path id="Starlorn.classpath">
+        <pathelement location="bin"/>
+        <pathelement location="lib"/>
+    </path>
+
+    <manifestclasspath property="manifest_cp" jarfile="bin/Starlorn.jar">
+        <classpath refid="Starlorn.classpath" />
+    </manifestclasspath>
+
+    <manifest file="bin/MANIFEST.MF">
+        <attribute name="Main-Class"
+            value="com.aor.starlorn.Starlorn" />
+        <attribute name="Created-By"
+            value="Josh Hofing, Ben Kurtovic, Victor Jiao" />
+        <attribute name="Class-Path"
+            value="${manifest_cp}" />
+    </manifest>
+
+
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+
+    <target depends="clean" name="cleanall"/>
+    
+    <target depends="build-project" name="build"/>
+    
+
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}" includeantruntime="false" >
+            <src path="src"/>
+            <classpath refid="Starlorn.classpath"/>
+        </javac>
+        <jar file="bin/Starlorn.jar"
+            manifest="bin/MANIFEST.MF" >
+            <fileset dir="bin">
+                <include name="**/*.class"/>
+            </fileset>
+        </jar>
+    </target>
+
+    <target depends="build-project" name="run">
+        <java jar="bin/${ant.project.name}.jar" fork="true" />
+    </target>
+
+</project>
