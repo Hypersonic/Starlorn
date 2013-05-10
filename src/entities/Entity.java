@@ -25,6 +25,8 @@ public class Entity {
      * Used for taking actions (moving, shooting, etc)
      */
     public void step() {
+        System.out.printf("X: %.1f, Y: %.1f\n",getX(), getY());
+        setXY(getX()-1 + Math.random() * 2, getY()-1 + Math.random() * 2);
     }
 
     /*
