@@ -2,16 +2,16 @@ package edu.stuy.starlorn.world;
 
 import edu.stuy.starlorn.entities.Entity;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 /*
  * Represents a world with entities in it
  */
 public class World {
-    private ArrayList<Entity> _entities;
+    private LinkedList<Entity> _entities;
 
     public World() {
-        _entities = new ArrayList<Entity>();
+        _entities = new LinkedList<Entity>();
     }
 
     public void addEntity(Entity e) {
