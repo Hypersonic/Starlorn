@@ -21,7 +21,11 @@ public class World {
     public void stepAll() {
         for (Entity e : _entities) {
             e.preStep();
+        }
+        for (Entity e : _entities) {
             e.step();
+        }
+        for (Entity e : _entities) {
             e.postStep();
         }
     }
