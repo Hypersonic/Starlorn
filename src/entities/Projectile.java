@@ -9,6 +9,11 @@ public class Projectile extends Entity {
         _speed = 1;
     }
 
+    @Override
+    public void step() {
+        setXY(getX() + (getSpeed()*Math.cos(getAngle())), getY() + (getSpeed()*Math.sin(getAngle())));
+    }
+
     public void setAngle(double angle) {
         _angle = angle;
     }
