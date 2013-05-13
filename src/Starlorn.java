@@ -7,7 +7,7 @@ public class Starlorn {
     public static void main(String[] args) {
         World w = new World();
         w.addEntity(new Entity());
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 10; i++) {
             w.stepAll();
             try {
                 Thread.sleep(100);
