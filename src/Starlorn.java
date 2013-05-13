@@ -6,7 +6,9 @@ import edu.stuy.starlorn.entities.Projectile;
 public class Starlorn {
     public static void main(String[] args) {
         World w = new World();
-        w.addEntity(new Projectile());
+        Projectile p = new Projectile();
+        p.setAngle(Math.PI/2);
+        w.addEntity(p);
         for (int i = 0; i < 10; i++) {
             w.stepAll();
             try {
