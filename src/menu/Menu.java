@@ -9,11 +9,12 @@ import org.lwjgl.opengl.GL11;
 public class Menu {
 
 
-  long lastFrame;
+	long lastFrame;
 	int fps;
 	long lastFPS;
 
 	private Star[] _stars;
+	private Button[] _button;
 
 	public void start() {
 		try {
@@ -45,6 +46,7 @@ public class Menu {
 		for(Star x: _stars){
 			x.update(delta);
 		}
+		_button[0].update(delta);
 		updateFPS();
 	}
 
@@ -88,19 +90,15 @@ public class Menu {
 		GL11.glOrtho(0, 1080, 0, 720, 1, -1);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		_stars = new Star[400];
+		GL11.glColor3d(1,1,1);
 		for(int i = 0; i < 400; i++){
 			_stars[i] = new Star(1080,720,.3);
 		}
 		
-	
+		GL11.glColor3d(.5,0,0);
+		_button = new Button[1];
+		_button[0] = new Button(400,300,100,100);
 
-		GL11.glBegin(GL11.GL_TRIANGLE_FAN);
-		GL11.glVertex2f(0, 0);
-		for(int i = 0; i <= 20; i++){ //NUM_PIZZA_SLICES decides how round the circle looks.
-		    double angle = Math.PI * 2 * i / 20;
-		    GL11.glVertex2f((float)Math.cos(angle), (float)Math.sin(angle));
-		}
-		GL11.glEnd();
 
 		
 		
@@ -118,6 +116,11 @@ public class Menu {
 		for (Rectangle x: _stars){
 			x.draw();
 		}
+		if (_button[0].isPressed()){
+			GL11.glColor3d(.5, 0, 0);
+		}
+		_button[0].draw();
+		
 	}
 
 	public static void main(String[] argv) {
