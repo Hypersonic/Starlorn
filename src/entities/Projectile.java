@@ -1,7 +1,8 @@
 package edu.stuy.starlorn.entities;
 
 public class Projectile extends Entity {
-    private double _angle, _speed; // Angle is radians, measured from the positive x axis
+    // Angle is radians, measured from the positive x axis
+    private double _angle, _speed;
 
     public Projectile() {
         super();
@@ -11,12 +12,14 @@ public class Projectile extends Entity {
 
     @Override
     public void step() {
-        setXY(getX() + (getSpeed()*Math.cos(getAngle())), getY() + (getSpeed()*Math.sin(getAngle())));
+        setXY(getX() + (getSpeed() * Math.cos(getAngle())),
+              getY() + (getSpeed() * Math.sin(getAngle())));
     }
 
     public void setAngle(double angle) {
         _angle = angle;
     }
+
     public double getAngle() {
         return _angle;
     }
@@ -24,6 +27,7 @@ public class Projectile extends Entity {
     public void setSpeed(double speed) {
         _speed = speed;
     }
+
     public double getSpeed() {
         return _speed;
     }

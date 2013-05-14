@@ -1,7 +1,8 @@
 package edu.stuy.starlorn.entities;
 
 /*
- * An object moving around the world. This shouldn't be used directly -- It should be subclassed and extended.
+ * An object moving around the world. This shouldn't be used directly --
+ * It should be subclassed and extended.
  */
 public class Entity {
     private double _x, _y;
@@ -22,7 +23,7 @@ public class Entity {
         this(0,0);
     }
 
-    /* 
+    /*
      * Used for handling things that need to be done before anyone takes action.
      */
     public void preStep() {
@@ -45,11 +46,13 @@ public class Entity {
     public void setX(double x) {
         _x = x;
     }
+
     public double getX() {
         return _x;
     }
 
     public void setY(double y) {
+
         _y = y;
     }
     public double getY() {
@@ -59,6 +62,7 @@ public class Entity {
     public void setWidth(int width) {
         _width = width;
     }
+
     public int getWidth() {
         return _width;
     }
@@ -66,6 +70,7 @@ public class Entity {
     public void setHeight(int height) {
         _height = height;
     }
+
     public int getHeight() {
         return _height;
     }
