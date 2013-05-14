@@ -1,7 +1,7 @@
 import org.lwjgl.opengl.GL11;
 
 public class Rectangle {
-  
+	
 	private double _xcor;
 	private double _ycor;
 	private double _height;
@@ -37,7 +37,27 @@ public class Rectangle {
 		GL11.glEnd();
 	}
 	
+	public double getWidth(){return _width;}
+	public double setWidth(double Width){
+		double temp = _width;
+		_width = Width;
+		return temp;}
+	public double getHeight(){return _height;}
+	public double setHeight(double height){
+		double temp = _height;
+		_height = height;
+		return temp;}
 	
+	public double getXcor(){return _xcor;}
+	public double setXcor(double xcor){
+		double temp = _xcor;
+		_xcor = xcor;
+		return temp;}
+	public double getYcor(){return _ycor;}
+	public double setYcor(double ycor){
+		double temp = _ycor;
+		_ycor = ycor;
+		return temp;}
 	
 	public double getXvel(){return _xvel;}
 	public double setXvel(double xvel){
@@ -50,6 +70,16 @@ public class Rectangle {
 		_yvel = yvel;
 		return temp;}
 	
+	public double getXacc(){return _xacc;}
+	public double setXacc(double xacc){
+		double temp = _xacc;
+		_xacc = xacc;
+		return temp;}
+	public double getYacc(){return _yacc;}
+	public double setYacc(double yacc){
+		double temp = _yacc;
+		_yacc = yacc;
+		return temp;}
 	
 	public void update(int delta){
 		_xvel += _xacc * (double) delta / 1000;
