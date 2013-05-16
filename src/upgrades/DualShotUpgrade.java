@@ -14,7 +14,7 @@ public class DualShotUpgrade extends GunUpgrade {
     }
 
     @Override
-    public double getXOffset() {
+    public int getXOffset() {
         int direction = 0;
         if (_right) {
             _right = !_right;
