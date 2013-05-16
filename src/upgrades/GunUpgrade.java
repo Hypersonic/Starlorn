@@ -1,4 +1,4 @@
-package edu.stuy.upgrades;
+package edu.stuy.starlorn.upgrades;
 
 /*
  * Upgrades that modify a ship's gun/shots

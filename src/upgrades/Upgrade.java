@@ -1,4 +1,4 @@
-package edu.stuy.upgrades;
+package edu.stuy.starlorn.upgrades;
 
 /*
  * A generic upgrade. Modifies aspects of a ship
