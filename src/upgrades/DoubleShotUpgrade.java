@@ -1,11 +1,11 @@
 package edu.stuy.starlorn.upgrades;
 
 public class DoubleShotUpgrade extends GunUpgrade {
-    private int _shotNum;
+    private boolean _shotNum;
 
     public DoubleShotUpgrade() {
         super();
-        _shotNum = 0;
+        _shotNum = false;
     }
 
     @Override
@@ -15,15 +15,14 @@ public class DoubleShotUpgrade extends GunUpgrade {
 
     @Override
     public double getAimAngle() {
-        if (_shotNum == 0) {
-            _shotNum++;
-            return Math.PI/8;
-        } else if (_shotNum == 1) {
-            _shotNum--;
-            return -Math.PI/8;
-        } else { // If those failed, something weird is going on, reset and aim straight.
-            _shotNum = 0;
-            return 0;
+        int direction = 0;
+        if (_shotNum) {
+            _shotNum = !_shotNum;
+            direction = 1;
+        } else if (!_shotNum) {
+            _shotNum = !_shotNum;
+            direction = -1;
         }
+        return direction * Math.PI/8;
     }
 }
