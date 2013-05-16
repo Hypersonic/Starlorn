@@ -26,6 +26,14 @@ public class GunUpgrade extends Upgrade {
     public double getAimAngle() {
         return 0; // Aim straight.
     }
+    /*
+     * Gives a number of coordinates to offset the shot's origin
+     * on the X axis from wherever shots would normally come from.
+     * Not garunteed to return the same thing each time, should probably keep track of which shot this is (like getAimAngle)
+     */
+    public int getXOffset() {
+        return 0;
+    }
     /* 
      * Given the amount of damage that would be done, tell how much should be done.
      * Multipliers, buffs, etc go here.
