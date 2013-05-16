@@ -43,4 +43,10 @@ public class GunUpgrade extends Upgrade {
     public int getDamage(int damage) {
         return damage;
     }
+    /*
+     * Get the cooldown between shots, in ticks
+     */
+    public int getCooldown() {
+        return 10;
+    }
 }
