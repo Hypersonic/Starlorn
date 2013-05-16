@@ -78,7 +78,7 @@ public class Entity {
         _xcor += _xvel;
         _ycor += _yvel;
 
-        boolean interscet false;' //Just a placeholder, this should be from a method
+        boolean interscet false; //Just a placeholder, this should be from a method
         if (intersect) {//do stuff
         }
     }
