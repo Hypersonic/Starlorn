@@ -7,6 +7,7 @@ public class GunUpgrade extends Upgrade {
 
 
     public GunUpgrade() {
+        super();
     }
 
     /*
