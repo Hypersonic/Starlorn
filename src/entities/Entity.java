@@ -68,16 +68,6 @@ public class Entity {
     public void setXY(double x, double y) {setX(x);setY(y);}
     
     public boolean intersect(/* Some object, idk*/){ //to be coded later
+        return false;
     }
-    
-    public void update(int delta){
-        _xcor += _xvel;
-        _ycor += _yvel;
-
-        boolean intersect = false; //Just a placeholder, this should be from a method
-        if (intersect) {//do stuff
-        }
-    }
-    
-    
 }
