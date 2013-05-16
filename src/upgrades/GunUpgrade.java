@@ -6,6 +6,9 @@ package edu.stuy.upgrades;
 public class GunUpgrade extends Upgrade {
 
 
+    public GunUpgrade() {
+    }
+
     /*
      * Returns the number of shots this upgrade allows for.
      * The player's ship should choose the highest of these from its upgrades.
