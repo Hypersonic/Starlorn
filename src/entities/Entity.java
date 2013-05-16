@@ -32,30 +32,26 @@ public class Entity {
     
     /*
      * Used for handling things that need to be done before anyone takes action.
-     
-     // (these functions aren't useful, it should be all in the update() )
-
-     
+     */
     public void preStep() {
         System.out.printf("X: %.1f, Y: %.1f\n",getX(), getY());
     }
 
     
+    /*
      * Used for taking actions (moving, shooting, etc)
-     
-     // (these functions aren't useful, it should be all in the update() )
-    
+     */
     public void step() {
         setXY(getX()-1 + Math.random() * 2, getY()-1 + Math.random() * 2);
     }
 
     
+    /*
      * Used for cleanup after the step
-     
+     */
     public void postStep() {
         
     }
-     */
 
     public void setX(double x) {_xcor = x;}
     public double getX() {return _xcor;}
