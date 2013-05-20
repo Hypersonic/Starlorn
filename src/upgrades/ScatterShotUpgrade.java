@@ -1,11 +1,15 @@
 package edu.stuy.starlorn.upgrades;
 
 public class ScatterShotUpgrade extends GunUpgrade {
+
+    public ScatterShotUpgrade() {
+        super();
+        _description = "Scattershot!";
+    }
     
     @Override
     public int getNumShots() {
-        // Shoot between 1 and 5 shots, inclusive
-        return (int) (Math.random() * 5) + 1;
+        return 4;
     }
 
     @Override

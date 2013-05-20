@@ -5,9 +5,9 @@ package edu.stuy.starlorn.upgrades;
  */
 public class GunUpgrade extends Upgrade {
 
-
     public GunUpgrade() {
         super();
+        _description = "Gun Upgrade!";
     }
 
     /*

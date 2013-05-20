@@ -6,6 +6,7 @@ public class DoubleShotUpgrade extends GunUpgrade {
     public DoubleShotUpgrade() {
         super();
         _right = true;
+        _description = "Double shot!";
     }
 
     @Override
