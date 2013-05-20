@@ -15,6 +15,10 @@ public class Projectile extends Entity {
         setXY(getX() + (getSpeed() * Math.cos(getAngle())),
               getY() + (getSpeed() * Math.sin(getAngle())));
     }
+    
+    public boolean shouldDespawnOnCollision() {
+        return false;
+    }
 
     public void setAngle(double angle) {
         _angle = angle;
