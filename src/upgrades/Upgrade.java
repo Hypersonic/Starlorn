@@ -4,7 +4,7 @@ package edu.stuy.starlorn.upgrades;
  * A generic upgrade. Modifies aspects of a ship
  */
 public class Upgrade {
-    private String _description;
+    protected String _description;
 
     public Upgrade() {
         _description = "Upgrade!";
