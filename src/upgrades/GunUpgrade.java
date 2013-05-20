@@ -49,4 +49,10 @@ public class GunUpgrade extends Upgrade {
     public int getCooldown() {
         return 10;
     }
+    /*
+     * Get the speed the shot should move at
+     */
+    public int getShotSpeed() {
+        return 1;
+    }
 }
