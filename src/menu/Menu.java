@@ -25,7 +25,7 @@ public class Menu {
         stars = new Star[400];
         GL11.glColor3d(1, 1, 1);
         for (int i = 0; i < 400; i++) {
-            stars[i] = new Star(1080, 720, 0.3);
+            stars[i] = new Star(screen.getWidth(), screen.getHeight(), 0.3);
         }
 
         GL11.glColor3d(.5, 0, 0);

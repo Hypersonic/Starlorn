@@ -5,31 +5,31 @@ import org.lwjgl.opengl.GL11;
 
 public class Button extends Rectangle {
 
-    private boolean _pressed;
-    private boolean _hover;
+    private boolean pressed;
+    private boolean hover;
 
     public Button(double x, double y, double h, double w) {
         super(x, y, h, w);
-        _pressed = false;
+        pressed = false;
     }
 
     public boolean isPressed() {
-        return _pressed;
+        return pressed;
     }
 
     public boolean setPressed(boolean p) {
-        boolean temp = _pressed;
-        _pressed = p;
+        boolean temp = pressed;
+        pressed = p;
         return temp;
     }
 
     public boolean isHover() {
-        return _hover;
+        return hover;
     }
 
     public boolean setHover(boolean p) {
-        boolean temp = _hover;
-        _hover = p;
+        boolean temp = hover;
+        hover = p;
         return temp;
     }
 
@@ -38,15 +38,13 @@ public class Button extends Rectangle {
         if (Mouse.getX() >= getXcor() && Mouse.getX() <= getXcor() + getWidth()
                 && Mouse.getY() >= getYcor()
                 && Mouse.getY() <= getYcor() + getHeight()) {
-            _hover = true;
+            hover = true;
         }
-        else _hover = false;
+        else hover = false;
 
-        if (Mouse.isButtonDown(0) && _hover) {
-            _pressed = true;
-        }
-
+        if (Mouse.isButtonDown(0) && hover)
+            pressed = true;
         else
-            _pressed = false;
+            pressed = false;
     }
 }
