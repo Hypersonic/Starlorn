@@ -1,6 +1,7 @@
 package edu.stuy.starlorn.menu;
 
 import org.lwjgl.Sys;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import edu.stuy.starlorn.display.Screen;
@@ -10,32 +11,37 @@ public class Menu {
     private Screen screen;
     private long lastFrame;
 
+    private Button[] buttons;
     private Star[] stars;
-    private Button[] button;
 
     public Menu(Screen scr) {
         screen = scr;
     }
 
     public void setup() {
+        int cx = screen.getWidth() / 2,
+            cy = screen.getHeight() / 2;
+
+        buttons = new Button[4];
+        buttons[0] = new Button(cx - 150, cy + 20, 300, 120);
+        buttons[1] = new Button(cx - 150, cy - 80, 300, 80);
+        buttons[2] = new Button(cx - 150, cy - 180, 140, 80);
+        buttons[3] = new Button(cx + 10, cy - 180, 140, 80);
+
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glLoadIdentity();
         GL11.glOrtho(0, screen.getWidth(), 0, screen.getHeight(), 1, -1);
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         stars = new Star[400];
-        GL11.glColor3d(1, 1, 1);
-        for (int i = 0; i < 400; i++) {
+        for (int i = 0; i < 400; i++)
             stars[i] = new Star(screen.getWidth(), screen.getHeight(), 0.3);
-        }
-
-        GL11.glColor3d(.5, 0, 0);
-        button = new Button[1];
-        button[0] = new Button(400, 300, 100, 100);
     }
 
     public void loop() {
         getDelta();
         while (screen.alive()) {
+            if (Keyboard.isKeyDown(Keyboard.KEY_Q))
+                break;
             update(getDelta());
             render();
             screen.tick();
@@ -45,7 +51,8 @@ public class Menu {
     private void update(int delta) {
         for (Star star: stars)
             star.update(delta);
-        button[0].update(delta);
+        for (Button button : buttons)
+            button.update(delta);
     }
 
     /**
@@ -71,13 +78,9 @@ public class Menu {
 
     private void render() {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-        GL11.glColor3f(1f, 1.0f, 1f);
         for (Rectangle x: stars)
             x.draw();
-        if (button[0].isHover())
-            GL11.glColor3d(0, .5, 0);
-        if (button[0].isPressed())
-            GL11.glColor3d(.5, 0, 0);
-        button[0].draw();
+        for (Button button : buttons)
+            button.draw();
     }
 }

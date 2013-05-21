@@ -8,8 +8,8 @@ public class Button extends Rectangle {
     private boolean pressed;
     private boolean hover;
 
-    public Button(double x, double y, double h, double w) {
-        super(x, y, h, w);
+    public Button(double x, double y, double w, double h) {
+        super(x, y, w, h);
         pressed = false;
     }
 
@@ -17,20 +17,8 @@ public class Button extends Rectangle {
         return pressed;
     }
 
-    public boolean setPressed(boolean p) {
-        boolean temp = pressed;
-        pressed = p;
-        return temp;
-    }
-
     public boolean isHover() {
         return hover;
-    }
-
-    public boolean setHover(boolean p) {
-        boolean temp = hover;
-        hover = p;
-        return temp;
     }
 
     public void update(int delta) {
@@ -46,5 +34,16 @@ public class Button extends Rectangle {
             pressed = true;
         else
             pressed = false;
+    }
+
+    @Override
+    public void draw() {
+        if (isPressed())
+            GL11.glColor3d(.5, 0, 0);
+        else if (isHover())
+            GL11.glColor3d(0, .5, 0);
+        else
+            GL11.glColor3d(1, 1, 1);
+        super.draw();
     }
 }

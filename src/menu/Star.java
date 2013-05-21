@@ -20,6 +20,7 @@ public class Star extends Rectangle {
 
     public void draw() {
         if (show) {
+            GL11.glColor3f(1, 1, 1);
             GL11.glBegin(GL11.GL_QUADS);
             GL11.glVertex2d(getXcor(), getYcor());
             GL11.glVertex2d(getXcor() + size, getYcor());

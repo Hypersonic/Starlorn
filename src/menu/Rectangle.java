@@ -14,7 +14,7 @@ public class Rectangle {
     private double _xacc;
     private double _yacc;
 
-    public Rectangle(double x, double y, double h, double w) {
+    public Rectangle(double x, double y, double w, double h) {
         GL11.glBegin(GL11.GL_QUADS);
         GL11.glVertex2d(x    , y    );
         GL11.glVertex2d(x + w, y    );
