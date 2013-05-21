@@ -1,11 +1,19 @@
 package edu.stuy.starlorn;
 
-// import edu.stuy.starlorn.world.World;
+import edu.stuy.starlorn.display.Screen;
 // import edu.stuy.starlorn.entities.Projectile;
 import edu.stuy.starlorn.menu.Menu;
+// import edu.stuy.starlorn.world.World;
 
 public class Starlorn {
     public static void main(String[] args) {
+        Screen screen = new Screen();
+        screen.setup();
+
+        Menu menu = new Menu(screen);
+        menu.setup();
+        menu.loop();
+
         // World w = new World();
         // Projectile p = new Projectile();
         // p.setAngle(Math.PI/2);
@@ -18,7 +26,7 @@ public class Starlorn {
         //         e.printStackTrace();
         //     }
         // }
-        Menu menu = new Menu();
-        menu.start();
+
+        screen.shutdown();
     }
 }
