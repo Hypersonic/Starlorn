@@ -4,7 +4,8 @@ public class ScatterShotUpgrade extends GunUpgrade {
 
     public ScatterShotUpgrade() {
         super();
-        _description = "Scattershot!";
+        _name = "Scattershot";
+        _description = "";
     }
     
     @Override
