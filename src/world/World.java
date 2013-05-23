@@ -18,6 +18,10 @@ public class World {
         _entities.add(e);
     }
 
+    public void removeEntity(Entity e) {
+        _entities.remove(e);
+    }
+
     public void stepAll() {
         for (Entity e : _entities) {
             e.preStep();
