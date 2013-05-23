@@ -7,6 +7,7 @@ import java.util.LinkedList;
 public class Ship extends Entity {
     protected LinkedList<GunUpgrade> _gunupgrades;
     protected int _baseDamage, _baseShotSpeed, _health;
+    protected double _baseAim;
 
     public Ship() {
         super();
@@ -14,6 +15,7 @@ public class Ship extends Entity {
         _baseDamage = 1;
         _baseShotSpeed = 1;
         _health = 10;
+        _baseAim = Math.PI/2; //Aim up by default
     }
 
     public void addUpgrade(GunUpgrade upgrade) {
@@ -34,5 +36,9 @@ public class Ship extends Entity {
             shotSpeed = up.getShotSpeed(shotSpeed);
         }
         // Create new shots, based on dem vars
+        int numShots = topShot.getNumShots();
+        for (int i = 0; i < numShots; i++) {
+            new Bullet(_baseAim + topShot.getAimAngle(), damage, shotSpeed);
+        }
     }
 }
