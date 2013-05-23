@@ -44,15 +44,15 @@ public class GunUpgrade extends Upgrade {
         return damage;
     }
     /*
-     * Get the cooldown between shots, in ticks
+     * Get the cooldown between shots, in ticks, based off the previous one
      */
-    public int getCooldown() {
-        return 10;
+    public int getCooldown(int cooldown) {
+        return cooldown;
     }
     /*
      * Get the speed the shot should move at
      */
-    public int getShotSpeed() {
-        return 1;
+    public int getShotSpeed(int shotspeed) {
+        return shotspeed;
     }
 }
