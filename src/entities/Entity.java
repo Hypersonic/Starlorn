@@ -42,7 +42,8 @@ public class Entity {
      * Used for taking actions (moving, shooting, etc)
      */
     public void step() {
-        setXY(getX()-1 + Math.random() * 2, getY()-1 + Math.random() * 2);
+    	_xcor += _xvel;
+        _ycor -= _yvel;
     }
 
     
@@ -58,6 +59,12 @@ public class Entity {
 
     public void setY(double y) {_ycor = y;}
     public double getY() {return _ycor;}
+    
+    public void setXvel(double x) {_xvel = x;}
+    public double getXvel() {return _xvel;}
+
+    public void setYvel(double y) {_yvel = y;}
+    public double getYvel() {return _yvel;}
 
     public void setWidth(int width) {_width = width;}
     public int getWidth() {return _width;}

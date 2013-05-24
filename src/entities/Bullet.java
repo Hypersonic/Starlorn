@@ -13,6 +13,13 @@ public class Bullet extends Entity {
         _damage = damage;
         _speed = speed;
     }
+    
+    @Override 
+    public void step() {
+    	setXvel(_speed * Math.cos( _angle + Math.PI));
+    	setYvel(_speed * Math.sin( _angle + Math.PI));
+    	super.step();
+    }
 
     public void setDamage(int damage) { _damage = damage; }
     public int getDamage() { return _damage; }
