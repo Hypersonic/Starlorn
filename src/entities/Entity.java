@@ -5,10 +5,10 @@ package edu.stuy.starlorn.entities;
  * It should be subclassed and extended.
  */
 public class Entity {
-    private double _xcor, _ycor;
-    private double _xvel, _yvel;
+    protected double _xcor, _ycor;
+    protected double _xvel, _yvel;
     
-    private int _width, _height;
+    protected int _width, _height;
 
     public Entity(double x, double y, int width, int height) {
         _xcor = x;
