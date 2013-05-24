@@ -84,6 +84,7 @@ public class Entity {
     public void setWorld(World world) { 
         if (_world != null) _world.removeEntity(this);
         _world = world;
+        if (_world != null) _world.addEntity(this);
     }   
     public World getWorld() { return _world; }
 
