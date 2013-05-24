@@ -15,7 +15,7 @@ public class Ship extends Entity {
         _baseDamage = 1;
         _baseShotSpeed = 1;
         _health = 10;
-        _baseAim = Math.PI/2; //Aim up by default
+        _baseAim = 0; //Aim up by default
     }
 
     public void addUpgrade(GunUpgrade upgrade) {
