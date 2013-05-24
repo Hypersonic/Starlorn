@@ -1,5 +1,7 @@
 package edu.stuy.starlorn.entities;
 
+import edu.stuy.starlorn.world.World;
+
 /*
  * An object moving around the world. This shouldn't be used directly --
  * It should be subclassed and extended.
@@ -8,6 +10,8 @@ public class Entity {
     protected double _xcor, _ycor;
     protected double _xvel, _yvel;
     
+    protected World _world;
+
     protected int _width, _height;
 
     public Entity(double x, double y, int width, int height) {
@@ -73,7 +77,16 @@ public class Entity {
     public int getHeight() {return _height;}
 
     public void setXY(double x, double y) {setX(x);setY(y);}
-    
+
+    /*
+     * Remove self from current world (if there is one) and put it in the new world
+     */
+    public void setWorld(World world) { 
+        if (_world != null) _world.removeEntity(this);
+        _world = world;
+    }   
+    public World getWorld() { return _world; }
+
     public boolean intersect(/* Some object, idk*/){ //to be coded later
         return false;
     }
