@@ -38,7 +38,8 @@ public class Ship extends Entity {
         // Create new shots, based on dem vars
         int numShots = topShot.getNumShots();
         for (int i = 0; i < numShots; i++) {
-            new Bullet(_baseAim + topShot.getAimAngle(), damage, shotSpeed);
+            Bullet b = new Bullet(_baseAim + topShot.getAimAngle(), damage, shotSpeed);
+            b.setWorld(this.getWorld());
         }
     }
 }
