@@ -23,15 +23,11 @@ public class Menu {
             cy = screen.getHeight() / 2;
 
         buttons = new Button[4];
-        buttons[0] = new Button(cx - 200, cy + 20, 400, 120);
-        buttons[1] = new Button(cx - 200, cy - 80, 400, 80);
-        buttons[2] = new Button(cx - 200, cy - 180, 190, 80);
-        buttons[3] = new Button(cx + 10, cy - 180, 190, 80);
+        buttons[0] = new Button(cx - 200, cy + 20, 400, 120, "Play", 48);
+        buttons[1] = new Button(cx - 200, cy - 80, 400, 80, "High Scores", 36);
+        buttons[2] = new Button(cx - 200, cy - 180, 190, 80, "Settings", 24);
+        buttons[3] = new Button(cx + 10, cy - 180, 190, 80, "Quit", 24);
 
-        GL11.glMatrixMode(GL11.GL_PROJECTION);
-        GL11.glLoadIdentity();
-        GL11.glOrtho(0, screen.getWidth(), 0, screen.getHeight(), 1, -1);
-        GL11.glMatrixMode(GL11.GL_MODELVIEW);
         stars = new Star[400];
         for (int i = 0; i < 400; i++)
             stars[i] = new Star(screen.getWidth(), screen.getHeight());

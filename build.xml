@@ -22,6 +22,7 @@
     <path id="javac_path">
         <pathelement location="${bin}"/>
         <pathelement location="${lib}/lwjgl.jar"/>
+        <pathelement location="${lib}/slick-util.jar"/>
     </path>
 
     <mkdir dir="${bin}"/>
@@ -55,6 +56,7 @@
         <jar file="${bin}/Starlorn.jar" manifest="${bin}/MANIFEST.MF">
             <fileset dir="${bin}" includes="**/*.class"/>
             <zipfileset src="${lib}/lwjgl.jar" includes="**/*.class"/>
+            <zipfileset src="${lib}/slick-util.jar" includes="**/*.class"/>
         </jar>
     </target>
 
