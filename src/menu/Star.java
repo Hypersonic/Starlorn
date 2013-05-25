@@ -8,10 +8,9 @@ public class Star extends Rectangle {
     private int color;
     private boolean show;
 
-    public Star(double displayx, double displayy, double s) {
-        super(Math.random() * (displayx - s + 1),
-              Math.random() * (displayy - s + 1), s, s);
-        size = s;
+    public Star(double displayx, double displayy) {
+        super(Math.random() * displayx, Math.random() * displayy, 0.3, 0.3);
+        size = 0.3;
         svel = 0;
         dispwidth = displayx;
         dispheight = displayy;
@@ -46,7 +45,7 @@ public class Star extends Rectangle {
         setXvel((getXcor() - cx) / 1);
         setYvel((getYcor() - cy) / 1);
 
-        size += svel;
+        size += svel / 3;
         svel = dist * dist / 700000;
 
         if (getXcor() <= 0 || getYcor() <= 0 || getXcor() >= dispwidth
@@ -55,7 +54,7 @@ public class Star extends Rectangle {
             setYcor(Math.random() * dispheight);
             setXvel(0);
             setYvel(0);
-            size = 1;
+            size = 0.3;
             show = true;
         }
 

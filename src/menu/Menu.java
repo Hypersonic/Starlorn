@@ -34,7 +34,7 @@ public class Menu {
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         stars = new Star[400];
         for (int i = 0; i < 400; i++)
-            stars[i] = new Star(screen.getWidth(), screen.getHeight(), 0.3);
+            stars[i] = new Star(screen.getWidth(), screen.getHeight());
     }
 
     public void loop() {
