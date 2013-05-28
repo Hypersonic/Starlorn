@@ -7,10 +7,13 @@ import java.util.LinkedList;
 
 import org.lwjgl.input.Keyboard;
 
+import org.lwjgl.opengl.GL11;
+
 public class Ship extends Entity {
     protected LinkedList<GunUpgrade> _gunupgrades;
     protected int _baseDamage, _baseShotSpeed, _health, _fullCooldown, _cooldown, _cooldownRate;
     protected double _baseAim;
+    //protected Texture _texture;
 
     public Ship() {
         super();
@@ -22,12 +25,14 @@ public class Ship extends Entity {
         _cooldown = 10;
         _fullCooldown = _cooldown+1;
         _cooldownRate = 1;
+        /*
 		try {
 			_texture = TextureLoader.getTexture("PNG",
 					ResourceLoader.getResourceAsStream("res/spaceship.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+        */
     }
 
 	public void draw() {
@@ -37,25 +42,26 @@ public class Ship extends Entity {
 	public void render() {
 		int x = 1;
 		int y = 2;
-		if (Keyboard.isKeyDown(KEYBOARD.KEY_UP)){
+		if (Keyboard.isKeyDown(Keyboard.KEY_UP)){
 			y = 1;
 			_ycor--;
 		}
-		if (Keyboard.isKeyDown(KEYBOARD.KEY_RIGHT)){
+		if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
 			x = 2;
 			_ycor++;
 		}
-		if (Keyboard.isKeyDown(KEYBOARD.KEY_DOWN)){
+		if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)){
 			y = 0;
 			_ycor++;
 		}
-		if (Keyboard.isKeyDown(KEYBOARD.KEY_LEFT)){
+		if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)){
 			x = 0;
 			_xcor--;
 		}
 		
 	}
 
+    /*
 	public void ihopethisworks(int tx, int ty) {
 		Color.white.bind();
 
@@ -72,6 +78,7 @@ public class Ship extends Entity {
 		GL11.glVertex2d(_xcor, _ycor + 64);
 		GL11.glEnd();
 	}
+    */
 
     public void addUpgrade(GunUpgrade upgrade) {
         _gunupgrades.add(upgrade);
