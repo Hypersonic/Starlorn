@@ -84,12 +84,12 @@ public class Ship extends Entity {
         _gunupgrades.add(upgrade);
     }
 
-	public boolean isHit(Bullet b){
-		return (b.getX() + b.getXvel() + b.getWidth() > _xcor + _xvel &&
-			b.getX() + b.getXvel() < _xcor + _width + _xvel &&
-			b.getY() + b.getYvel() + b.getHeight() > _ycor + _yvel &&
-			b.getY() + b.getYvel() < _ycor + _height + _yvel);
-	}
+    public boolean isHit(Bullet b) {
+        return (b.getX() + b.getXvel() + b.getWidth() > _xcor + _xvel &&
+                b.getX() + b.getXvel() < _xcor + _width + _xvel &&
+                b.getY() + b.getYvel() + b.getHeight() > _ycor + _yvel &&
+                b.getY() + b.getYvel() < _ycor + _height + _yvel);
+    }
 	
 	/*
 	 * Create the shots based on the available GunUpgrades
