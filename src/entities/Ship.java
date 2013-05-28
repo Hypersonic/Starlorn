@@ -85,12 +85,10 @@ public class Ship extends Entity {
     }
 
 	public boolean isHit(Bullet b){
-		if (b.getXcor() + b.getXvel() + b.getWidth() > _xcor + _xvel &&
-			b.getXcor() + b.getXvel() < _xcor + _width + _xvel &&
-			b.getYcor() + b.getYvel() + b.getHeight() > _ycor + _yvel &&
-			b.getYcor() + b.getYvel() < _ycor + _height + _yvel){
-			return true;
-		}
+		return (b.getX() + b.getXvel() + b.getWidth() > _xcor + _xvel &&
+			b.getX() + b.getXvel() < _xcor + _width + _xvel &&
+			b.getY() + b.getYvel() + b.getHeight() > _ycor + _yvel &&
+			b.getY() + b.getYvel() < _ycor + _height + _yvel);
 	}
 	
 	/*
