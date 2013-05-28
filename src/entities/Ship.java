@@ -8,25 +8,27 @@ import java.util.LinkedList;
 import org.lwjgl.input.Keyboard;
 
 public class Ship extends Entity {
-	protected LinkedList<GunUpgrade> _gunupgrades;
-	protected int _baseDamage, _baseShotSpeed, _health;
-	protected double _baseAim;
-	protected Texture _texture;
+    protected LinkedList<GunUpgrade> _gunupgrades;
+    protected int _baseDamage, _baseShotSpeed, _health, _fullCooldown, _cooldown, _cooldownRate;
+    protected double _baseAim;
 
-	public Ship() {
-		super();
-		_gunupgrades = new LinkedList<GunUpgrade>();
-		_baseDamage = 1;
-		_baseShotSpeed = 1;
-		_health = 10;
-		_baseAim = 0; // Aim up by default
+    public Ship() {
+        super();
+        _gunupgrades = new LinkedList<GunUpgrade>();
+        _baseDamage = 1;
+        _baseShotSpeed = 1;
+        _health = 10;
+        _baseAim = 0; //Aim up by default
+        _cooldown = 10;
+        _fullCooldown = _cooldown+1;
+        _cooldownRate = 1;
 		try {
 			_texture = TextureLoader.getTexture("PNG",
 					ResourceLoader.getResourceAsStream("res/spaceship.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
+    }
 
 	public void draw() {
 		render();
@@ -71,29 +73,42 @@ public class Ship extends Entity {
 		GL11.glEnd();
 	}
 
-	public void addUpgrade(GunUpgrade upgrade) {
-		_gunupgrades.add(upgrade);
-	}
+    public void addUpgrade(GunUpgrade upgrade) {
+        _gunupgrades.add(upgrade);
+    }
 
-	/*
-	 * Create the shots based on the available GunUpgrades
-	 */
-	public void shoot() {
-		GunUpgrade topShot = _gunupgrades.get(0);
-		int damage = _baseDamage;
-		int shotSpeed = _baseShotSpeed;
-		for (GunUpgrade up : _gunupgrades) {
-			if (up.getNumShots() > topShot.getNumShots())
-				topShot = up;
-			damage = up.getDamage(damage);
-			shotSpeed = up.getShotSpeed(shotSpeed);
-		}
-		// Create new shots, based on dem vars
-		int numShots = topShot.getNumShots();
-		for (int i = 0; i < numShots; i++) {
-			Bullet b = new Bullet(_baseAim + topShot.getAimAngle(), damage,
-					shotSpeed);
-			b.setWorld(this.getWorld());
-		}
-	}
+    @Override
+    public void step() {
+        //Only cooldown if we're below the rate, otherwise the ship hasn't tried to shoot
+        if (_fullCooldown <= _cooldown) {
+            if (_fullCooldown < 0) {
+                this.shoot();
+                _fullCooldown = _cooldown+1;
+            } else {
+                _fullCooldown -= _cooldownRate;
+            }
+        }
+        super.step();
+    }
+
+    /*
+     * Create the shots based on the available GunUpgrades
+     */
+    public void shoot() {
+        GunUpgrade topShot = _gunupgrades.get(0);
+        int damage = _baseDamage;
+        int shotSpeed = _baseShotSpeed;
+        for (GunUpgrade up : _gunupgrades) {
+            if (up.getNumShots() > topShot.getNumShots())
+                topShot = up;
+            damage = up.getDamage(damage);
+            shotSpeed = up.getShotSpeed(shotSpeed);
+        }
+        // Create new shots, based on dem vars
+        int numShots = topShot.getNumShots();
+        for (int i = 0; i < numShots; i++) {
+            Bullet b = new Bullet(_baseAim + topShot.getAimAngle(), damage, shotSpeed);
+            b.setWorld(this.getWorld());
+        }
+    }
 }
