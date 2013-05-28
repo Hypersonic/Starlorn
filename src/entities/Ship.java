@@ -84,7 +84,6 @@ public class Ship extends Entity {
         _gunupgrades.add(upgrade);
     }
 
-<<<<<<< HEAD
 	public boolean isHit(Bullet b){
 		if (b.getXcor() + b.getXvel() + b.getWidth() > _xcor + _xvel &&
 			b.getXcor() + b.getXvel() < _xcor + _width + _xvel &&
@@ -115,7 +114,6 @@ public class Ship extends Entity {
 			b.setWorld(this.getWorld());
 		}
 	}
-=======
     @Override
     public void step() {
         //Only cooldown if we're below the rate, otherwise the ship hasn't tried to shoot
@@ -130,25 +128,4 @@ public class Ship extends Entity {
         super.step();
     }
 
-    /*
-     * Create the shots based on the available GunUpgrades
-     */
-    public void shoot() {
-        GunUpgrade topShot = _gunupgrades.get(0);
-        int damage = _baseDamage;
-        int shotSpeed = _baseShotSpeed;
-        for (GunUpgrade up : _gunupgrades) {
-            if (up.getNumShots() > topShot.getNumShots())
-                topShot = up;
-            damage = up.getDamage(damage);
-            shotSpeed = up.getShotSpeed(shotSpeed);
-        }
-        // Create new shots, based on dem vars
-        int numShots = topShot.getNumShots();
-        for (int i = 0; i < numShots; i++) {
-            Bullet b = new Bullet(_baseAim + topShot.getAimAngle(), damage, shotSpeed);
-            b.setWorld(this.getWorld());
-        }
-    }
->>>>>>> 32cd723b4b48490413322e35490ce487941973e8
 }
