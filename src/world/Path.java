@@ -2,8 +2,6 @@ package edu.stuy.starlorn.world;
 
 import java.util.ArrayList;
 
-import edu.stuy.starlorn.util.Preferences;
-
 public class Path {
     protected ArrayList<Integer[]> _path;
 
@@ -16,7 +14,7 @@ public class Path {
         int screenWidth = 100;
         int screenHeight = 100;
         for (int i = 0; i < numPoints; i++) {
-            int[] coords = new int[2];
+            Integer[] coords = new Integer[2];
             coords[0] = (int) (Math.random() * screenWidth);
             coords[1] = (int) (Math.random() * screenHeight);
             _path.add(coords);
@@ -25,5 +23,9 @@ public class Path {
 
     public void generatePath() {
         generatePath(10);
+    }
+
+    public Integer[] getCoords(int n) {
+        return _path.get(n);
     }
 }
