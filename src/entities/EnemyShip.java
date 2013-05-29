@@ -23,6 +23,7 @@ public class EnemyShip extends Ship {
         EnemyShip e = new EnemyShip();
         e.setXY(_xcor, _ycor);
         e.setPath(_path);
+        return e;
     }
 
     @Override
