@@ -1,12 +1,10 @@
 package edu.stuy.starlorn.menu;
 
-import org.lwjgl.Sys;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
+import java.awt.Graphics;
 
-import edu.stuy.starlorn.display.Screen;
+import edu.stuy.starlorn.display.*;
 
-public class Menu {
+public class Menu implements Hook {
 
     private Screen screen;
     private long lastFrame;
@@ -33,50 +31,14 @@ public class Menu {
             stars[i] = new Star(screen.getWidth(), screen.getHeight());
     }
 
-    public void loop() {
-        getDelta();
-        while (screen.alive()) {
-            if (Keyboard.isKeyDown(Keyboard.KEY_Q))
-                break;
-            update(getDelta());
-            render();
-            screen.tick();
+    public void step(Graphics graphics) {
+        for (Star star: stars) {
+            star.update();
+            star.draw(graphics);
         }
-    }
-
-    private void update(int delta) {
-        for (Star star: stars)
-            star.update(delta);
-        for (Button button : buttons)
-            button.update(delta);
-    }
-
-    /**
-     * Calculate how many milliseconds have passed since last frame.
-     *
-     * @return milliseconds passed since last frame
-     */
-    private int getDelta() {
-        long time = getTime();
-        int delta = (int) (time - lastFrame);
-        lastFrame = time;
-        return delta;
-    }
-
-    /**
-     * Get the accurate system time
-     *
-     * @return The system time in milliseconds
-     */
-    private long getTime() {
-        return (Sys.getTime() * 1000) / Sys.getTimerResolution();
-    }
-
-    private void render() {
-        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-        for (Rectangle x: stars)
-            x.draw();
-        for (Button button : buttons)
-            button.draw();
+        for (Button button : buttons) {
+            button.update();
+            button.draw(graphics);
+        }
     }
 }

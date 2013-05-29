@@ -1,103 +1,107 @@
 package edu.stuy.starlorn.menu;
 
-import org.lwjgl.opengl.GL11;
+import java.awt.Graphics;
 
 public class Rectangle {
 
-    private double _xcor;
-    private double _ycor;
-    private double _height;
-    private double _width;
-
-    private double _xvel;
-    private double _yvel;
-    private double _xacc;
-    private double _yacc;
+    private double xcor, ycor, width, height, xvel, yvel, xacc, yacc;
 
     public Rectangle(double x, double y, double w, double h) {
-        GL11.glBegin(GL11.GL_QUADS);
-        GL11.glVertex2d(x    , y    );
-        GL11.glVertex2d(x + w, y    );
-        GL11.glVertex2d(x + w, y + h);
-        GL11.glVertex2d(x    , y + h);
-        GL11.glEnd();
-
-        _xcor = x;
-        _ycor = y;
-        _height = h;
-        _width = w;
+        xcor = x;
+        ycor = y;
+        width = w;
+        height = h;
+        xvel = yvel = xacc = yacc = 0;
     }
 
-    public void draw() {
-        GL11.glBegin(GL11.GL_QUADS);
-        GL11.glVertex2d(_xcor         , _ycor   );
-        GL11.glVertex2d(_xcor + _width, _ycor   );
-        GL11.glVertex2d(_xcor + _width, _ycor + _height);
-        GL11.glVertex2d(_xcor         , _ycor + _height);
-        GL11.glEnd();
+    public void draw(Graphics graphics) {
+        graphics.drawImage(_image, 0, 0, width, height, null);
     }
 
-    public double getWidth() { return _width; }
-    public double setWidth(double Width) {
-        double temp = _width;
-        _width = Width;
+    public double getWidth() {
+        return width;
+    }
+
+    public double setWidth(double w) {
+        double temp = width;
+        width = w;
         return temp;
     }
 
-    public double getHeight() { return _height; }
-    public double setHeight(double height) {
-        double temp = _height;
-        _height = height;
+    public double getHeight() {
+        return height;
+    }
+
+    public double setHeight(double h) {
+        double temp = height;
+        height = h;
         return temp;
     }
 
-    public double getXcor() { return _xcor; }
-    public double setXcor(double xcor) {
-        double temp = _xcor;
-        _xcor = xcor;
+    public double getXcor() {
+        return xcor;
+    }
+
+    public double setXcor(double cor) {
+        double temp = xcor;
+        xcor = cor;
         return temp;
     }
 
-    public double getYcor() { return _ycor; }
-    public double setYcor(double ycor) {
-        double temp = _ycor;
-        _ycor = ycor;
+    public double getYcor() {
+        return ycor;
+    }
+
+    public double setYcor(double cor) {
+        double temp = ycor;
+        ycor = cor;
         return temp;
     }
 
-    public double getXvel() { return _xvel; }
-    public double setXvel(double xvel) {
-        double temp = _xvel;
-        _xvel = xvel;
+    public double getXvel() {
+        return xvel;
+    }
+
+    public double setXvel(double vel) {
+        double temp = xvel;
+        xvel = vel;
         return temp;
     }
 
-    public double getYvel() { return _yvel; }
-    public double setYvel(double yvel) {
-        double temp = _yvel;
-        _yvel = yvel;
+    public double getYvel() {
+        return yvel;
+    }
+
+    public double setYvel(double vel) {
+        double temp = yvel;
+        yvel = vel;
         return temp;
     }
 
-    public double getXacc() { return _xacc; }
-    public double setXacc(double xacc) {
-        double temp = _xacc;
-        _xacc = xacc;
+    public double getXacc() {
+        return xacc;
+    }
+
+    public double setXacc(double acc) {
+        double temp = xacc;
+        xacc = acc;
         return temp;
     }
 
-    public double getYacc() { return _yacc; }
-    public double setYacc(double yacc) {
-        double temp = _yacc;
-        _yacc = yacc;
+    public double getYacc() {
+        return yacc;
+    }
+
+    public double setYacc(double acc) {
+        double temp = yacc;
+        yacc = acc;
         return temp;
     }
 
     public void update(int delta) {
-        _xvel += _xacc * (double) delta / 1000;
-        _yvel += _yacc * (double) delta / 1000;
-
-        _xcor += _xvel * (double) delta / 1000;
-        _ycor += _yvel * (double) delta / 1000;
+        xvel += xacc * (double) delta / 1000;
+        yvel += yacc * (double) delta / 1000;
+        xcor += xvel * (double) delta / 1000;
+        ycor += yvel * (double) delta / 1000;
     }
 }

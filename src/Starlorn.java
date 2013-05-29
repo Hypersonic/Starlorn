@@ -6,13 +6,15 @@ import edu.stuy.starlorn.menu.Menu;
 // import edu.stuy.starlorn.world.World;
 
 public class Starlorn {
+
     public static void main(String[] args) {
         Screen screen = new Screen();
-        screen.setup();
-
         Menu menu = new Menu(screen);
+
+        screen.setup();
         menu.setup();
-        menu.loop();
+        screen.addHook(menu);
+        screen.run();
 
         // World w = new World();
         // Projectile p = new Projectile();
@@ -27,6 +29,6 @@ public class Starlorn {
         //     }
         // }
 
-        screen.shutdown();
+
     }
 }
