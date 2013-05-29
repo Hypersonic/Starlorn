@@ -94,6 +94,7 @@ public class Ship extends Entity {
 		for (int i = 0; i < numShots; i++) {
 			Bullet b = new Bullet(_baseAim + topShot.getAimAngle(), damage,
 					shotSpeed);
+            b.setXY(_xcor + topShot.getXOffset(), _ycor + 10);
 			b.setWorld(this.getWorld());
 		}
 	}
