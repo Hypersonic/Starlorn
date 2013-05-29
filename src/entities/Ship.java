@@ -101,7 +101,7 @@ public class Ship extends Entity {
     @Override
     public void step() {
         //Only cooldown if we're below the rate, otherwise the ship hasn't tried to shoot
-        if (_fullCooldown <= 0 && _shootRequested) {
+        if (_cooldownTimer <= 0 && _shootRequested) {
             this.shoot();
             _cooldownTimer = _cooldown;
         } else {
@@ -109,5 +109,4 @@ public class Ship extends Entity {
         }
         super.step();
     }
-
 }
