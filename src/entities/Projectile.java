@@ -11,9 +11,15 @@ public class Projectile extends Entity {
     }
 
     @Override
+    public void preStep() {
+        super.preStep();
+        _xvel = getSpeed() * Math.cos(getAngle());
+        _yvel = getSpeed() * Math.sin(getAngle());
+
+    }
+    @Override
     public void step() {
-        setXY(getX() + (getSpeed() * Math.cos(getAngle())),
-              getY() + (getSpeed() * Math.sin(getAngle())));
+        super.step();
     }
     
     public boolean shouldDespawnOnCollision() {

@@ -49,7 +49,6 @@ public class Entity {
     	_xcor += _xvel;
         _ycor -= _yvel;
     }
-
     
     /*
      * Used for cleanup after the step
