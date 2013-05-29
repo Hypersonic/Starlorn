@@ -1,6 +1,7 @@
 package edu.stuy.starlorn.entities;
 
 import edu.stuy.starlorn.world.Path;
+import edu.stuy.starlorn.upgrades.GunUpgrade;
 
 public class EnemyShip extends Ship {
     protected Path _path;
@@ -16,6 +17,12 @@ public class EnemyShip extends Ship {
     public EnemyShip(Path p) {
         this();
         _path = p;
+    }
+
+    public EnemyShip clone() {
+        EnemyShip e = new EnemyShip();
+        e.setXY(_xcor, _ycor);
+        e.setPath(_path);
     }
 
     @Override
