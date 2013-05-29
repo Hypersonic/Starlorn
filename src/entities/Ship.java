@@ -62,24 +62,6 @@ public class Ship extends Entity {
 		
 	}
 
-    /*
-	public void ihopethisworks(int tx, int ty) {
-		Color.white.bind();
-
-		_texture.bind();
-
-		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glTexCoord2d(tx * 0.078125, ty * 0.078125);
-		GL11.glVertex2d(_xcor, y);
-		GL11.glTexCoord2d((tx + 1) * 0.078125, ty * 0.078125);
-		GL11.glVertex2d(_xcor + 64, _ycor);
-		GL11.glTexCoord2d((tx + 1) * 0.078125, (ty + 1) * 0.078125);
-		GL11.glVertex2d(_xcor + 64, _ycor + 64);
-		GL11.glTexCoord2d(tx * 0.078125, (ty + 1) * 0.078125);
-		GL11.glVertex2d(_xcor, _ycor + 64);
-		GL11.glEnd();
-	}
-    */
 
     public void addUpgrade(GunUpgrade upgrade) {
         _gunupgrades.add(upgrade);
