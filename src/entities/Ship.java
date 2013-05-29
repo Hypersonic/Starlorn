@@ -11,8 +11,9 @@ import org.lwjgl.opengl.GL11;
 
 public class Ship extends Entity {
     protected LinkedList<GunUpgrade> _gunupgrades;
-    protected int _baseDamage, _baseShotSpeed, _health, _fullCooldown, _cooldown, _cooldownRate, _movementSpeed;
+    protected int _baseDamage, _baseShotSpeed, _health, _cooldownTimer, _cooldown, _cooldownRate, _movementSpeed;
     protected double _baseAim;
+    protected boolean _shootRequested;
     //protected Texture _texture;
 
     public Ship() {
@@ -23,9 +24,10 @@ public class Ship extends Entity {
         _health = 10;
         _baseAim = 0; //Aim up by default
         _cooldown = 10;
-        _fullCooldown = _cooldown+1;
+        _cooldownTimer = 0;
         _cooldownRate = 1;
         _movementSpeed = 1;
+        _shootRequested = false;
         /*
 		try {
 			_texture = TextureLoader.getTexture("PNG",
@@ -98,13 +100,11 @@ public class Ship extends Entity {
     @Override
     public void step() {
         //Only cooldown if we're below the rate, otherwise the ship hasn't tried to shoot
-        if (_fullCooldown <= _cooldown) {
-            if (_fullCooldown < 0) {
-                this.shoot();
-                _fullCooldown = _cooldown+1;
-            } else {
-                _fullCooldown -= _cooldownRate;
-            }
+        if (_fullCooldown <= 0 && _shootRequested) {
+            this.shoot();
+            _cooldownTimer = _cooldown;
+        } else {
+            _cooldownTimer -= _cooldownRate;
         }
         super.step();
     }
