@@ -28,4 +28,8 @@ public class Path {
     public Integer[] getCoords(int n) {
         return _path.get(n);
     }
+    
+    public int getPathLength() {
+        return _path.size();
+    }
 }
