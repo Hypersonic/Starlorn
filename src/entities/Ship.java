@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL11;
 
 public class Ship extends Entity {
     protected LinkedList<GunUpgrade> _gunupgrades;
-    protected int _baseDamage, _baseShotSpeed, _health, _fullCooldown, _cooldown, _cooldownRate;
+    protected int _baseDamage, _baseShotSpeed, _health, _fullCooldown, _cooldown, _cooldownRate, _movementSpeed;
     protected double _baseAim;
     //protected Texture _texture;
 
@@ -25,6 +25,7 @@ public class Ship extends Entity {
         _cooldown = 10;
         _fullCooldown = _cooldown+1;
         _cooldownRate = 1;
+        _movementSpeed = 1;
         /*
 		try {
 			_texture = TextureLoader.getTexture("PNG",
