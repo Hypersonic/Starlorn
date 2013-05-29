@@ -5,9 +5,21 @@ import edu.stuy.starlorn.entities.Entity;
 import java.util.LinkedList;
 
 public class Level {
-    protected LinkedList<Entity> _enemies;
+    protected LinkedList<Wave> _waves;
 
     public Level() {
-        _enemies = new LinkedList<Entity>();
+        _waves = new LinkedList<Wave>();
+    }
+
+    public void addWave(Wave w) {
+        _waves.add(w);
+    }
+
+    public Wave peekWave() {
+        return _waves.peek();
+    }
+    
+    public Wave popWave() {
+        return _waves.pop();
     }
 }
