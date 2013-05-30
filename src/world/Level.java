@@ -1,6 +1,7 @@
-package edu.stuy.world;
+package edu.stuy.starlorn.world;
 
 import edu.stuy.starlorn.entities.Entity;
+import edu.stuy.starlorn.entities.EnemyShip;
 import edu.stuy.starlorn.world.Wave;
 
 import java.util.LinkedList;
@@ -10,6 +11,11 @@ public class Level {
 
     public Level() {
         _waves = new LinkedList<Wave>();
+    }
+
+    public void generateLevel(int waves) {
+        for (int i = 0; i < waves; i++) {
+        }
     }
 
     public void addWave(Wave w) {
