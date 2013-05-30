@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL11;
 
 public class Ship extends Entity {
     protected LinkedList<GunUpgrade> _gunupgrades;
-    protected int _baseDamage, _baseShotSpeed, _health, _cooldownTimer, _cooldown, _cooldownRate, _movementSpeed;
+    protected int _baseDamage, _baseShotSpeed, _health, _maxHealth, _cooldownTimer, _cooldown, _cooldownRate, _movementSpeed;
     protected double _baseAim;
     protected boolean _shootRequested;
     //protected Texture _texture;
@@ -21,7 +21,8 @@ public class Ship extends Entity {
         _gunupgrades = new LinkedList<GunUpgrade>();
         _baseDamage = 1;
         _baseShotSpeed = 1;
-        _health = 10;
+        _maxHealth = 10;
+        _health = _maxHealth;
         _baseAim = 0; //Aim up by default
         _cooldown = 10;
         _cooldownTimer = 0;
@@ -108,5 +109,53 @@ public class Ship extends Entity {
             _cooldownTimer -= _cooldownRate;
         }
         super.step();
+    }
+
+    public void setBaseDamage(int damage) {
+        _baseDamage = damage;
+    }
+
+    public int getBaseDamage() {
+        return _baseDamage;
+    }
+
+    public void setBaseShotSpeed(int speed) {
+        _baseShotSpeed = speed;
+    }
+
+    public int getBaseShotSpeed() {
+        return _baseShotSpeed;
+    }
+
+    public void setMaxHealth(int health) {
+        _maxHealth = health;
+    }
+
+    public int getMaxHealth() {
+        return _maxHealth;
+    }
+
+    public void setCooldown(int cooldown) {
+        _cooldown = cooldown;
+    }
+
+    public int getCooldown() {
+        return _cooldown;
+    }
+
+    public void setCooldownRate(int rate) {
+        _cooldownRate = rate;
+    }
+
+    public int getCooldownRate() {
+        return _cooldownRate;
+    }
+
+    public void setMovementSpeed(int speed) {
+        _movementSpeed = speed;
+    }
+
+    public int getMovementSpeed() {
+        return _movementSpeed;
     }
 }
