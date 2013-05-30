@@ -9,24 +9,31 @@ public class Path {
         _path = new ArrayList<Integer[]>();
     }
 
-    public void generatePath(int numPoints) {
-        //TODO: Get these from Preferences
+    public static Path generatePath(int numPoints) {
+        Path p = new Path();
         int screenWidth = 100;
         int screenHeight = 100;
         for (int i = 0; i < numPoints; i++) {
-            Integer[] coords = new Integer[2];
-            coords[0] = (int) (Math.random() * screenWidth);
-            coords[1] = (int) (Math.random() * screenHeight);
-            _path.add(coords);
+            int x = (int) (Math.random() * screenWidth);
+            int y = (int) (Math.random() * screenHeight);
+            p.addCoords(x, y);
         }
+        return p;
     }
 
-    public void generatePath() {
-        generatePath(10);
+    public static Path generatePath() {
+        return Path.generatePath(10);
     }
 
     public Integer[] getCoords(int n) {
         return _path.get(n);
+    }
+
+    public void addCoords(int x, int y) {
+        Integer[] coords = new Integer[2];
+        coords[0] = x;
+        coords[1] = y;
+        _path.add(coords);
     }
     
     public int getPathLength() {
