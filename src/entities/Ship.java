@@ -35,31 +35,7 @@ public class Ship extends Entity {
     }
 
 	public void draw() {
-		render();
 	}
-
-	public void render() {
-		int x = 1;
-		int y = 2;
-		if (Keyboard.isKeyDown(Keyboard.KEY_UP)){
-			y = 1;
-			_ycor--;
-		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
-			x = 2;
-			_ycor++;
-		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)){
-			y = 0;
-			_ycor++;
-		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)){
-			x = 0;
-			_xcor--;
-		}
-		
-	}
-
 
     public void addUpgrade(GunUpgrade upgrade) {
         _gunupgrades.add(upgrade);
