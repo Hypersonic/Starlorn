@@ -15,6 +15,7 @@ public class Starlorn {
         menu.setup();
         screen.addHook(menu);
         screen.run();
+        System.exit(0);
 
         // World w = new World();
         // Projectile p = new Projectile();

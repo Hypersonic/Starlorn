@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 
 import edu.stuy.starlorn.display.*;
 
-public class Menu implements Hook {
+public class Menu extends DefaultHook {
 
     private Screen screen;
     private long lastFrame;
@@ -43,4 +43,5 @@ public class Menu implements Hook {
             button.draw(graphics);
         }
     }
+
 }

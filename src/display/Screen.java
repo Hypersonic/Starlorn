@@ -10,7 +10,8 @@ import javax.swing.event.*;
 
 import edu.stuy.starlorn.display.Hook;
 
-public class Screen extends Canvas implements Runnable {
+public class Screen extends Canvas implements Runnable, KeyListener,
+                                              MouseListener {
 
     private static final long serialVersionUID = 1L;
     private static final int MAX_FPS = 60;
@@ -34,6 +35,9 @@ public class Screen extends Canvas implements Runnable {
         setPreferredSize(new Dimension(bounds.width, bounds.height));
         frame.setTitle("Starlorn");
         frame.setResizable(true);
+        frame.setFocusable(true);
+        frame.addKeyListener(this);
+        frame.addMouseListener(this);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setUndecorated(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -58,8 +62,6 @@ public class Screen extends Canvas implements Runnable {
     public void run() {
         running = true;
         while (alive()) {
-            // if (Keyboard.isKeyDown(Keyboard.KEY_Q))     // FIXME
-            //     break;
             render();
             tick();
         }
@@ -112,5 +114,49 @@ public class Screen extends Canvas implements Runnable {
 
     public Font getFont() {
         return font;
+    }
+
+    /* EVENT HANDLERS */
+
+    public void keyTyped(KeyEvent event) {
+        for (Hook hook : hooks)
+            hook.keyTyped(event);
+    }
+
+    public void keyPressed(KeyEvent event) {
+        for (Hook hook : hooks)
+            hook.keyPressed(event);
+    }
+
+    public void keyReleased(KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.VK_Q)
+            shutdown();
+        for (Hook hook : hooks)
+            hook.keyReleased(event);
+    }
+
+    public void mouseClicked(MouseEvent event) {
+        for (Hook hook : hooks)
+            hook.mouseClicked(event);
+    }
+
+    public void mouseEntered(MouseEvent event) {
+        for (Hook hook : hooks)
+            hook.mouseEntered(event);
+    }
+
+    public void mouseExited(MouseEvent event) {
+        for (Hook hook : hooks)
+            hook.mouseExited(event);
+    }
+
+    public void mousePressed(MouseEvent event) {
+        for (Hook hook : hooks)
+            hook.mousePressed(event);
+    }
+
+    public void mouseReleased(MouseEvent event) {
+        for (Hook hook : hooks)
+            hook.mouseReleased(event);
     }
 }
