@@ -1,74 +1,66 @@
-// package edu.stuy.starlorn.menu;
+package edu.stuy.starlorn.menu;
 
-// import java.awt.Font;
-// import java.awt.FontFormatException;
-// import java.io.InputStream;
-// import java.io.IOException;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 
-// public class Button extends Rectangle {
+import edu.stuy.starlorn.display.Screen;
 
-//     private Font font;
-//     private String label;
-//     private boolean pressed;
-//     private boolean hover;
+public class Button {
 
-//     private static final String FONT_FILE = "res/font/prstartk.ttf";
+    private Rectangle rect;
+    private Font font;
+    private String label;
+    private int xOffset, yOffset;
+    private boolean pressed, hover;
 
-//     public Button(double x, double y, double w, double h, String text, float size) {
-//         super(x, y, w, h);
-//         label = text;
-//         loadFont(size);
-//         pressed = false;
-//     }
+    public Button(int x, int y, int w, int h, String text, float size, Screen screen) {
+        rect = new Rectangle(x, y, w, h);
+        font = screen.getFont().deriveFont(size);
+        label = text;
+        xOffset = yOffset = -1;
+        pressed = hover = false;
+    }
 
-//     private void loadFont(float size) {
-//         try {
-//             InputStream stream = FileInputStream(FONT_FILE);
-//             Font font = Font.createFont(Font.TRUETYPE_FONT, stream);
-//             font = font.deriveFont(size);
-//         } catch (FontFormatException e) {
-//             e.printStackTrace();
-//         } catch (IOException e) {
-//             e.printStackTrace();
-//         }
-//     }
+    public boolean isPressed() {
+        return pressed;
+    }
 
-//     public boolean isPressed() {
-//         return pressed;
-//     }
+    public boolean isHover() {
+        return hover;
+    }
 
-//     public boolean isHover() {
-//         return hover;
-//     }
+    public void update() {
+        // if (Mouse.getX() >= getXcor() && Mouse.getX() <= getXcor() + getWidth()
+        //         && Mouse.getY() >= getYcor()
+        //         && Mouse.getY() <= getYcor() + getHeight()) {
+        //     hover = true;
+        // }
+        // else
+        //     hover = false;
 
-//     public void update() {
-//         super.update();
-//         if (Mouse.getX() >= getXcor() && Mouse.getX() <= getXcor() + getWidth()
-//                 && Mouse.getY() >= getYcor()
-//                 && Mouse.getY() <= getYcor() + getHeight()) {
-//             hover = true;
-//         }
-//         else
-//             hover = false;
+        // if (Mouse.isButtonDown(0) && hover)
+        //     pressed = true;
+        // else
+        //     pressed = false;
+    }
 
-//         if (Mouse.isButtonDown(0) && hover)
-//             pressed = true;
-//         else
-//             pressed = false;
-//     }
+    public void draw(Graphics2D graphics) {
+        if (xOffset == -1) {
+            xOffset = (int) (rect.width - font.getStringBounds(label, graphics.getFontRenderContext()).getWidth()) / 2;
+            yOffset = (int) (font.getLineMetrics(label, graphics.getFontRenderContext()).getAscent() + rect.height) / 2;
+        }
 
-//     @Override
-//     public void draw() {
-//         if (isPressed())
-//             GL11.glColor3d(.5, 0, 0);
-//         else if (isHover())
-//             GL11.glColor3d(0, .5, 0);
-//         else
-//             GL11.glColor3d(1, 1, 1);
-//         super.draw();
-
-//         GL11.glEnable(GL11.GL_BLEND);
-//         font.drawString((int) getXcor(), (int) getYcor(), label, Color.gray);
-//         GL11.glDisable(GL11.GL_BLEND);
-//     }
-// }
+        if (isPressed())
+            graphics.setColor(Color.RED);
+        else if (isHover())
+            graphics.setColor(Color.GREEN);
+        else
+            graphics.setColor(Color.WHITE);
+        graphics.fill(rect);
+        graphics.setColor(Color.GRAY);
+        graphics.setFont(font);
+        graphics.drawString(label, rect.x + xOffset, rect.y + yOffset);
+    }
+}

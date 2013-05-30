@@ -3,6 +3,7 @@ package edu.stuy.starlorn.display;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
+import java.io.*;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -13,15 +14,15 @@ public class Screen extends Canvas implements Runnable {
 
     private static final long serialVersionUID = 1L;
     private static final int MAX_FPS = 60;
+    private static final String FONT_FILE = "res/font/prstartk.ttf";
 
     private boolean running;
     private long lastTick;
     private ArrayList<Hook> hooks;
+    private Font font;
     private JFrame frame;
 
     public Screen() {
-        // addMouseListener(this);
-
         running = false;
         lastTick = 0;
         hooks = new ArrayList<Hook>();
@@ -39,14 +40,19 @@ public class Screen extends Canvas implements Runnable {
         frame.add(this);
         frame.pack();
         frame.setVisible(true);
+        font = loadFont();
     }
 
-    public void addHook(Hook hook) {
-        hooks.add(hook);
-    }
-
-    public void removeHook(Hook hook) {
-        hooks.remove(hook);
+    private Font loadFont() {
+        try {
+            InputStream stream = new FileInputStream(FONT_FILE);
+            return Font.createFont(Font.TRUETYPE_FONT, stream);
+        } catch (FontFormatException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void run() {
@@ -67,6 +73,7 @@ public class Screen extends Canvas implements Runnable {
         }
         Graphics2D graphics = (Graphics2D) strategy.getDrawGraphics();
         graphics.setColor(Color.BLACK);
+        graphics.setFont(font);
         graphics.fillRect(0, 0, getWidth(), getHeight());
         for (Hook hook : hooks)
             hook.step(graphics);
@@ -93,5 +100,17 @@ public class Screen extends Canvas implements Runnable {
 
     public void shutdown() {
         running = false;
+    }
+
+    public void addHook(Hook hook) {
+        hooks.add(hook);
+    }
+
+    public void removeHook(Hook hook) {
+        hooks.remove(hook);
+    }
+
+    public Font getFont() {
+        return font;
     }
 }
