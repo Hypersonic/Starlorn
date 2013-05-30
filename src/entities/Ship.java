@@ -5,9 +5,9 @@ import edu.stuy.starlorn.upgrades.GunUpgrade;
 import java.io.IOException;
 import java.util.LinkedList;
 
-import org.lwjgl.input.Keyboard;
+// import org.lwjgl.input.Keyboard;
 
-import org.lwjgl.opengl.GL11;
+// import org.lwjgl.opengl.GL11;
 
 public class Ship extends Entity {
     protected LinkedList<GunUpgrade> _gunupgrades;
@@ -42,23 +42,23 @@ public class Ship extends Entity {
 	public void render() {
 		int x = 1;
 		int y = 2;
-		if (Keyboard.isKeyDown(Keyboard.KEY_UP)){
-			y = 1;
-			_ycor--;
-		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
-			x = 2;
-			_ycor++;
-		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)){
-			y = 0;
-			_ycor++;
-		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)){
-			x = 0;
-			_xcor--;
-		}
-		
+		// if (Keyboard.isKeyDown(Keyboard.KEY_UP)){
+		// 	y = 1;
+		// 	_ycor--;
+		// }
+		// if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
+		// 	x = 2;
+		// 	_ycor++;
+		// }
+		// if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)){
+		// 	y = 0;
+		// 	_ycor++;
+		// }
+		// if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)){
+		// 	x = 0;
+		// 	_xcor--;
+		// }
+
 	}
 
     /*
@@ -90,7 +90,7 @@ public class Ship extends Entity {
                 b.getY() + b.getYvel() + b.getHeight() > _ycor + _yvel &&
                 b.getY() + b.getYvel() < _ycor + _height + _yvel);
     }
-	
+
 	/*
 	 * Create the shots based on the available GunUpgrades
 	 */
