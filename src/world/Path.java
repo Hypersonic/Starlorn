@@ -9,22 +9,6 @@ public class Path {
         _path = new ArrayList<Integer[]>();
     }
 
-    public static Path generatePath(int numPoints) {
-        Path p = new Path();
-        int screenWidth = 100;
-        int screenHeight = 100;
-        for (int i = 0; i < numPoints; i++) {
-            int x = (int) (Math.random() * screenWidth);
-            int y = (int) (Math.random() * screenHeight);
-            p.addCoords(x, y);
-        }
-        return p;
-    }
-
-    public static Path generatePath() {
-        return Path.generatePath(10);
-    }
-
     public Integer[] getCoords(int n) {
         return _path.get(n);
     }

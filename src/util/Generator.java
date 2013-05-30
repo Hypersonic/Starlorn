@@ -19,7 +19,7 @@ public class Generator {
     }
 
     public static Path generatePath() {
-        return Path.generatePath(10);
+        return generatePath(10);
     }
 
     public static EnemyShip generateEnemy() {
