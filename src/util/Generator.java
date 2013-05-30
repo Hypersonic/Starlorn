@@ -10,11 +10,15 @@ public class Generator {
         Path p = new Path();
         int screenWidth = 100;
         int screenHeight = 100;
+        int firstx = (int) Math.round(Math.random()) * screenWidth; // Spawn us at one edge
+        int firsty = (int) (Math.random() * screenHeight);
+        p.addCoords(firstx, firsty);
         for (int i = 0; i < numPoints; i++) {
             int x = (int) (Math.random() * screenWidth);
             int y = (int) (Math.random() * screenHeight);
             p.addCoords(x, y);
         }
+        p.addCoords(Math.abs(firstx - screenWidth), (int) (Math.random() *screenHeight); // Add a point somewhere on the opposite side of spawn
         return p;
     }
 
