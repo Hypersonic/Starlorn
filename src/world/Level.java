@@ -13,11 +13,6 @@ public class Level {
         _waves = new LinkedList<Wave>();
     }
 
-    public void generateLevel(int waves) {
-        for (int i = 0; i < waves; i++) {
-        }
-    }
-
     public void addWave(Wave w) {
         _waves.add(w);
     }
