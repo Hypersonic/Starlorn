@@ -11,7 +11,7 @@ import javax.swing.event.*;
 import edu.stuy.starlorn.display.Hook;
 
 public class Screen extends Canvas implements Runnable, KeyListener,
-                                              MouseListener {
+                                              MouseInputListener {
 
     private static final long serialVersionUID = 1L;
     private static final int MAX_FPS = 60;
@@ -20,31 +20,34 @@ public class Screen extends Canvas implements Runnable, KeyListener,
     private boolean running;
     private long lastTick;
     private ArrayList<Hook> hooks;
-    private Font font;
     private JFrame frame;
+    private Font font;
 
     public Screen() {
         running = false;
         lastTick = 0;
         hooks = new ArrayList<Hook>();
         frame = new JFrame();
+        font = loadFont();
     }
 
     public void setup() {
         Rectangle bounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
         setPreferredSize(new Dimension(bounds.width, bounds.height));
+
+        setFocusable(true);
+        addKeyListener(this);
+        addMouseListener(this);
+        addMouseMotionListener(this);
+
         frame.setTitle("Starlorn");
         frame.setResizable(true);
-        frame.setFocusable(true);
-        frame.addKeyListener(this);
-        frame.addMouseListener(this);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setUndecorated(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(this);
         frame.pack();
         frame.setVisible(true);
-        font = loadFont();
     }
 
     private Font loadFont() {
@@ -158,5 +161,15 @@ public class Screen extends Canvas implements Runnable, KeyListener,
     public void mouseReleased(MouseEvent event) {
         for (Hook hook : hooks)
             hook.mouseReleased(event);
+    }
+
+    public void mouseDragged(MouseEvent event) {
+        for (Hook hook : hooks)
+            hook.mouseDragged(event);
+    }
+
+    public void mouseMoved(MouseEvent event) {
+        for (Hook hook : hooks)
+            hook.mouseMoved(event);
     }
 }

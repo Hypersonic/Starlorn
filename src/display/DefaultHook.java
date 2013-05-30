@@ -21,4 +21,7 @@ public abstract class DefaultHook implements Hook {
 
     public void mouseReleased(MouseEvent event) { }
 
+    public void mouseDragged(MouseEvent event) { }
+
+    public void mouseMoved(MouseEvent event) { }
 }

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
 
 import edu.stuy.starlorn.display.Screen;
 
@@ -31,19 +32,25 @@ public class Button {
         return hover;
     }
 
-    public void update() {
-        // if (Mouse.getX() >= getXcor() && Mouse.getX() <= getXcor() + getWidth()
-        //         && Mouse.getY() >= getYcor()
-        //         && Mouse.getY() <= getYcor() + getHeight()) {
-        //     hover = true;
-        // }
-        // else
-        //     hover = false;
+    public void update(MouseEvent event) {
+        int mask = (event.getModifiersEx() & MouseEvent.BUTTON1_DOWN_MASK);
+        boolean buttonDown = mask == MouseEvent.BUTTON1_DOWN_MASK;
 
-        // if (Mouse.isButtonDown(0) && hover)
-        //     pressed = true;
-        // else
-        //     pressed = false;
+        if (pressed && !buttonDown) {
+            pressed = false;
+            return;
+        }
+
+        if (event.getX() >= rect.x && event.getX() <= rect.x + rect.width
+         && event.getY() >= rect.y && event.getY() <= rect.y + rect.height)
+            hover = true;
+        else
+            hover = false;
+
+        if (hover && buttonDown)
+            pressed = true;
+        else
+            pressed = false;
     }
 
     public void draw(Graphics2D graphics) {

@@ -14,4 +14,6 @@ public interface Hook {
     void mouseExited(MouseEvent event);
     void mousePressed(MouseEvent event);
     void mouseReleased(MouseEvent event);
+    void mouseDragged(MouseEvent event);
+    void mouseMoved(MouseEvent event);
 }

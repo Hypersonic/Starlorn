@@ -2,6 +2,7 @@ package edu.stuy.starlorn.menu;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
 
 import edu.stuy.starlorn.display.*;
 
@@ -38,10 +39,25 @@ public class Menu extends DefaultHook {
             star.update();
             star.draw(graphics);
         }
-        for (Button button : buttons) {
-            button.update();
+        for (Button button : buttons)
             button.draw(graphics);
-        }
     }
 
+    @Override
+    public void mousePressed(MouseEvent event) {
+        for (Button button : buttons)
+            button.update(event);
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent event) {
+        for (Button button : buttons)
+            button.update(event);
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent event) {
+        for (Button button : buttons)
+            button.update(event);
+    }
 }
