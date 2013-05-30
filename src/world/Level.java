@@ -1,7 +1,5 @@
 package edu.stuy.starlorn.world;
 
-import edu.stuy.starlorn.entities.Entity;
-import edu.stuy.starlorn.entities.EnemyShip;
 import edu.stuy.starlorn.world.Wave;
 
 import java.util.LinkedList;

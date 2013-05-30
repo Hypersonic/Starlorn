@@ -2,12 +2,7 @@ package edu.stuy.starlorn.entities;
 
 import edu.stuy.starlorn.upgrades.GunUpgrade;
 
-import java.io.IOException;
 import java.util.LinkedList;
-
-import org.lwjgl.input.Keyboard;
-
-import org.lwjgl.opengl.GL11;
 
 public class Ship extends Entity {
     protected LinkedList<GunUpgrade> _gunupgrades;
