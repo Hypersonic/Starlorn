@@ -1,9 +1,9 @@
 package edu.stuy.starlorn.entities;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.stuy.starlorn.display.Sprite;
 import edu.stuy.starlorn.world.World;
 
 /*
@@ -15,10 +15,12 @@ public class Entity {
     protected Rectangle2D.Double rect;
     protected double xvel, yvel;
     protected World world;
+    protected Sprite sprite;
 
     public Entity(double x, double y, double width, double height) {
         rect = new Rectangle2D.Double(x, y, width, height);
         xvel = yvel = 0;
+        sprite = null;
     }
 
     public Entity(double x, double y) {
@@ -30,8 +32,10 @@ public class Entity {
     }
 
     public void draw(Graphics2D graphics) {
-        graphics.setColor(Color.BLUE);
-        graphics.fill(rect);
+        if (sprite != null) {
+            graphics.setPaint(sprite.getPaint());
+            graphics.fill(rect);
+        }
     }
 
     /*
