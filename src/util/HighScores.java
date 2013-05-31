@@ -50,8 +50,8 @@ public class HighScores {
                 addScore(name, score);
             }
             b.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (java.io.IOException e) {
+            System.out.println("No highscores file exists, so we'll make one later.");
         }
     }
     
