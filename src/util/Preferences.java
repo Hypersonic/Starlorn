@@ -1,6 +1,6 @@
 package edu.stuy.starlorn.util;
 
-import java.io.BufferedReader; 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
@@ -20,11 +20,11 @@ public class Preferences {
 		init();
 	}
 
-	public static ArrayList loadPreferences() throws IOException {
+	public static ArrayList<String> loadPreferences() throws IOException {
 		String file_name = "res/data.txt";
 		FileReader fr = new FileReader(file_name);
 		BufferedReader br = new BufferedReader(fr);
-		ArrayList aList = new ArrayList(_data.size());
+		ArrayList<String> aList = new ArrayList<String>(_data.size());
 
 		String line = null;
 		while ((line = br.readLine()) != null) {
@@ -65,7 +65,7 @@ public class Preferences {
 			System.out.println("Error in the code");
 		}
 
-		
+
 	}
 
 	public static void init() {
@@ -85,8 +85,8 @@ public class Preferences {
 		return _data;
 	}
 
-	public HashMap setData(HashMap a) {
-		HashMap temp = _data;
+	public HashMap setData(HashMap<String, Object> a) {
+		HashMap<String, Object> temp = _data;
 		_data = a;
 		return temp;
 	}
@@ -94,29 +94,29 @@ public class Preferences {
 	/*
 	 * protected static int _upKey; protected static int _downKey; protected
 	 * static int _leftKey; protected static int _rightKey;
-	 * 
+	 *
 	 * protected static int _screenWidth; protected static int _screenHeight;
-	 * 
+	 *
 	 * protected static int _screenRate;
-	 * 
+	 *
 	 * protected static boolean _fullScreen;
-	 * 
+	 *
 	 * public static int getUpKey(){return _upKey;} public static int
 	 * getDownKey(){return _downKey;} public static int getLeftKey(){return
 	 * _leftKey;} public static int getRightKey(){return _rightKey;}
-	 * 
+	 *
 	 * public static void setUpKey(int a){_upKey = a;} public static void
 	 * setDownKey(int a){_downKey = a;} public static void setLeftKey(int
 	 * a){_leftKey = a;} public static void setRightKey(int a){_rightKey = a;}
-	 * 
+	 *
 	 * public static int getScreenWidth(){return _screenWidth;} public static
 	 * int getScreenHeight(){return _screenHeight;} public static int
 	 * getScreenRate(){return _screenRate;}
-	 * 
+	 *
 	 * public static void setScreenWidth(int a){_screenWidth = a;} public static
 	 * void setScreenHeight(int a){_screenHeight = a;} public static void
 	 * setScreenRate(int a){_screenRate = a;}
-	 * 
+	 *
 	 * public static boolean getFullScreen(){return _fullScreen;} public static
 	 * void setFullScreen(boolean a){_fullScreen = a;}
 	 */

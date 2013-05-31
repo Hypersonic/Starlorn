@@ -11,13 +11,16 @@ import edu.stuy.starlorn.display.Screen;
 public class Button {
 
     private Rectangle rect;
+    private Menu.Callback callback;
     private Font font;
     private String label;
     private int xOffset, yOffset;
     private boolean pressed, hover;
 
-    public Button(int x, int y, int w, int h, String text, float size, Screen screen) {
+    public Button(Screen screen, int x, int y, int w, int h, String text,
+                  float size, Menu.Callback cb) {
         rect = new Rectangle(x, y, w, h);
+        callback = cb;
         font = screen.getFont().deriveFont(size);
         label = text;
         xOffset = yOffset = -1;
@@ -38,6 +41,7 @@ public class Button {
 
         if (pressed && !buttonDown) {
             pressed = false;
+            callback.invoke();
             return;
         }
 
