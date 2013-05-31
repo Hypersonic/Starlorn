@@ -13,12 +13,15 @@ public class Generator {
         int firstx = (int) Math.round(Math.random()) * screenWidth; // Spawn us at one edge
         int firsty = (int) (Math.random() * screenHeight);
         p.addCoords(firstx, firsty);
+        int prevx = firstx;
+        int prevy = firsty;
         for (int i = 0; i < numPoints; i++) {
-            int x = (int) (Math.random() * screenWidth);
-            int y = (int) (Math.random() * screenHeight);
+            // Pick locations within the size of the screen / 10 nearby the previous value, and make sure it's in the range of the screen
+            int x = (prevx + (int) ((Math.random() - .5) * (screenWidth/10))) % screenWidth;
+            int y = (prevy + (int) ((Math.random() - .5) * (screenHeight/10))) % screenHeight;
             p.addCoords(x, y);
         }
-        p.addCoords(Math.abs(firstx - screenWidth), (int) (Math.random() *screenHeight); // Add a point somewhere on the opposite side of spawn
+        p.addCoords(Math.abs(firstx - screenWidth), (int) (Math.random() *screenHeight)); // Add a point somewhere on the opposite side of spawn
         return p;
     }
 
