@@ -34,6 +34,19 @@ public class Ship extends Entity {
         */
     }
 
+    public Ship clone() {
+        Ship s = new Ship();
+        s._baseDamage = _baseDamage;
+        s._baseShotSpeed = _baseShotSpeed;
+        s._maxHealth = _maxHealth;
+        s._health = _maxHealth;
+        s._cooldown = _cooldown;
+        s._cooldownRate = _cooldownRate;
+        s._movementSpeed = _movementSpeed;
+        s._baseAim = _baseAim;
+        return s;
+    }
+
 	public void draw() {
 	}
 

@@ -21,13 +21,8 @@ public class EnemyShip extends Ship {
     }
 
     public EnemyShip clone() {
-        EnemyShip e = new EnemyShip();
-        e._xcor = _xcor;
-        e._ycor = _ycor;
-        e._xvel = _xvel;
-        e._yvel = _yvel;
+        EnemyShip e = (EnemyShip) super.clone();
         e._path = _path;
-        e._pathIndex = _pathIndex;
         return e;
     }
 
