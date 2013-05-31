@@ -45,6 +45,10 @@ public class HighScores {
             BufferedReader b = new BufferedReader(new FileReader(filename));
             while (b.ready()) {
                 String[] data = b.readLine().split(" : ");
+                if (data.length != 2) {
+                    System.out.println("Some line in the scores file isn't formatted right. I'll ignore it");
+                    break;
+                }
                 String name = data[0].replace("\\:", ":"); // We'll escape their colons whilst saving, so unescape them whilst loading
                 long score = Long.parseLong(data[1]);
                 addScore(name, score);
