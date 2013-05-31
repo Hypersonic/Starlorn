@@ -10,7 +10,7 @@ public class EnemyShip extends Ship {
     public EnemyShip() {
         super();
         _shootRequested = true; // shoot as often as possible
-        _baseAim = Math.PI/2; // Aim down
+        _baseAim = Math.PI/ 2; // Aim down
         _path = null;
         _pathIndex = 0;
     }
@@ -30,19 +30,19 @@ public class EnemyShip extends Ship {
     public void preStep() {
         super.preStep();
         // If we're at our goal coordinate on the path, advance our goal and set our velocity to aim at the next goal
-        if (Math.round(_xcor) == Math.round(_path.getCoords(_pathIndex)[0])
-        && Math.round(_ycor) == Math.round(_path.getCoords(_pathIndex)[1])) {
+        if (Math.round(rect.x) == Math.round(_path.getCoords(_pathIndex)[0])
+        && Math.round(rect.y) == Math.round(_path.getCoords(_pathIndex)[1])) {
             _pathIndex++;
-            int relativeX = (int) _xcor - _path.getCoords(_pathIndex)[0];
-            int relativeY = (int) _ycor - _path.getCoords(_pathIndex)[1];
+            int relativeX = (int) rect.x - _path.getCoords(_pathIndex)[0];
+            int relativeY = (int) rect.y - _path.getCoords(_pathIndex)[1];
             double theta = Math.atan2(relativeX, relativeY);
-            _xvel = _movementSpeed * Math.cos(theta);
-            _yvel = _movementSpeed * Math.sin(theta);
+            xvel = _movementSpeed * Math.cos(theta);
+            yvel = _movementSpeed * Math.sin(theta);
         }
 
         // If we're done with our path, just despawn
         if (_pathIndex >= _path.getPathLength()) {
-            _world.removeEntity(this);
+            world.removeEntity(this);
         }
     }
 

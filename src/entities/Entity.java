@@ -1,5 +1,9 @@
 package edu.stuy.starlorn.entities;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
+
 import edu.stuy.starlorn.world.World;
 
 /*
@@ -7,19 +11,14 @@ import edu.stuy.starlorn.world.World;
  * It should be subclassed and extended.
  */
 public class Entity {
-    protected double _xcor, _ycor;
-    protected double _xvel, _yvel;
-    
-    protected World _world;
 
-    protected int _width, _height;
+    protected Rectangle2D.Double rect;
+    protected double xvel, yvel;
+    protected World world;
 
-    public Entity(double x, double y, int width, int height) {
-        _xcor = x;
-        _ycor = y;
-        _xvel = _yvel = 0;
-        _width = width;
-        _height = height;
+    public Entity(double x, double y, double width, double height) {
+        rect = new Rectangle2D.Double(x, y, width, height);
+        xvel = yvel = 0;
     }
 
     public Entity(double x, double y) {
@@ -27,67 +26,73 @@ public class Entity {
     }
 
     public Entity() {
-        this(0,0);
+        this(0, 0);
     }
 
-    public void draw() { //this draws the thing
-        //code to be put later for texture
+    public void draw(Graphics2D graphics) {
+        graphics.setColor(Color.BLUE);
+        graphics.fill(rect);
     }
-    
+
     /*
      * Used for handling things that need to be done before anyone takes action.
      */
     public void preStep() {
-        System.out.printf("X: %.1f, Y: %.1f\n",getX(), getY());
     }
 
-    
     /*
      * Used for taking actions (moving, shooting, etc)
      */
     public void step() {
-    	_xcor += _xvel;
-        _ycor -= _yvel;
+        rect.x += xvel;
+        rect.x -= yvel;
     }
-    
+
     /*
      * Used for cleanup after the step
      */
     public void postStep() {
-        
     }
 
-    public void setX(double x) {_xcor = x;}
-    public double getX() {return _xcor;}
+    public Rectangle2D.Double getRect() {
+        return rect;
+    }
 
-    public void setY(double y) {_ycor = y;}
-    public double getY() {return _ycor;}
-    
-    public void setXvel(double x) {_xvel = x;}
-    public double getXvel() {return _xvel;}
+    public void setRect(Rectangle2D.Double newrect) {
+        rect = newrect;
+    }
 
-    public void setYvel(double y) {_yvel = y;}
-    public double getYvel() {return _yvel;}
+    public double getXvel() {
+        return xvel;
+    }
 
-    public void setWidth(int width) {_width = width;}
-    public int getWidth() {return _width;}
+    public void setXvel(double x) {
+        xvel = x;
+    }
 
-    public void setHeight(int height) {_height = height;}
-    public int getHeight() {return _height;}
+    public double getYvel() {
+        return yvel;
+    }
 
-    public void setXY(double x, double y) {setX(x);setY(y);}
+    public void setYvel(double y) {
+        yvel = y;
+    }
+
+    public World getWorld() {
+        return world;
+    }
 
     /*
      * Remove self from current world (if there is one) and put it in the new world
      */
-    public void setWorld(World world) { 
-        if (_world != null) _world.removeEntity(this);
-        _world = world;
-        if (_world != null) _world.addEntity(this);
-    }   
-    public World getWorld() { return _world; }
-
-    public boolean intersect(/* Some object, idk*/){ //to be coded later
-        return false;
+    public void setWorld(World world) {
+        if (world != null) world.removeEntity(this);
+        this.world = world;
+        if (world != null) world.addEntity(this);
     }
+
+    // To be coded later:
+    // public boolean intersect(){
+    //     return false;
+    // }
 }

@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
-import edu.stuy.starlorn.display.*;
+import edu.stuy.starlorn.display.DefaultHook;
+import edu.stuy.starlorn.display.Screen;
+import edu.stuy.starlorn.world.World;
 
 public class Menu extends DefaultHook {
 
@@ -43,7 +45,9 @@ public class Menu extends DefaultHook {
 
     private class PlayButtonCallback implements Callback {
         public void invoke() {
-            System.out.println("Playing...");
+            World world = new World();
+            screen.removeHook(Menu.this);
+            screen.addHook(world);
         }
     }
 

@@ -1,15 +1,16 @@
 package edu.stuy.starlorn.entities;
 
-import edu.stuy.starlorn.upgrades.GunUpgrade;
-
+import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
+
+import edu.stuy.starlorn.upgrades.GunUpgrade;
 
 public class Ship extends Entity {
     protected LinkedList<GunUpgrade> _gunupgrades;
     protected int _baseDamage, _baseShotSpeed, _health, _maxHealth, _cooldownTimer, _cooldown, _cooldownRate, _movementSpeed;
     protected double _baseAim;
     protected boolean _shootRequested;
-    //protected Texture _texture;
 
     public Ship() {
         super();
@@ -24,14 +25,6 @@ public class Ship extends Entity {
         _cooldownRate = 1;
         _movementSpeed = 1;
         _shootRequested = false;
-        /*
-		try {
-			_texture = TextureLoader.getTexture("PNG",
-					ResourceLoader.getResourceAsStream("res/spaceship.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-        */
     }
 
     public Ship clone() {
@@ -47,42 +40,44 @@ public class Ship extends Entity {
         return s;
     }
 
-	public void draw() {
-	}
+    // public void draw(Graphics2D graphics) {
+    // }
 
     public void addUpgrade(GunUpgrade upgrade) {
         _gunupgrades.add(upgrade);
     }
 
     public boolean isHit(Bullet b) {
-        return (b.getX() + b.getXvel() + b.getWidth() > _xcor + _xvel &&
-                b.getX() + b.getXvel() < _xcor + _width + _xvel &&
-                b.getY() + b.getYvel() + b.getHeight() > _ycor + _yvel &&
-                b.getY() + b.getYvel() < _ycor + _height + _yvel);
+        Rectangle2D.Double brect = b.getRect();
+        return (brect.x + b.getXvel() + brect.width > rect.x + xvel &&
+                brect.x + b.getXvel() < rect.x + rect.width + xvel &&
+                brect.y + b.getYvel() + brect.height > rect.y + yvel &&
+                brect.y + b.getYvel() < rect.y + rect.height + yvel);
     }
 
-	/*
-	 * Create the shots based on the available GunUpgrades
-	 */
-	public void shoot() {
-		GunUpgrade topShot = _gunupgrades.get(0);
-		int damage = _baseDamage;
-		int shotSpeed = _baseShotSpeed;
-		for (GunUpgrade up : _gunupgrades) {
-			if (up.getNumShots() > topShot.getNumShots())
-				topShot = up;
-			damage = up.getDamage(damage);
-			shotSpeed = up.getShotSpeed(shotSpeed);
-		}
-		// Create new shots, based on dem vars
-		int numShots = topShot.getNumShots();
-		for (int i = 0; i < numShots; i++) {
-			Bullet b = new Bullet(_baseAim + topShot.getAimAngle(), damage,
-					shotSpeed);
-            b.setXY(_xcor + topShot.getXOffset(), _ycor + 10);
-			b.setWorld(this.getWorld());
-		}
-	}
+    /*
+     * Create the shots based on the available GunUpgrades
+     */
+    public void shoot() {
+        GunUpgrade topShot = _gunupgrades.get(0);
+        int damage = _baseDamage;
+        int shotSpeed = _baseShotSpeed;
+        for (GunUpgrade up : _gunupgrades) {
+            if (up.getNumShots() > topShot.getNumShots())
+                topShot = up;
+            damage = up.getDamage(damage);
+            shotSpeed = up.getShotSpeed(shotSpeed);
+        }
+        // Create new shots, based on dem vars
+        int numShots = topShot.getNumShots();
+        for (int i = 0; i < numShots; i++) {
+            Bullet b = new Bullet(_baseAim + topShot.getAimAngle(), damage,
+                    shotSpeed);
+            b.getRect().x = rect.x + topShot.getXOffset();
+            b.getRect().y = rect.y + 10;
+            b.setWorld(this.getWorld());
+        }
+    }
     @Override
     public void step() {
         //Only cooldown if we're below the rate, otherwise the ship hasn't tried to shoot
