@@ -1,6 +1,10 @@
 package edu.stuy.util;
 
 import java.util.TreeMap;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 
 public class HighScores {
     protected ScoreTree _scores;
@@ -15,6 +19,45 @@ public class HighScores {
 
     public HighScore[] getScoresSorted() {
         return _scores.getScoresSorted();
+    }
+
+    public void saveScores(String filename) {
+        try {
+            BufferedWriter w = new BufferedWriter(new FileWriter(filename));
+            HighScore[] scores = getScoresSorted();
+            for (int i = 0; i < scores.length; i++) {
+                w.write(scores[i].getName().replace(":", "\\:")); //Escape colons
+                w.write(" : "); // separator
+                w.write("" + scores[i].getScore());
+                w.newLine();
+            }
+            w.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveScores() {
+        saveScores("scores.txt");
+    }
+
+    public void loadScores(String filename) {
+        try {
+            BufferedReader b = new BufferedReader(new FileReader(filename));
+            while (b.ready()) {
+                String[] data = b.readLine().split(" : ");
+                String name = data[0].replace("\\:", ":"); // We'll escape their colons whilst saving, so unescape them whilst loading
+                long score = Long.parseLong(data[1]);
+                addScore(name, score);
+            }
+            b.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void loadScores() {
+        loadScores("scores.txt");
     }
 
     private class ScoreTree {
