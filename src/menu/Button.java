@@ -1,43 +1,27 @@
 package edu.stuy.starlorn.menu;
 
+import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontFormatException;
-import java.io.InputStream;
-import java.io.IOException;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
 
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.util.ResourceLoader;
+import edu.stuy.starlorn.display.Screen;
 
-public class Button extends Rectangle {
+public class Button {
 
-    private TrueTypeFont font;
+    private Rectangle rect;
+    private Font font;
     private String label;
-    private boolean pressed;
-    private boolean hover;
+    private int xOffset, yOffset;
+    private boolean pressed, hover;
 
-    private static final String FONT_FILE = "res/font/prstartk.ttf";
-
-    public Button(double x, double y, double w, double h, String text, float size) {
-        super(x, y, w, h);
+    public Button(int x, int y, int w, int h, String text, float size, Screen screen) {
+        rect = new Rectangle(x, y, w, h);
+        font = screen.getFont().deriveFont(size);
         label = text;
-        loadFont(size);
-        pressed = false;
-    }
-
-    private void loadFont(float size) {
-        try {
-            InputStream stream = ResourceLoader.getResourceAsStream(FONT_FILE);
-            Font awtFont = Font.createFont(Font.TRUETYPE_FONT, stream);
-            awtFont = awtFont.deriveFont(size);
-            font = new TrueTypeFont(awtFont, true);
-        } catch (FontFormatException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        xOffset = yOffset = -1;
+        pressed = hover = false;
     }
 
     public boolean isPressed() {
@@ -48,34 +32,42 @@ public class Button extends Rectangle {
         return hover;
     }
 
-    public void update(int delta) {
-        super.update(delta);
-        if (Mouse.getX() >= getXcor() && Mouse.getX() <= getXcor() + getWidth()
-                && Mouse.getY() >= getYcor()
-                && Mouse.getY() <= getYcor() + getHeight()) {
-            hover = true;
+    public void update(MouseEvent event) {
+        int mask = (event.getModifiersEx() & MouseEvent.BUTTON1_DOWN_MASK);
+        boolean buttonDown = mask == MouseEvent.BUTTON1_DOWN_MASK;
+
+        if (pressed && !buttonDown) {
+            pressed = false;
+            return;
         }
+
+        if (event.getX() >= rect.x && event.getX() <= rect.x + rect.width
+         && event.getY() >= rect.y && event.getY() <= rect.y + rect.height)
+            hover = true;
         else
             hover = false;
 
-        if (Mouse.isButtonDown(0) && hover)
+        if (hover && buttonDown)
             pressed = true;
         else
             pressed = false;
     }
 
-    @Override
-    public void draw() {
-        if (isPressed())
-            GL11.glColor3d(.5, 0, 0);
-        else if (isHover())
-            GL11.glColor3d(0, .5, 0);
-        else
-            GL11.glColor3d(1, 1, 1);
-        super.draw();
+    public void draw(Graphics2D graphics) {
+        if (xOffset == -1) {
+            xOffset = (int) (rect.width - font.getStringBounds(label, graphics.getFontRenderContext()).getWidth()) / 2;
+            yOffset = (int) (font.getLineMetrics(label, graphics.getFontRenderContext()).getAscent() + rect.height) / 2;
+        }
 
-        GL11.glEnable(GL11.GL_BLEND);
-        font.drawString((int) getXcor(), (int) getYcor(), label, Color.gray);
-        GL11.glDisable(GL11.GL_BLEND);
+        if (isPressed())
+            graphics.setColor(Color.RED);
+        else if (isHover())
+            graphics.setColor(Color.GREEN);
+        else
+            graphics.setColor(Color.WHITE);
+        graphics.fill(rect);
+        graphics.setColor(Color.GRAY);
+        graphics.setFont(font);
+        graphics.drawString(label, rect.x + xOffset, rect.y + yOffset);
     }
 }

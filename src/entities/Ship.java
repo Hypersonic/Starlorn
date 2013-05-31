@@ -47,7 +47,7 @@ public class Ship extends Entity {
                 b.getY() + b.getYvel() + b.getHeight() > _ycor + _yvel &&
                 b.getY() + b.getYvel() < _ycor + _height + _yvel);
     }
-	
+
 	/*
 	 * Create the shots based on the available GunUpgrades
 	 */

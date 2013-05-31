@@ -1,63 +1,175 @@
 package edu.stuy.starlorn.display;
 
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.LWJGLException;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.image.*;
+import java.io.*;
+import java.util.ArrayList;
+import javax.swing.*;
+import javax.swing.event.*;
 
-public class Screen {
+import edu.stuy.starlorn.display.Hook;
 
-    private DisplayMode mode;
-    private boolean running;
+public class Screen extends Canvas implements Runnable, KeyListener,
+                                              MouseInputListener {
 
+    private static final long serialVersionUID = 1L;
     private static final int MAX_FPS = 60;
+    private static final String FONT_FILE = "res/font/prstartk.ttf";
+
+    private boolean running;
+    private long lastTick;
+    private ArrayList<Hook> hooks;
+    private JFrame frame;
+    private Font font;
 
     public Screen() {
-        mode = null;
         running = false;
+        lastTick = 0;
+        hooks = new ArrayList<Hook>();
+        frame = new JFrame();
+        font = loadFont();
     }
 
     public void setup() {
-        mode = Display.getDesktopDisplayMode();
-        try {
-            Display.setDisplayModeAndFullscreen(mode);
-            Display.create();
-        } catch (LWJGLException e) {
-            e.printStackTrace();
-            System.exit(0);
-        }
-        Display.setVSyncEnabled(true);
-        running = true;
+        Rectangle bounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+        setPreferredSize(new Dimension(bounds.width, bounds.height));
 
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glShadeModel(GL11.GL_SMOOTH);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glViewport(0, 0, getWidth(), getHeight());
-        GL11.glMatrixMode(GL11.GL_PROJECTION);
-        GL11.glLoadIdentity();
-        GL11.glOrtho(0, getWidth(), 0, getHeight(), 1, -1);
-        GL11.glMatrixMode(GL11.GL_MODELVIEW);
+        setFocusable(true);
+        addKeyListener(this);
+        addMouseListener(this);
+        addMouseMotionListener(this);
+
+        frame.setTitle("Starlorn");
+        frame.setResizable(true);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setUndecorated(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.add(this);
+        frame.pack();
+        frame.setVisible(true);
     }
 
-    public void tick() {
-        Display.update();
-        Display.sync(MAX_FPS);
+    private Font loadFont() {
+        try {
+            InputStream stream = new FileInputStream(FONT_FILE);
+            return Font.createFont(Font.TRUETYPE_FONT, stream);
+        } catch (FontFormatException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void run() {
+        running = true;
+        while (alive()) {
+            render();
+            tick();
+        }
+    }
+
+    private void render() {
+        BufferStrategy strategy = getBufferStrategy();
+        if (strategy == null) {
+            createBufferStrategy(2);
+            return;
+        }
+        Graphics2D graphics = (Graphics2D) strategy.getDrawGraphics();
+        graphics.setColor(Color.BLACK);
+        graphics.setFont(font);
+        graphics.fillRect(0, 0, getWidth(), getHeight());
+        for (Hook hook : hooks)
+            hook.step(graphics);
+        graphics.dispose();
+        strategy.show();
+
+    }
+
+    private void tick() {
+        long since = System.currentTimeMillis() - lastTick;
+        if (since < 1000 / MAX_FPS) {
+            try {
+                Thread.sleep(1000 / MAX_FPS - since);
+            } catch (InterruptedException e) {
+                return;
+            }
+        }
+        lastTick = System.currentTimeMillis();
     }
 
     public boolean alive() {
-        return running && !Display.isCloseRequested();
+        return running;
     }
 
     public void shutdown() {
         running = false;
-        Display.destroy();
     }
 
-    public int getWidth() {
-        return mode.getWidth();
+    public void addHook(Hook hook) {
+        hooks.add(hook);
     }
 
-    public int getHeight() {
-        return mode.getHeight();
+    public void removeHook(Hook hook) {
+        hooks.remove(hook);
+    }
+
+    public Font getFont() {
+        return font;
+    }
+
+    /* EVENT HANDLERS */
+
+    public void keyTyped(KeyEvent event) {
+        for (Hook hook : hooks)
+            hook.keyTyped(event);
+    }
+
+    public void keyPressed(KeyEvent event) {
+        for (Hook hook : hooks)
+            hook.keyPressed(event);
+    }
+
+    public void keyReleased(KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.VK_Q)
+            shutdown();
+        for (Hook hook : hooks)
+            hook.keyReleased(event);
+    }
+
+    public void mouseClicked(MouseEvent event) {
+        for (Hook hook : hooks)
+            hook.mouseClicked(event);
+    }
+
+    public void mouseEntered(MouseEvent event) {
+        for (Hook hook : hooks)
+            hook.mouseEntered(event);
+    }
+
+    public void mouseExited(MouseEvent event) {
+        for (Hook hook : hooks)
+            hook.mouseExited(event);
+    }
+
+    public void mousePressed(MouseEvent event) {
+        for (Hook hook : hooks)
+            hook.mousePressed(event);
+    }
+
+    public void mouseReleased(MouseEvent event) {
+        for (Hook hook : hooks)
+            hook.mouseReleased(event);
+    }
+
+    public void mouseDragged(MouseEvent event) {
+        for (Hook hook : hooks)
+            hook.mouseDragged(event);
+    }
+
+    public void mouseMoved(MouseEvent event) {
+        for (Hook hook : hooks)
+            hook.mouseMoved(event);
     }
 }

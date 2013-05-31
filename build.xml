@@ -5,24 +5,10 @@
     <property name="target" value="1.6"/>
     <property name="source" value="1.6"/>
     <property name="bin" value="bin"/>
-    <property name="lib" value="lib"/>
     <property name="src" value="src"/>
-
-    <condition property="native" value="macosx">
-        <os family="mac"/>
-    </condition>
-    <condition property="native" value="linux">
-        <os family="unix"/>
-    </condition>
-    <condition property="native" value="windows">
-        <os family="windows"/>
-    </condition>
-    <fail unless="native">Unknown OS!</fail>
 
     <path id="javac_path">
         <pathelement location="${bin}"/>
-        <pathelement location="${lib}/lwjgl.jar"/>
-        <pathelement location="${lib}/slick-util.jar"/>
     </path>
 
     <mkdir dir="${bin}"/>
@@ -55,8 +41,6 @@
         </javac>
         <jar file="${bin}/Starlorn.jar" manifest="${bin}/MANIFEST.MF">
             <fileset dir="${bin}" includes="**/*.class"/>
-            <zipfileset src="${lib}/lwjgl.jar" includes="**/*.class"/>
-            <zipfileset src="${lib}/slick-util.jar" includes="**/*.class"/>
         </jar>
     </target>
 

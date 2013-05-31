@@ -1,63 +1,50 @@
 package edu.stuy.starlorn.menu;
 
-import org.lwjgl.opengl.GL11;
+import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 
-public class Star extends Rectangle {
+public class Star {
 
-    private double size, svel, dispwidth, dispheight;
-    private int color;
+    private Rectangle2D.Double rect;
+    private double xvel, yvel, zvel, maxwidth, maxheight;
     private boolean show;
 
     public Star(double displayx, double displayy) {
-        super(Math.random() * displayx, Math.random() * displayy, 0.3, 0.3);
-        size = 0.3;
-        svel = 0;
-        dispwidth = displayx;
-        dispheight = displayy;
+        rect = new Rectangle2D.Double();
+        maxwidth = displayx;
+        maxheight = displayy;
         show = false;
+        reset();
     }
 
-    public void draw() {
-        if (show) {
-            GL11.glColor3f(1, 1, 1);
-            GL11.glBegin(GL11.GL_QUADS);
-            GL11.glVertex2d(getXcor(), getYcor());
-            GL11.glVertex2d(getXcor() + size, getYcor());
-            GL11.glVertex2d(getXcor() + size, getYcor() + size);
-            GL11.glVertex2d(getXcor(), getYcor() + size);
-            GL11.glEnd();
-        }
+    private void reset() {
+        rect.x = Math.random() * maxwidth;
+        rect.y = Math.random() * maxheight;
+        rect.width = rect.height = 1;
+        xvel = yvel = zvel = 0;
     }
 
-    public double setSize(double s) {
-        double temp = size;
-        size = s;
-        return size;
-    }
+    public void update() {
+        double cx = maxwidth / 2, cy = maxheight / 2;
+        double dist = Math.sqrt(((cx - rect.x) * (cx - rect.x)) +
+                                ((cy - rect.y) * (cy - rect.y)));
 
-    public void update(int delta) {
-        super.update(delta);
-        double cx = dispwidth / 2, cy = dispheight / 2;
-        double dist = Math.sqrt(
-              Math.abs(cx - getXcor()) * Math.abs(cx - getXcor())
-            + Math.abs(cy - getYcor()) * Math.abs(cy - getYcor()));
+        rect.x += xvel;
+        rect.y += yvel;
+        xvel = (rect.x - cx) / 50;
+        yvel = (rect.y - cy) / 50;
+        rect.width += zvel / 3;
+        rect.height = rect.width;
+        zvel = dist * dist / 700000;
 
-        setXvel((getXcor() - cx) / 1);
-        setYvel((getYcor() - cy) / 1);
-
-        size += svel / 3;
-        svel = dist * dist / 700000;
-
-        if (getXcor() <= 0 || getYcor() <= 0 || getXcor() >= dispwidth
-                || getYcor() >= dispheight) {
-            setXcor(Math.random() * dispwidth);
-            setYcor(Math.random() * dispheight);
-            setXvel(0);
-            setYvel(0);
-            size = 0.3;
+        if (rect.x <= 0 || rect.y <= 0 || rect.x >= maxwidth || rect.y >= maxheight) {
+            reset();
             show = true;
         }
-
     }
 
+    public void draw(Graphics2D graphics) {
+        if (show)
+            graphics.fill(rect);
+    }
 }

@@ -7,15 +7,18 @@ import edu.stuy.starlorn.menu.Menu;
 import edu.stuy.starlorn.util.Preferences;
 
 public class Starlorn {
+
 	private Preferences _preferences;
-	
+
     public static void main(String[] args) {
         Screen screen = new Screen();
-        screen.setup();
-
         Menu menu = new Menu(screen);
+
+        screen.setup();
         menu.setup();
-        menu.loop();
+        screen.addHook(menu);
+        screen.run();
+        System.exit(0);
 
         // World w = new World();
         // Projectile p = new Projectile();
@@ -30,9 +33,9 @@ public class Starlorn {
         //     }
         // }
 
-        screen.shutdown();
+
     }
-    
+
     public void init() {
     	try{
     	_preferences = new Preferences();
@@ -43,7 +46,7 @@ public class Starlorn {
     		System.out.println("whoops");
     	}
     }
-    
-    
-    
+
+
+
 }
