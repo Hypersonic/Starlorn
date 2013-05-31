@@ -20,6 +20,8 @@ public class Generator {
             int x = (prevx + (int) ((Math.random() - .5) * (screenWidth/10))) % screenWidth;
             int y = (prevy + (int) ((Math.random() - .5) * (screenHeight/10))) % screenHeight;
             p.addCoords(x, y);
+            prevx = x;
+            prevy = y;
         }
         p.addCoords(Math.abs(firstx - screenWidth), (int) (Math.random() *screenHeight)); // Add a point somewhere on the opposite side of spawn
         return p;
