@@ -1,4 +1,4 @@
-package edu.stuy.util;
+package edu.stuy.starlorn.util;
 
 public class HighScore {
     private String _name;
