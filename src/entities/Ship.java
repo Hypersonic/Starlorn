@@ -66,10 +66,8 @@ public class Ship extends Entity {
 
     public boolean isHit(Bullet b) {
         Rectangle2D.Double brect = b.getRect();
-        return (brect.x + b.getXvel() + brect.width > rect.x + xvel &&
-                brect.x + b.getXvel() < rect.x + rect.width + xvel &&
-                brect.y + b.getYvel() + brect.height > rect.y + yvel &&
-                brect.y + b.getYvel() < rect.y + rect.height + yvel);
+        return (brect.x + brect.width  > rect.x && brect.x < rect.x + rect.width &&
+                brect.y + brect.height > rect.y && brect.y < rect.y + rect.height);
     }
 
     /*

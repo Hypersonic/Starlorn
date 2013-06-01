@@ -8,7 +8,7 @@ public class EnemyShip extends Ship {
     protected int pathIndex; // Index of our location on the path
 
     public EnemyShip() {
-        super("enemyShip");
+        super("enemy/straight");
         shootRequested = true; // shoot as often as possible
         baseAim = 3 * Math.PI / 2; // Aim down
         path = null;

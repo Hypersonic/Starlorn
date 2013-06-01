@@ -27,7 +27,7 @@ public class World extends DefaultHook {
         entities = new ConcurrentLinkedQueue<Entity>();
         player = new PlayerShip(screen.getWidth(), screen.getHeight());
         player.setWorld(this);
-        // level = Generator.generateLevel();
+        level = Generator.generateLevel();
     }
 
     public void addEntity(Entity e) {
