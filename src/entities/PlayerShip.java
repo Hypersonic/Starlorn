@@ -18,7 +18,6 @@ public class PlayerShip extends Ship {
     }
 
     public void step() {
-        super.step();
         if (goingUp) {
             yvel--;
             if (yvel < -maxSpeed)
@@ -52,11 +51,9 @@ public class PlayerShip extends Ship {
             else if (xvel < 0)
                 xvel++;
         }
+        super.step();
         keepOnScreen();
-    }
 
-    public void postStep() {
-        super.postStep();
         String spritename = "player/";
         Anchor anchor;
         if (xvel < 0) {

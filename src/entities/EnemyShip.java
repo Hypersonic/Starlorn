@@ -27,8 +27,7 @@ public class EnemyShip extends Ship {
     }
 
     @Override
-    public void preStep() {
-        super.preStep();
+    public void step() {
         // If we're at our goal coordinate on the path, advance our goal and set our velocity to aim at the next goal
         if (Math.round(rect.x) == Math.round(path.getCoords(pathIndex)[0])
         && Math.round(rect.y) == Math.round(path.getCoords(pathIndex)[1])) {
@@ -42,8 +41,11 @@ public class EnemyShip extends Ship {
 
         // If we're done with our path, just despawn
         if (pathIndex >= path.getPathLength()) {
-            world.removeEntity(this);
+            kill();
+            return;
         }
+
+        super.step();
     }
 
     public void setPath(Path p) {

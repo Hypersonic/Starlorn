@@ -20,10 +20,12 @@ public class Entity {
     protected double xvel, yvel;
     protected World world;
     protected Sprite sprite;
+    protected boolean dead;
 
     public Entity(double x, double y, double width, double height) {
         rect = new Rectangle2D.Double(x, y, width, height);
         xvel = yvel = 0;
+        dead = false;
     }
 
     public Entity(double x, double y, String name) {
@@ -70,23 +72,11 @@ public class Entity {
     }
 
     /*
-     * Used for handling things that need to be done before anyone takes action.
-     */
-    public void preStep() {
-    }
-
-    /*
      * Used for taking actions (moving, shooting, etc)
      */
     public void step() {
         rect.x += xvel;
         rect.y += yvel;
-    }
-
-    /*
-     * Used for cleanup after the step
-     */
-    public void postStep() {
     }
 
     public Rectangle2D.Double getRect() {
@@ -126,6 +116,19 @@ public class Entity {
         if (world != null) world.addEntity(this);
     }
 
+    public boolean isDead() {
+        return dead;
+    }
+
+    public void kill() {
+        dead = true;
+    }
+
+    public boolean onScreen() {
+        return (rect.x >= 0 && rect.x <= world.getScreen().getWidth() - rect.width &&
+                rect.y >= 0 && rect.y <= world.getScreen().getHeight() - rect.height);
+    }
+
     public void keepOnScreen() {
         if (rect.x < 0)
             rect.x = 0;
@@ -136,9 +139,4 @@ public class Entity {
         else if (rect.y > world.getScreen().getHeight() - rect.height)
             rect.y = world.getScreen().getHeight() - rect.height;
     }
-
-    // To be coded later:
-    // public boolean intersect(){
-    //     return false;
-    // }
 }

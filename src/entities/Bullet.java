@@ -20,6 +20,8 @@ public class Bullet extends Entity {
         setXvel(speed * Math.cos(angle + Math.PI));
         setYvel(speed * Math.sin(angle + Math.PI));
         super.step();
+        if (!onScreen())
+            kill();
     }
 
     public void setDamage(int damage) { this.damage = damage; }

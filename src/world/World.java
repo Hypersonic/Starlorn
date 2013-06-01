@@ -2,6 +2,7 @@ package edu.stuy.starlorn.world;
 
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.util.Iterator;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import edu.stuy.starlorn.graphics.DefaultHook;
@@ -38,17 +39,14 @@ public class World extends DefaultHook {
     }
 
     public void step(Graphics2D graphics) {
-        for (Entity e : entities) {
-            e.preStep();
-        }
-        for (Entity e : entities) {
-            e.step();
-        }
-        for (Entity e : entities) {
-            e.postStep();
-        }
-        for (Entity e : entities) {
-            e.draw(graphics);
+        Iterator<Entity> it = entities.iterator();
+        while (it.hasNext()) {
+            Entity entity = it.next();
+            entity.step();
+            if (entity.isDead())
+                it.remove();
+            else
+                entity.draw(graphics);
         }
     }
 
@@ -80,5 +78,9 @@ public class World extends DefaultHook {
 
     public Screen getScreen() {
         return screen;
+    }
+
+    public PlayerShip getPlayer() {
+        return player;
     }
 }
