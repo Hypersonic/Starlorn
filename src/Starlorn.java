@@ -37,14 +37,9 @@ public class Starlorn {
     }
 
     public void init() {
-    	try{
     	_preferences = new Preferences();
-    	_preferences.init();
-    	_preferences.writePreferences();
-    	}
-    	catch (IOException e){
-    		System.out.println("whoops");
-    	}
+    	_preferences.loadPreferences();
+        _preferences.writePreferences();
     }
 
 
