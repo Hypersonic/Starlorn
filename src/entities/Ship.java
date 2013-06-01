@@ -8,36 +8,51 @@ import edu.stuy.starlorn.graphics.Sprite;
 import edu.stuy.starlorn.upgrades.GunUpgrade;
 
 public class Ship extends Entity {
-    protected LinkedList<GunUpgrade> _gunupgrades;
-    protected int _baseDamage, _baseShotSpeed, _health, _maxHealth, _cooldownTimer, _cooldown, _cooldownRate, _movementSpeed;
-    protected double _baseAim;
-    protected boolean _shootRequested;
+
+    protected LinkedList<GunUpgrade> gunUpgrades;
+    protected int baseDamage, baseShotSpeed, health, maxHealth, cooldownTimer,
+                  cooldown, cooldownRate, movementSpeed;
+    protected double baseAim;
+    protected boolean shootRequested;
+
+    public Ship(double x, double y, String name) {
+        super(x, y, name);
+        gunUpgrades = new LinkedList<GunUpgrade>();
+        baseDamage = 1;
+        baseShotSpeed = 1;
+        maxHealth = 10;
+        health = maxHealth;
+        baseAim = 0; //Aim up by default
+        cooldown = 10;
+        cooldownTimer = 0;
+        cooldownRate = 1;
+        movementSpeed = 1;
+        shootRequested = false;
+    }
+
+    public Ship(String name) {
+        this(0, 0, name);
+    }
+
+    public Ship(double x, double y) {
+        this(x, y, null);
+    }
 
     public Ship() {
-        super();
-        _gunupgrades = new LinkedList<GunUpgrade>();
-        _baseDamage = 1;
-        _baseShotSpeed = 1;
-        _maxHealth = 10;
-        _health = _maxHealth;
-        _baseAim = 0; //Aim up by default
-        _cooldown = 10;
-        _cooldownTimer = 0;
-        _cooldownRate = 1;
-        _movementSpeed = 1;
-        _shootRequested = false;
+        this(null);
     }
 
     public Ship clone() {
         Ship s = new Ship();
-        s._baseDamage = _baseDamage;
-        s._baseShotSpeed = _baseShotSpeed;
-        s._maxHealth = _maxHealth;
-        s._health = _maxHealth;
-        s._cooldown = _cooldown;
-        s._cooldownRate = _cooldownRate;
-        s._movementSpeed = _movementSpeed;
-        s._baseAim = _baseAim;
+        s.sprite = sprite;
+        s.baseDamage = baseDamage;
+        s.baseShotSpeed = baseShotSpeed;
+        s.maxHealth = maxHealth;
+        s.health = maxHealth;
+        s.cooldown = cooldown;
+        s.cooldownRate = cooldownRate;
+        s.movementSpeed = movementSpeed;
+        s.baseAim = baseAim;
         return s;
     }
 
@@ -45,7 +60,7 @@ public class Ship extends Entity {
     // }
 
     public void addUpgrade(GunUpgrade upgrade) {
-        _gunupgrades.add(upgrade);
+        gunUpgrades.add(upgrade);
     }
 
     public boolean isHit(Bullet b) {
@@ -60,10 +75,10 @@ public class Ship extends Entity {
      * Create the shots based on the available GunUpgrades
      */
     public void shoot() {
-        GunUpgrade topShot = _gunupgrades.get(0);
-        int damage = _baseDamage;
-        int shotSpeed = _baseShotSpeed;
-        for (GunUpgrade up : _gunupgrades) {
+        GunUpgrade topShot = gunUpgrades.get(0);
+        int damage = baseDamage;
+        int shotSpeed = baseShotSpeed;
+        for (GunUpgrade up : gunUpgrades) {
             if (up.getNumShots() > topShot.getNumShots())
                 topShot = up;
             damage = up.getDamage(damage);
@@ -72,7 +87,7 @@ public class Ship extends Entity {
         // Create new shots, based on dem vars
         int numShots = topShot.getNumShots();
         for (int i = 0; i < numShots; i++) {
-            Bullet b = new Bullet(_baseAim + topShot.getAimAngle(), damage,
+            Bullet b = new Bullet(baseAim + topShot.getAimAngle(), damage,
                     shotSpeed);
             b.getRect().x = rect.x + topShot.getXOffset();
             b.getRect().y = rect.y + 10;
@@ -82,60 +97,60 @@ public class Ship extends Entity {
     @Override
     public void step() {
         //Only cooldown if we're below the rate, otherwise the ship hasn't tried to shoot
-        if (_cooldownTimer <= 0 && _shootRequested) {
+        if (cooldownTimer <= 0 && shootRequested) {
             this.shoot();
-            _cooldownTimer = _cooldown;
+            cooldownTimer = cooldown;
         } else {
-            _cooldownTimer -= _cooldownRate;
+            cooldownTimer -= cooldownRate;
         }
         super.step();
     }
 
     public void setBaseDamage(int damage) {
-        _baseDamage = damage;
+        baseDamage = damage;
     }
 
     public int getBaseDamage() {
-        return _baseDamage;
+        return baseDamage;
     }
 
     public void setBaseShotSpeed(int speed) {
-        _baseShotSpeed = speed;
+        baseShotSpeed = speed;
     }
 
     public int getBaseShotSpeed() {
-        return _baseShotSpeed;
+        return baseShotSpeed;
     }
 
     public void setMaxHealth(int health) {
-        _maxHealth = health;
+        maxHealth = health;
     }
 
     public int getMaxHealth() {
-        return _maxHealth;
+        return maxHealth;
     }
 
     public void setCooldown(int cooldown) {
-        _cooldown = cooldown;
+        this.cooldown = cooldown;
     }
 
     public int getCooldown() {
-        return _cooldown;
+        return cooldown;
     }
 
     public void setCooldownRate(int rate) {
-        _cooldownRate = rate;
+        cooldownRate = rate;
     }
 
     public int getCooldownRate() {
-        return _cooldownRate;
+        return cooldownRate;
     }
 
     public void setMovementSpeed(int speed) {
-        _movementSpeed = speed;
+        movementSpeed = speed;
     }
 
     public int getMovementSpeed() {
-        return _movementSpeed;
+        return movementSpeed;
     }
 }

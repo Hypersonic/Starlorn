@@ -15,7 +15,7 @@ public class Screen extends Canvas implements Runnable, KeyListener,
 
     private static final long serialVersionUID = 1L;
     private static final int MAX_FPS = 60;
-    private static final String FONT_FILE = "res/font/prstartk.ttf";
+    private static final String FONT_FILE = "res/font.ttf";
 
     private boolean running;
     private long lastTick;

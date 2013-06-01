@@ -20,11 +20,24 @@ public class Entity {
     public Entity(double x, double y, double width, double height) {
         rect = new Rectangle2D.Double(x, y, width, height);
         xvel = yvel = 0;
-        sprite = null;
+    }
+
+    public Entity(double x, double y, String name) {
+        if (name != null) {
+            sprite = Sprite.getSprite(name);
+            rect = new Rectangle2D.Double(x, y, sprite.getWidth(), sprite.getHeight());
+        }
+        else
+            rect = new Rectangle2D.Double(x, y, 0, 0);
+        xvel = yvel = 0;
     }
 
     public Entity(double x, double y) {
         this(x, y, 0, 0);
+    }
+
+    public Entity(String name) {
+        this(0, 0, name);
     }
 
     public Entity() {
@@ -33,7 +46,7 @@ public class Entity {
 
     public void draw(Graphics2D graphics) {
         if (sprite != null) {
-            graphics.setPaint(sprite.getPaint());
+            graphics.setPaint(sprite.getPaint(rect));
             graphics.fill(rect);
         }
     }
@@ -49,7 +62,7 @@ public class Entity {
      */
     public void step() {
         rect.x += xvel;
-        rect.x -= yvel;
+        rect.y += yvel;
     }
 
     /*

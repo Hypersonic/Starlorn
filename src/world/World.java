@@ -1,6 +1,7 @@
 package edu.stuy.starlorn.world;
 
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 
 import edu.stuy.starlorn.graphics.DefaultHook;
@@ -43,4 +44,27 @@ public class World extends DefaultHook {
             e.draw(graphics);
         }
     }
+
+    public void keyPressed(KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.VK_W)
+            player.setGoingUp(true);
+        else if (event.getKeyCode() == KeyEvent.VK_A)
+            player.setGoingLeft(true);
+        else if (event.getKeyCode() == KeyEvent.VK_S)
+            player.setGoingDown(true);
+        else if (event.getKeyCode() == KeyEvent.VK_D)
+            player.setGoingRight(true);
+    }
+
+    public void keyReleased(KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.VK_W)
+            player.setGoingUp(false);
+        else if (event.getKeyCode() == KeyEvent.VK_A)
+            player.setGoingLeft(false);
+        else if (event.getKeyCode() == KeyEvent.VK_S)
+            player.setGoingDown(false);
+        else if (event.getKeyCode() == KeyEvent.VK_D)
+            player.setGoingRight(false);
+    }
+
 }
