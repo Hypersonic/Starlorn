@@ -21,7 +21,7 @@ public class World extends DefaultHook {
     public World(Screen scr) {
         screen = scr;
         entities = new ConcurrentLinkedQueue<Entity>();
-        player = new PlayerShip();
+        player = new PlayerShip(screen.getWidth(), screen.getHeight());
         player.setWorld(this);
     }
 

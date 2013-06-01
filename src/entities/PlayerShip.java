@@ -9,8 +9,10 @@ public class PlayerShip extends Ship {
     private boolean goingUp, goingDown, goingLeft, goingRight;
     private int frame;
 
-    public PlayerShip() {
-        super(600, 200, "player/straight/still");
+    public PlayerShip(double displayx, double displayy) {
+        super("player/straight/still");
+        rect.x = displayx / 2 - rect.width / 2;
+        rect.y = displayy - 200;
         goingUp = goingDown = goingLeft = goingRight = false;
         frame = 0;
     }
