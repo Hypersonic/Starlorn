@@ -8,6 +8,8 @@ import edu.stuy.starlorn.graphics.DefaultHook;
 import edu.stuy.starlorn.graphics.Screen;
 import edu.stuy.starlorn.entities.Entity;
 import edu.stuy.starlorn.entities.PlayerShip;
+import edu.stuy.starlorn.util.Generator;
+import edu.stuy.starlorn.util.Preferences;
 
 /*
  * Represents a world with entities in it
@@ -17,12 +19,14 @@ public class World extends DefaultHook {
     private Screen screen;
     private ConcurrentLinkedQueue<Entity> entities;
     private PlayerShip player;
+    private Level level;
 
     public World(Screen scr) {
         screen = scr;
         entities = new ConcurrentLinkedQueue<Entity>();
         player = new PlayerShip(screen.getWidth(), screen.getHeight());
         player.setWorld(this);
+        // level = Generator.generateLevel();
     }
 
     public void addEntity(Entity e) {
@@ -49,28 +53,28 @@ public class World extends DefaultHook {
     }
 
     public void keyPressed(KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.VK_W)
+        if (event.getKeyCode() == Preferences.getValue("upKey"))
             player.setGoingUp(true);
-        else if (event.getKeyCode() == KeyEvent.VK_A)
+        else if (event.getKeyCode() == Preferences.getValue("leftKey"))
             player.setGoingLeft(true);
-        else if (event.getKeyCode() == KeyEvent.VK_S)
+        else if (event.getKeyCode() == Preferences.getValue("downKey"))
             player.setGoingDown(true);
-        else if (event.getKeyCode() == KeyEvent.VK_D)
+        else if (event.getKeyCode() == Preferences.getValue("rightKey"))
             player.setGoingRight(true);
-        else if (event.getKeyCode() == KeyEvent.VK_SPACE)
+        else if (event.getKeyCode() == Preferences.getValue("shootKey"))
             player.setShootRequested(true);
     }
 
     public void keyReleased(KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.VK_W)
+        if (event.getKeyCode() == Preferences.getValue("upKey"))
             player.setGoingUp(false);
-        else if (event.getKeyCode() == KeyEvent.VK_A)
+        else if (event.getKeyCode() == Preferences.getValue("leftKey"))
             player.setGoingLeft(false);
-        else if (event.getKeyCode() == KeyEvent.VK_S)
+        else if (event.getKeyCode() == Preferences.getValue("downKey"))
             player.setGoingDown(false);
-        else if (event.getKeyCode() == KeyEvent.VK_D)
+        else if (event.getKeyCode() == Preferences.getValue("rightKey"))
             player.setGoingRight(false);
-        else if (event.getKeyCode() == KeyEvent.VK_SPACE)
+        else if (event.getKeyCode() == Preferences.getValue("shootKey"))
             player.setShootRequested(false);
     }
 

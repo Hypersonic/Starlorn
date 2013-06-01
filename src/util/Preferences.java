@@ -2,6 +2,7 @@ package edu.stuy.starlorn.util;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,13 +11,10 @@ import java.awt.event.KeyEvent;
 
 public class Preferences {
 
-	protected HashMap<String, Integer> _data;
+	private static HashMap<String, Integer> _data;
 
-	public Preferences() {
-		_data = new HashMap<String, Integer>();
-	}
-
-	public void loadPreferences() {
+	public static void load() {
+        _data = new HashMap<String, Integer>();
         try {
             String filename = "preferences.txt";
             BufferedReader br = new BufferedReader(new FileReader(filename));
@@ -28,36 +26,36 @@ public class Preferences {
 
             br.close();
 
+        } catch (FileNotFoundException e) {
+            System.out.println("You don't seem to have a preferences file. I'll make one for you, then.");
+            loadDefault();
+            save();
         } catch (IOException e) {
-            System.out.println("You don't seem to have a preferences file. I'll make one for you, then");  
-            loadDefaultPreferences();
-        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-	public void writePreferences() {
+	public static void save() {
         String filename = "preferences.txt";
         try {
             BufferedWriter b = new BufferedWriter(new FileWriter(filename));
             for (String key : _data.keySet()) {
                 b.write(key);
                 b.write(" : ");
-                b.write(_data.get(key));
+                b.write("" + _data.get(key));
                 b.newLine();
             }
             b.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 	}
-    
-    public int getValue(String key) {
+
+    public static int getValue(String key) {
         return _data.get(key);
     }
 
-	public void loadDefaultPreferences() {
+	private static void loadDefault() {
 		_data.put("upKey", KeyEvent.VK_W);
 		_data.put("downKey", KeyEvent.VK_S);
 		_data.put("leftKey", KeyEvent.VK_A);

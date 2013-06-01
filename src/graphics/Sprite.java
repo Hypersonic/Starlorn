@@ -62,11 +62,11 @@ public class Sprite {
         else if (name.equals("player/right/fast"))
             return new Rectangle(178, 86, 60, 86);
         else if (name.equals("player/left/slow"))
-            return new Rectangle(10, 178, 60, 80);
+            return new Rectangle(10, 178, 60, 86);
         else if (name.equals("player/straight/slow"))
-            return new Rectangle(84, 178, 78, 80);
+            return new Rectangle(84, 178, 78, 86);
         else if (name.equals("player/right/slow"))
-            return new Rectangle(178, 178, 60, 80);
+            return new Rectangle(178, 178, 60, 86);
         else if (name.equals("bullet/blue/long"))
             return new Rectangle(13, 267, 8, 20);
         return new Rectangle(0, 0, 0, 0);
