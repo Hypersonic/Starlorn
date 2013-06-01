@@ -21,7 +21,7 @@ public class Preferences {
 
 	public void loadPreferences() {
         try {
-            String filename = "res/data.txt";
+            String filename = "preferences.txt";
             BufferedReader br = new BufferedReader(new FileReader(filename));
 
             while (br.ready()) {
@@ -40,7 +40,7 @@ public class Preferences {
     }
 
 	public void writePreferences() {
-        String filename = "res/data.txt";
+        String filename = "preferences.txt";
         try {
             BufferedWriter b = new BufferedWriter(new FileWriter(filename));
             for (String key : _data.keySet()) {
