@@ -2,7 +2,7 @@ package edu.stuy.starlorn.world;
 
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
-import java.util.LinkedList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import edu.stuy.starlorn.graphics.DefaultHook;
 import edu.stuy.starlorn.graphics.Screen;
@@ -15,12 +15,12 @@ import edu.stuy.starlorn.entities.PlayerShip;
 public class World extends DefaultHook {
 
     private Screen screen;
-    private LinkedList<Entity> entities;
+    private ConcurrentLinkedQueue<Entity> entities;
     private PlayerShip player;
 
     public World(Screen scr) {
         screen = scr;
-        entities = new LinkedList<Entity>();
+        entities = new ConcurrentLinkedQueue<Entity>();
         player = new PlayerShip();
         player.setWorld(this);
     }
@@ -57,6 +57,8 @@ public class World extends DefaultHook {
             player.setGoingDown(true);
         else if (event.getKeyCode() == KeyEvent.VK_D)
             player.setGoingRight(true);
+        else if (event.getKeyCode() == KeyEvent.VK_SPACE)
+            player.setShootRequested(true);
     }
 
     public void keyReleased(KeyEvent event) {
@@ -68,6 +70,8 @@ public class World extends DefaultHook {
             player.setGoingDown(false);
         else if (event.getKeyCode() == KeyEvent.VK_D)
             player.setGoingRight(false);
+        else if (event.getKeyCode() == KeyEvent.VK_SPACE)
+            player.setShootRequested(false);
     }
 
     public Screen getScreen() {
