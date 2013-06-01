@@ -106,6 +106,14 @@ public class Ship extends Entity {
         super.step();
     }
 
+    public void setShootRequested(boolean shoot) {
+        shootRequested = shoot;
+    }
+
+    public boolean getShootRequested() {
+        return shootRequested;
+    }
+
     public void setBaseDamage(int damage) {
         baseDamage = damage;
     }
