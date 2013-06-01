@@ -25,7 +25,7 @@ public class HighScores {
             BufferedWriter w = new BufferedWriter(new FileWriter(filename));
             HighScore[] scores = getScoresSorted();
             for (int i = 0; i < scores.length; i++) {
-                w.write(scores[i].getName().replace(":", "\\:")); //Escape colons
+                w.write(scores[i].getName().replace(":", "\\:").replace("\n", " ")); //Escape colons, remove newlines
                 w.write(" : "); // separator
                 w.write("" + scores[i].getScore());
                 w.newLine();
