@@ -45,9 +45,7 @@
     </target>
 
     <target depends="build" name="run">
-        <java jar="${bin}/${ant.project.name}.jar" fork="true">
-            <sysproperty key="java.library.path" value="${lib}/native/${native}" />
-        </java>
+        <java jar="${bin}/${ant.project.name}.jar" fork="true"/>
     </target>
 
 </project>

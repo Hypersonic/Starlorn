@@ -1,5 +1,7 @@
 package edu.stuy.starlorn.entities;
 
+import edu.stuy.starlorn.graphics.Anchor;
+
 public class PlayerShip extends Ship {
 
     private static final int FRAMES_PER_SPRITE = 3;
@@ -50,19 +52,31 @@ public class PlayerShip extends Ship {
         }
 
         String spritename = "player/";
-        if (xvel < 0)
+        Anchor anchor;
+        if (xvel < 0) {
             spritename += "left/";
-        else if (xvel > 0)
+            anchor = Anchor.TOP_RIGHT;
+        }
+        else if (xvel > 0) {
             spritename += "right/";
-        else
+            anchor = Anchor.TOP_LEFT;
+        }
+        else {
             spritename += "straight/";
+            if (sprite.getName().startsWith("player/left"))
+                anchor = Anchor.TOP_RIGHT;
+            else if (sprite.getName().startsWith("player/right"))
+                anchor = Anchor.TOP_LEFT;
+            else
+                anchor = Anchor.TOP_CENTER;
+        }
         if (yvel == 0)
             spritename += "still";
         else if (frame < FRAMES_PER_SPRITE)
             spritename += "fast";
         else
             spritename += "slow";
-        updateSprite(spritename);
+        updateSprite(spritename, anchor);
         frame++;
         if (frame >= FRAMES_PER_SPRITE * 2)
             frame = 0;

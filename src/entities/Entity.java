@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.stuy.starlorn.graphics.Anchor;
 import edu.stuy.starlorn.graphics.Sprite;
 import edu.stuy.starlorn.world.World;
 
@@ -43,14 +44,18 @@ public class Entity {
         this(0, 0);
     }
 
-    protected void updateSprite(String name) {
+    protected void updateSprite(String name, Anchor anchor) {
         if (sprite != null && name.equals(sprite.getName()))
             return;
         sprite = Sprite.getSprite(name);
-        double xdiff = rect.width - sprite.getWidth();
-        double ydiff = rect.height - sprite.getHeight();
-        rect = new Rectangle2D.Double(rect.x + xdiff / 2, rect.y + ydiff / 2,
+        double xdiff = anchor.xTrans * (rect.width - sprite.getWidth());
+        double ydiff = anchor.yTrans * (rect.height - sprite.getHeight());
+        rect = new Rectangle2D.Double(rect.x + xdiff, rect.y + ydiff,
                                       sprite.getWidth(), sprite.getHeight());
+    }
+
+    protected void updateSprite(String name) {
+        updateSprite(name, Anchor.CENTER);
     }
 
     public void draw(Graphics2D graphics) {
