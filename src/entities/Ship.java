@@ -18,6 +18,7 @@ public class Ship extends Entity {
     public Ship(double x, double y, String name) {
         super(x, y, name);
         gunUpgrades = new LinkedList<GunUpgrade>();
+        gunUpgrades.add(new GunUpgrade()); // add default gunupgrade
         baseDamage = 1;
         baseShotSpeed = 1;
         maxHealth = 10;
