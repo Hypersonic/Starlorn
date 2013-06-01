@@ -57,9 +57,6 @@ public class Ship extends Entity {
         return s;
     }
 
-    // public void draw(Graphics2D graphics) {
-    // }
-
     public void addUpgrade(GunUpgrade upgrade) {
         gunUpgrades.add(upgrade);
     }

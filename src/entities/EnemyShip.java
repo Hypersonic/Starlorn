@@ -28,23 +28,25 @@ public class EnemyShip extends Ship {
 
     @Override
     public void step() {
-        // If we're at our goal coordinate on the path, advance our goal and set our velocity to aim at the next goal
-        if (Math.round(rect.x) == Math.round(path.getCoords(pathIndex)[0])
-        && Math.round(rect.y) == Math.round(path.getCoords(pathIndex)[1])) {
-            pathIndex++;
-            int relativeX = (int) rect.x - path.getCoords(pathIndex)[0];
-            int relativeY = (int) rect.y - path.getCoords(pathIndex)[1];
-            double theta = Math.atan2(relativeX, relativeY);
-            xvel = maxSpeed * Math.cos(theta);
-            yvel = maxSpeed * Math.sin(theta);
-        }
+        if (path != null) {
+            // If we're at our goal coordinate on the path, advance our goal
+            // and set our velocity to aim at the next goal
+            if (Math.round(rect.x) == Math.round(path.getCoords(pathIndex)[0])
+             && Math.round(rect.y) == Math.round(path.getCoords(pathIndex)[1])) {
+                pathIndex++;
+                int relativeX = (int) rect.x - path.getCoords(pathIndex)[0];
+                int relativeY = (int) rect.y - path.getCoords(pathIndex)[1];
+                double theta = Math.atan2(relativeX, relativeY);
+                xvel = maxSpeed * Math.cos(theta);
+                yvel = maxSpeed * Math.sin(theta);
+            }
 
-        // If we're done with our path, just despawn
-        if (pathIndex >= path.getPathLength()) {
-            kill();
-            return;
+            // If we're done with our path, just despawn
+            if (pathIndex >= path.getPathLength()) {
+                kill();
+                return;
+            }
         }
-
         super.step();
     }
 

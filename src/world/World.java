@@ -14,7 +14,6 @@ import edu.stuy.starlorn.upgrades.DoubleShotUpgrade;
 import edu.stuy.starlorn.util.Generator;
 import edu.stuy.starlorn.util.Preferences;
 
-
 /*
  * Represents a world with entities in it
  */
@@ -39,7 +38,7 @@ public class World extends DefaultHook {
         entities.add(e);
     }
 
-    public void removeEntity(Entity e) {
+    public void removeEntity(Entity e) {    ///////////////////////////////////////////////
         entities.remove(e);
     }
 

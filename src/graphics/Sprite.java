@@ -74,6 +74,7 @@ public class Sprite {
             return new Rectangle(312, 608, 56, 52);
         else if (name.equals("enemy/right"))
             return new Rectangle(376, 610, 44, 58);
+
         else if (name.equals("bullet/blue/long"))
             return new Rectangle(13, 267, 8, 20);
         else if (name.equals("upgrade/generic"))
