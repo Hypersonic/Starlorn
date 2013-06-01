@@ -2,6 +2,7 @@ package edu.stuy.starlorn.menu;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import edu.stuy.starlorn.graphics.DefaultHook;
@@ -77,6 +78,16 @@ public class Menu extends DefaultHook {
         }
         for (Button button : buttons)
             button.draw(graphics);
+    }
+
+    @Override
+    public void keyReleased(KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.VK_P)
+            new PlayButtonCallback().invoke();
+        else if (event.getKeyCode() == KeyEvent.VK_H)
+            new HighScoresButtonCallback().invoke();
+        else if (event.getKeyCode() == KeyEvent.VK_S)
+            new SettingsButtonCallback().invoke();
     }
 
     @Override
