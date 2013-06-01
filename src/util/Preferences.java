@@ -2,14 +2,11 @@ package edu.stuy.starlorn.util;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.PrintWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
+import java.awt.event.KeyEvent;
 
 public class Preferences {
 
@@ -61,11 +58,11 @@ public class Preferences {
     }
 
 	public void loadDefaultPreferences() {
-		_data.put("upKey", 0);
-		_data.put("downKey", 0);
-		_data.put("leftKey", 0);
-		_data.put("rightKey", 0);
-		_data.put("shootKey", 0);
+		_data.put("upKey", KeyEvent.VK_W);
+		_data.put("downKey", KeyEvent.VK_S);
+		_data.put("leftKey", KeyEvent.VK_A);
+		_data.put("rightKey", KeyEvent.VK_D);
+		_data.put("shootKey", KeyEvent.VK_SPACE);
 
 		_data.put("screenWidth", 800);
 		_data.put("screenHeight", 640);
