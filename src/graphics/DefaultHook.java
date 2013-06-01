@@ -1,4 +1,4 @@
-package edu.stuy.starlorn.display;
+package edu.stuy.starlorn.graphics;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;

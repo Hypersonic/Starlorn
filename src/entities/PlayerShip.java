@@ -1,6 +1,6 @@
 package edu.stuy.starlorn.entities;
 
-import edu.stuy.starlorn.display.Sprite;
+import edu.stuy.starlorn.graphics.Sprite;
 
 public class PlayerShip extends Ship {
 

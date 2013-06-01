@@ -1,4 +1,4 @@
-package edu.stuy.starlorn.display;
+package edu.stuy.starlorn.graphics;
 
 import java.io.InputStream;
 import java.io.FileInputStream;

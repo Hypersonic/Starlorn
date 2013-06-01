@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
-import edu.stuy.starlorn.display.DefaultHook;
-import edu.stuy.starlorn.display.Screen;
+import edu.stuy.starlorn.graphics.DefaultHook;
+import edu.stuy.starlorn.graphics.Screen;
 import edu.stuy.starlorn.world.World;
 
 public class Menu extends DefaultHook {

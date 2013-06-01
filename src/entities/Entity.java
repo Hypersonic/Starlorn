@@ -3,7 +3,7 @@ package edu.stuy.starlorn.entities;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.stuy.starlorn.display.Sprite;
+import edu.stuy.starlorn.graphics.Sprite;
 import edu.stuy.starlorn.world.World;
 
 /*

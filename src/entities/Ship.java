@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
 
-import edu.stuy.starlorn.display.Sprite;
+import edu.stuy.starlorn.graphics.Sprite;
 import edu.stuy.starlorn.upgrades.GunUpgrade;
 
 public class Ship extends Entity {

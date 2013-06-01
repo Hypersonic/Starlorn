@@ -1,4 +1,4 @@
-package edu.stuy.starlorn.display;
+package edu.stuy.starlorn.graphics;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.event.*;
 
-import edu.stuy.starlorn.display.Hook;
+import edu.stuy.starlorn.graphics.Hook;
 
 public class Screen extends Canvas implements Runnable, KeyListener,
                                               MouseInputListener {

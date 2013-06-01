@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
-import edu.stuy.starlorn.display.Screen;
+import edu.stuy.starlorn.graphics.Screen;
 
 public class Button {
 

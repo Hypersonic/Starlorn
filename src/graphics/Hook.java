@@ -1,4 +1,4 @@
-package edu.stuy.starlorn.display;
+package edu.stuy.starlorn.graphics;
 
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;

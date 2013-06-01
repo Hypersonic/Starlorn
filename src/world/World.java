@@ -3,7 +3,7 @@ package edu.stuy.starlorn.world;
 import java.awt.Graphics2D;
 import java.util.LinkedList;
 
-import edu.stuy.starlorn.display.DefaultHook;
+import edu.stuy.starlorn.graphics.DefaultHook;
 import edu.stuy.starlorn.entities.Entity;
 import edu.stuy.starlorn.entities.PlayerShip;
 
