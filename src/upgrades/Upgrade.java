@@ -25,4 +25,8 @@ public class Upgrade {
     public String getDescription() {
         return _description;
     }
+    
+    public String getSpriteName() {
+        return "upgrade/generic";
+    }
 }

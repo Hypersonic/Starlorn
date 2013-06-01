@@ -9,8 +9,11 @@ import edu.stuy.starlorn.graphics.DefaultHook;
 import edu.stuy.starlorn.graphics.Screen;
 import edu.stuy.starlorn.entities.Entity;
 import edu.stuy.starlorn.entities.PlayerShip;
+import edu.stuy.starlorn.entities.Pickup;
+import edu.stuy.starlorn.upgrades.DoubleShotUpgrade;
 import edu.stuy.starlorn.util.Generator;
 import edu.stuy.starlorn.util.Preferences;
+
 
 /*
  * Represents a world with entities in it
@@ -28,6 +31,8 @@ public class World extends DefaultHook {
         player = new PlayerShip(screen.getWidth(), screen.getHeight());
         player.setWorld(this);
         level = Generator.generateLevel();
+        Pickup p = new Pickup(new DoubleShotUpgrade());
+        p.setWorld(this);
     }
 
     public void addEntity(Entity e) {
