@@ -65,10 +65,10 @@ public class Preferences {
 		_data.put("downKey", 0);
 		_data.put("leftKey", 0);
 		_data.put("rightKey", 0);
+		_data.put("shootKey", 0);
 
 		_data.put("screenWidth", 800);
 		_data.put("screenHeight", 640);
-		_data.put("screenRate", 60);
 		_data.put("fullScreen", 0);
 	}
 
