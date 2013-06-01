@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 
 import edu.stuy.starlorn.graphics.DefaultHook;
+import edu.stuy.starlorn.graphics.Screen;
 import edu.stuy.starlorn.entities.Entity;
 import edu.stuy.starlorn.entities.PlayerShip;
 
@@ -13,13 +14,15 @@ import edu.stuy.starlorn.entities.PlayerShip;
  */
 public class World extends DefaultHook {
 
+    private Screen screen;
     private LinkedList<Entity> entities;
     private PlayerShip player;
 
-    public World() {
+    public World(Screen scr) {
+        screen = scr;
         entities = new LinkedList<Entity>();
         player = new PlayerShip();
-        entities.add(player);
+        player.setWorld(this);
     }
 
     public void addEntity(Entity e) {
@@ -67,4 +70,7 @@ public class World extends DefaultHook {
             player.setGoingRight(false);
     }
 
+    public Screen getScreen() {
+        return screen;
+    }
 }

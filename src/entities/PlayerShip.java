@@ -50,7 +50,11 @@ public class PlayerShip extends Ship {
             else if (xvel < 0)
                 xvel++;
         }
+        keepOnScreen();
+    }
 
+    public void postStep() {
+        super.postStep();
         String spritename = "player/";
         Anchor anchor;
         if (xvel < 0) {

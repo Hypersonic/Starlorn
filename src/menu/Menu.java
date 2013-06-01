@@ -45,7 +45,7 @@ public class Menu extends DefaultHook {
 
     private class PlayButtonCallback implements Callback {
         public void invoke() {
-            World world = new World();
+            World world = new World(screen);
             screen.removeHook(Menu.this);
             screen.addHook(world);
         }
