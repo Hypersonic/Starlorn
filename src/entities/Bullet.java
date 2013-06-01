@@ -9,6 +9,7 @@ public class Bullet extends Entity {
     }
 
     public Bullet(double angle, int damage, int speed) {
+        this();
         this.angle = angle;
         this.damage = damage;
         this.speed = speed;

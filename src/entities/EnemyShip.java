@@ -10,7 +10,7 @@ public class EnemyShip extends Ship {
     public EnemyShip() {
         super("enemyShip");
         shootRequested = true; // shoot as often as possible
-        baseAim = Math.PI / 2; // Aim down
+        baseAim = 3 * Math.PI / 2; // Aim down
         path = null;
         pathIndex = 0;
     }

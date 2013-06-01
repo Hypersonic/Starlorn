@@ -20,10 +20,10 @@ public class Ship extends Entity {
         gunUpgrades = new LinkedList<GunUpgrade>();
         gunUpgrades.add(new GunUpgrade()); // add default gunupgrade
         baseDamage = 1;
-        baseShotSpeed = 1;
+        baseShotSpeed = 12;
         maxHealth = 10;
         health = maxHealth;
-        baseAim = 0; //Aim up by default
+        baseAim = Math.PI / 2; //Aim up by default
         cooldown = 10;
         cooldownTimer = 0;
         cooldownRate = 1;
@@ -90,7 +90,8 @@ public class Ship extends Entity {
         for (int i = 0; i < numShots; i++) {
             Bullet b = new Bullet(baseAim + topShot.getAimAngle(), damage,
                     shotSpeed);
-            b.getRect().x = rect.x + topShot.getXOffset();
+            double centerx = rect.x + rect.width / 2 - b.getRect().width / 2;
+            b.getRect().x = centerx + topShot.getXOffset();
             b.getRect().y = rect.y + 10;
             b.setWorld(this.getWorld());
         }
