@@ -71,7 +71,7 @@ public class Generator {
         enemy.setBaseDamage(damage);
         enemy.setBaseShotSpeed(shotSpeed);
         enemy.setMaxHealth(health);
-        enemy.setCooldown(cooldown);
+        enemy.setBaseCooldown(cooldown);
         enemy.setCooldownRate(cooldownRate);
         enemy.setMovementSpeed(maxSpeed);
         return enemy;

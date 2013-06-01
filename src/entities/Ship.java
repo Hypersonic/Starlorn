@@ -11,7 +11,7 @@ public class Ship extends Entity {
 
     protected LinkedList<GunUpgrade> gunUpgrades;
     protected int baseDamage, baseShotSpeed, health, maxHealth, cooldownTimer,
-                  cooldown, cooldownRate, maxSpeed;
+                  baseCooldown, cooldownRate, maxSpeed;
     protected double baseAim;
     protected boolean shootRequested;
 
@@ -24,7 +24,7 @@ public class Ship extends Entity {
         maxHealth = 10;
         health = maxHealth;
         baseAim = Math.PI / 2; //Aim up by default
-        cooldown = 10;
+        baseCooldown = 10;
         cooldownTimer = 0;
         cooldownRate = 1;
         maxSpeed = 10;
@@ -50,7 +50,7 @@ public class Ship extends Entity {
         s.baseShotSpeed = baseShotSpeed;
         s.maxHealth = maxHealth;
         s.health = maxHealth;
-        s.cooldown = cooldown;
+        s.baseCooldown = baseCooldown;
         s.cooldownRate = cooldownRate;
         s.maxSpeed = maxSpeed;
         s.baseAim = baseAim;
@@ -79,11 +79,13 @@ public class Ship extends Entity {
         GunUpgrade topShot = gunUpgrades.get(0);
         int damage = baseDamage;
         int shotSpeed = baseShotSpeed;
+        int cooldown = baseCooldown;
         for (GunUpgrade up : gunUpgrades) {
             if (up.getNumShots() > topShot.getNumShots())
                 topShot = up;
             damage = up.getDamage(damage);
             shotSpeed = up.getShotSpeed(shotSpeed);
+            cooldown = up.getCooldown(cooldown);
         }
         // Create new shots, based on dem vars
         int numShots = topShot.getNumShots();
@@ -95,13 +97,13 @@ public class Ship extends Entity {
             b.getRect().y = rect.y + 10;
             b.setWorld(this.getWorld());
         }
+        cooldownTimer = cooldown;
     }
     @Override
     public void step() {
-        //Only cooldown if we're below the rate, otherwise the ship hasn't tried to shoot
+        //Only baseCooldown if we're below the rate, otherwise the ship hasn't tried to shoot
         if (cooldownTimer <= 0 && shootRequested) {
             this.shoot();
-            cooldownTimer = cooldown;
         } else {
             cooldownTimer -= cooldownRate;
         }
@@ -140,12 +142,12 @@ public class Ship extends Entity {
         return maxHealth;
     }
 
-    public void setCooldown(int cooldown) {
-        this.cooldown = cooldown;
+    public void setBaseCooldown(int baseCooldown) {
+        this.baseCooldown = baseCooldown;
     }
 
-    public int getCooldown() {
-        return cooldown;
+    public int getBaseCooldown() {
+        return baseCooldown;
     }
 
     public void setCooldownRate(int rate) {
