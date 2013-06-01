@@ -36,8 +36,8 @@ public class EnemyShip extends Ship {
             int relativeX = (int) rect.x - path.getCoords(pathIndex)[0];
             int relativeY = (int) rect.y - path.getCoords(pathIndex)[1];
             double theta = Math.atan2(relativeX, relativeY);
-            xvel = movementSpeed * Math.cos(theta);
-            yvel = movementSpeed * Math.sin(theta);
+            xvel = maxSpeed * Math.cos(theta);
+            yvel = maxSpeed * Math.sin(theta);
         }
 
         // If we're done with our path, just despawn

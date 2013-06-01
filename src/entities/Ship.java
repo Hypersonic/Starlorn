@@ -11,7 +11,7 @@ public class Ship extends Entity {
 
     protected LinkedList<GunUpgrade> gunUpgrades;
     protected int baseDamage, baseShotSpeed, health, maxHealth, cooldownTimer,
-                  cooldown, cooldownRate, movementSpeed;
+                  cooldown, cooldownRate, maxSpeed;
     protected double baseAim;
     protected boolean shootRequested;
 
@@ -26,7 +26,7 @@ public class Ship extends Entity {
         cooldown = 10;
         cooldownTimer = 0;
         cooldownRate = 1;
-        movementSpeed = 1;
+        maxSpeed = 10;
         shootRequested = false;
     }
 
@@ -51,7 +51,7 @@ public class Ship extends Entity {
         s.health = maxHealth;
         s.cooldown = cooldown;
         s.cooldownRate = cooldownRate;
-        s.movementSpeed = movementSpeed;
+        s.maxSpeed = maxSpeed;
         s.baseAim = baseAim;
         return s;
     }
@@ -147,10 +147,10 @@ public class Ship extends Entity {
     }
 
     public void setMovementSpeed(int speed) {
-        movementSpeed = speed;
+        maxSpeed = speed;
     }
 
     public int getMovementSpeed() {
-        return movementSpeed;
+        return maxSpeed;
     }
 }

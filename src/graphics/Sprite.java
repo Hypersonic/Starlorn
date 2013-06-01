@@ -49,8 +49,24 @@ public class Sprite {
     }
 
     private static Rectangle getRect(String name) {
-        if (name.equals("playerShip"))
+        if (name.equals("player/left/still"))
+            return new Rectangle(10, 6, 60, 72);
+        else if (name.equals("player/straight/still"))
             return new Rectangle(84, 6, 78, 72);
+        else if (name.equals("player/right/still"))
+            return new Rectangle(178, 6, 60, 72);
+        else if (name.equals("player/left/fast"))
+            return new Rectangle(10, 86, 60, 86);
+        else if (name.equals("player/straight/fast"))
+            return new Rectangle(84, 86, 78, 86);
+        else if (name.equals("player/right/fast"))
+            return new Rectangle(178, 86, 60, 86);
+        else if (name.equals("player/left/slow"))
+            return new Rectangle(10, 178, 60, 80);
+        else if (name.equals("player/straight/slow"))
+            return new Rectangle(84, 178, 78, 80);
+        else if (name.equals("player/right/slow"))
+            return new Rectangle(178, 178, 60, 80);
         return new Rectangle(0, 0, 0, 0);
     }
 

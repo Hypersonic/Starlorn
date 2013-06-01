@@ -1,5 +1,6 @@
 package edu.stuy.starlorn.entities;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
@@ -12,6 +13,8 @@ import edu.stuy.starlorn.world.World;
  */
 public class Entity {
 
+    private static final boolean DRAW_OUTLINES = false;
+
     protected Rectangle2D.Double rect;
     protected double xvel, yvel;
     protected World world;
@@ -23,13 +26,9 @@ public class Entity {
     }
 
     public Entity(double x, double y, String name) {
-        if (name != null) {
-            sprite = Sprite.getSprite(name);
-            rect = new Rectangle2D.Double(x, y, sprite.getWidth(), sprite.getHeight());
-        }
-        else
-            rect = new Rectangle2D.Double(x, y, 0, 0);
-        xvel = yvel = 0;
+        this(x, y);
+        if (name != null)
+            updateSprite(name);
     }
 
     public Entity(double x, double y) {
@@ -44,10 +43,24 @@ public class Entity {
         this(0, 0);
     }
 
+    protected void updateSprite(String name) {
+        if (sprite != null && name.equals(sprite.getName()))
+            return;
+        sprite = Sprite.getSprite(name);
+        double xdiff = rect.width - sprite.getWidth();
+        double ydiff = rect.height - sprite.getHeight();
+        rect = new Rectangle2D.Double(rect.x + xdiff / 2, rect.y + ydiff / 2,
+                                      sprite.getWidth(), sprite.getHeight());
+    }
+
     public void draw(Graphics2D graphics) {
         if (sprite != null) {
             graphics.setPaint(sprite.getPaint(rect));
             graphics.fill(rect);
+            if (DRAW_OUTLINES) {
+                graphics.setColor(Color.WHITE);
+                graphics.draw(rect);
+            }
         }
     }
 
