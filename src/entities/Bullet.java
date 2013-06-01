@@ -5,7 +5,7 @@ public class Bullet extends Entity {
     protected double angle;
 
     public Bullet() {
-        super();
+        super("bullet/blue/long");
     }
 
     public Bullet(double angle, int damage, int speed) {
