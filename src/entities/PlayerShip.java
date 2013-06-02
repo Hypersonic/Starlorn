@@ -126,4 +126,12 @@ public class PlayerShip extends Ship {
     public void setGoingRight(boolean value) {
         goingRight = value;
     }
+
+    public int getInvincibility() {
+        return invincibility;
+    }
+
+    public void setInvincibility(int value) {
+        invincibility = value;
+    }
 }

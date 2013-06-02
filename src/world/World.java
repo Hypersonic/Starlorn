@@ -46,6 +46,7 @@ public class World extends DefaultHook {
         entities = new ConcurrentLinkedQueue<Entity>();
         ships = new ArrayList<Ship>();
         player = new PlayerShip(screen.getWidth(), screen.getHeight());
+        player.setInvincibility(0);
         player.setWorld(this);
         ships.add(player);
         level = Generator.generateLevel(1);
