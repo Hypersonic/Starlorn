@@ -34,7 +34,7 @@ public class World extends DefaultHook {
     private PlayerShip player;
     private Level level;
     private Wave wave;
-    private int playerLives, levelNo, waveNo, spawnedInWave, killedInWave, remaining;
+    private int playerLives, levelNo, waveNo, spawnedInWave, spawnedInLevel, killedInLevel, remaining;
     private int spawnTicks, respawnTicks;
     private boolean playerAlive, waitForPickup;
 
@@ -51,7 +51,7 @@ public class World extends DefaultHook {
         wave = level.popWave();
 
         playerLives = 3;
-        spawnedInWave = killedInWave = remaining = 0;
+        spawnedInWave = spawnedInLevel = killedInLevel = remaining = 0;
         levelNo = waveNo = 1;
         spawnTicks = respawnTicks = 0;
         playerAlive = true;
@@ -107,6 +107,7 @@ public class World extends DefaultHook {
                 spawnTicks++;
             else {
                 spawnedInWave++;
+                spawnedInLevel++;
                 remaining++;
                 spawnTicks = 0;
                 EnemyShip ship = wave.getEnemyType().clone();
@@ -118,13 +119,13 @@ public class World extends DefaultHook {
             if (level.peekWave() == null && spawnTicks == 300) {
                 levelNo++;
                 waveNo = 1;
-                spawnTicks = spawnedInWave = killedInWave = remaining = 0;
+                spawnTicks = spawnedInWave = spawnedInLevel = killedInLevel = remaining = 0;
                 level = Generator.generateLevel(levelNo);
                 wave = level.popWave();
             }
             else if (level.peekWave() != null && spawnTicks == 120) {
                 waveNo++;
-                spawnTicks = spawnedInWave = killedInWave = remaining = 0;
+                spawnTicks = spawnedInWave = remaining = 0;
                 wave = level.popWave();
             }
             else if (!waitForPickup && playerAlive) {
@@ -162,8 +163,8 @@ public class World extends DefaultHook {
                 else if (entity instanceof EnemyShip) {
                     remaining--;
                     if (((EnemyShip) entity).wasKilledByPlayer()) {
-                        killedInWave++;
-                        if (killedInWave == spawnedInWave && spawnedInWave == wave.getNumEnemies())
+                        killedInLevel++;
+                        if (killedInLevel == spawnedInLevel && level.peekWave() == null && spawnedInWave == wave.getNumEnemies())
                             spawnPickup(entity);
                     }
                     ships.remove(entity);
