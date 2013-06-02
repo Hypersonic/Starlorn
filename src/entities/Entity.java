@@ -17,14 +17,15 @@ public class Entity {
     private static final boolean DRAW_OUTLINES = false;
 
     protected Rectangle2D.Double rect;
-    protected double xvel, yvel;
+    protected double xvel, yvel, angle;
     protected World world;
     protected Sprite sprite;
     protected boolean dead;
 
     public Entity(double x, double y, double width, double height) {
         rect = new Rectangle2D.Double(x, y, width, height);
-        xvel = yvel = 0;
+        xvel = yvel;
+        angle = Math.PI / 2;
         dead = false;
     }
 
@@ -63,7 +64,16 @@ public class Entity {
     public void draw(Graphics2D graphics) {
         if (sprite != null) {
             graphics.setPaint(sprite.getPaint(rect));
-            graphics.fill(rect);
+            if (angle != Math.PI / 2) {
+                double theta = Math.PI / 2 - angle,
+                       centerx = rect.x + rect.width / 2,
+                       centery = rect.y + rect.height / 2;
+                graphics.rotate(theta, centerx, centery);
+                graphics.fill(rect);
+                graphics.rotate(-theta, centerx, centery);
+            }
+            else
+                graphics.fill(rect);
             if (DRAW_OUTLINES) {
                 graphics.setColor(Color.WHITE);
                 graphics.draw(rect);
@@ -101,6 +111,14 @@ public class Entity {
 
     public void setYvel(double y) {
         yvel = y;
+    }
+
+    public double getAngle() {
+        return angle;
+    }
+
+    public void setAngle(double theta) {
+        angle = theta;
     }
 
     public World getWorld() {

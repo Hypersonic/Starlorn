@@ -2,7 +2,6 @@ package edu.stuy.starlorn.entities;
 
 public class Bullet extends Entity {
     protected int damage, speed;
-    protected double angle;
 
     public Bullet() {
         super("bullet/blue/long");
@@ -17,16 +16,26 @@ public class Bullet extends Entity {
 
     @Override
     public void step() {
-        setXvel(speed * Math.cos(angle + Math.PI));
-        setYvel(speed * Math.sin(angle + Math.PI));
+        setXvel(speed * Math.cos(-angle));
+        setYvel(speed * Math.sin(-angle));
         super.step();
         if (!onScreen())
             kill();
     }
 
-    public void setDamage(int damage) { this.damage = damage; }
-    public int getDamage() { return damage; }
-    public void setSpeed(int speed) { this.speed = speed; }
-    public int getSpeed() { return speed; }
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
 
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
 }

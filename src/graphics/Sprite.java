@@ -34,7 +34,10 @@ public class Sprite {
             sprites = new HashMap<String, Sprite>();
         if (sprites.containsKey(name))
             return sprites.get(name);
-        Sprite sprite = new Sprite(name, getRect(name));
+        Rectangle rect = getRect(name);
+        if (rect == null)
+            return null;
+        Sprite sprite = new Sprite(name, rect);
         sprites.put(name, sprite);
         return sprite;
     }
@@ -79,7 +82,7 @@ public class Sprite {
             return new Rectangle(13, 267, 8, 20);
         else if (name.equals("upgrade/generic"))
             return new Rectangle(443, 610, 17, 20);
-        return new Rectangle(0, 0, 0, 0);
+        return null;
     }
 
     public String getName() {
