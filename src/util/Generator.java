@@ -60,9 +60,7 @@ public class Generator {
         System.out.println("difficulty: " + difficulty);
         Path path = generatePath(difficulty + 5);
         EnemyShip enemy = new EnemyShip(path);
-        int damage = (int) (1 + Math.random() * difficulty);
         int shotSpeed = (int) (1 + Math.random() * difficulty) + 10;
-        int health = (int) (1 + Math.random() * difficulty * 10);
         int cooldown = (int) (Math.random() * (100 / difficulty) + 15);
         int cooldownRate = (int) Math.sqrt(difficulty) + 1;
         int maxSpeed = (int) Math.ceil(Math.random() * Math.log(difficulty)) * 5;
@@ -74,9 +72,7 @@ public class Generator {
             enemy.addUpgrade(new DoubleShotUpgrade());
         if (Math.random() < .01)
             enemy.addUpgrade(new DualShotUpgrade());
-        enemy.setBaseDamage(damage);
         enemy.setBaseShotSpeed(shotSpeed);
-        enemy.setMaxHealth(health);
         enemy.setBaseCooldown(cooldown);
         enemy.setCooldownRate(cooldownRate);
         enemy.setMovementSpeed(maxSpeed);
