@@ -113,6 +113,9 @@ public class World extends DefaultHook {
                 remaining++;
                 spawnTicks = 0;
                 EnemyShip ship = wave.getEnemyType().clone();
+                int speed = ship.getMovementSpeed() + ((int) (2 * (Math.random() - .5)));
+                ship.setMovementSpeed(speed);
+                ship.setPath(Generator.generatePath(ship.getPath().getPathLength(), ship.getPath().getCoords(0)[0], ship.getPath().getCoords(0)[1]));
                 ship.setWorld(this);
                 ships.add(ship);
             }

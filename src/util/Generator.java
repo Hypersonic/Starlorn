@@ -7,13 +7,12 @@ import edu.stuy.starlorn.entities.EnemyShip;
 import edu.stuy.starlorn.upgrades.*;
 
 public class Generator {
-    public static Path generatePath(int numPoints) {
+
+    public static Path generatePath(int numPoints, int firstx, int firsty) {
         numPoints += 2;
         Path p = new Path();
         int screenWidth = Preferences.getValue("screenWidth");
         int screenHeight = Preferences.getValue("screenHeight") / 2;
-        int firstx = (int) Math.round(Math.random()) * screenWidth; // Spawn us at one edge
-        int firsty = (int) (Math.random() * screenHeight);
         p.addCoords(firstx, firsty);
         for (int i = 0; i < numPoints; i++) {
             // Pick locations within the size of the screen / 10 nearby the previous value, and make sure it's in the range of the screen
@@ -23,6 +22,13 @@ public class Generator {
         }
         p.addCoords(Math.abs(firstx - screenWidth), (int) (Math.random() *screenHeight)); // Add a point somewhere on the opposite side of spawn
         return p;
+    }
+    public static Path generatePath(int numPoints) {
+        int screenWidth = Preferences.getValue("screenWidth");
+        int screenHeight = Preferences.getValue("screenHeight") / 2;
+        int firstx = (int) Math.round(Math.random()) * screenWidth; // Spawn us at one edge
+        int firsty = (int) (Math.random() * screenHeight);
+        return generatePath(numPoints, firstx, firsty);
     }
 
     public static Path generatePath() {
@@ -59,8 +65,8 @@ public class Generator {
     public static EnemyShip generateEnemy(int difficulty) {
         Path path = generatePath(difficulty + 5);
         EnemyShip enemy = new EnemyShip(path);
-        int shotSpeed = (int) (1 + Math.random() * difficulty) + 10;
-        int cooldown = (int) (Math.random() * (100 / difficulty) + 15);
+        int shotSpeed = (int) (1 + Math.random() * difficulty) + 5;
+        int cooldown = (int) (Math.random() * (100 / difficulty) + 30);
         int cooldownRate = (int) Math.sqrt(difficulty) + 1;
         int maxSpeed = (int) Math.ceil(Math.random() * Math.log(difficulty)) * 5;
         if (Math.random() < .01)
