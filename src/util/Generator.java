@@ -59,7 +59,7 @@ public class Generator {
     }
 
     public static Level generateLevel(int number) {
-        return generateLevel(number, number * 5);
+        return generateLevel(number + 1, number * 5);
     }
 
     public static EnemyShip generateEnemy(int difficulty) {

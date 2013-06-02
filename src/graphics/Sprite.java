@@ -78,10 +78,6 @@ public class Sprite {
         else if (name.equals("enemy/right"))
             return new Rectangle(376, 610, 44, 58);
 
-        else if (name.equals("bullet/blue/long"))
-            return new Rectangle(13, 267, 8, 20);
-        else if (name.equals("upgrade/generic"))
-            return new Rectangle(443, 610, 17, 20);
         else if (name.equals("explosion/1"))
             return new Rectangle(17, 335, 15, 15);
         else if (name.equals("explosion/2"))
@@ -98,6 +94,11 @@ public class Sprite {
             return new Rectangle(249, 389, 107, 107);
         else if (name.equals("explosion/8"))
             return new Rectangle(385, 389, 107, 107);
+
+        else if (name.equals("bullet/blue/long"))
+            return new Rectangle(13, 267, 8, 20);
+        else if (name.equals("upgrade/generic"))
+            return new Rectangle(443, 610, 17, 20);
         return null;
     }
 

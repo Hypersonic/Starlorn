@@ -1,6 +1,7 @@
 package edu.stuy.starlorn.entities;
 
 import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.stuy.starlorn.graphics.Anchor;
 import edu.stuy.starlorn.upgrades.GunUpgrade;
@@ -28,7 +29,11 @@ public class PlayerShip extends Ship {
     }
 
     public boolean isHit(Bullet b) {
-        return !b.wasFiredByPlayer() && invincibility == 0 && super.isHit(b);
+        if (!b.wasFiredByPlayer() && invincibility == 0) {
+            Rectangle2D.Double brect = b.getRect();
+            return brect.contains(rect.x + rect.width / 2, rect.y + rect.height / 2);
+        }
+        return false;
     }
 
     public void draw(Graphics2D graphics) {

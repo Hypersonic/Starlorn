@@ -28,7 +28,7 @@ import edu.stuy.starlorn.util.Preferences;
 public class World extends DefaultHook {
 
     private Screen screen;
-    private Font smallFont, bigFont;
+    private Font smallFont, mediumFont, bigFont;
     private ConcurrentLinkedQueue<Entity> entities;
     private ArrayList<Ship> ships;
     private PlayerShip player;
@@ -37,10 +37,12 @@ public class World extends DefaultHook {
     private int playerLives, levelNo, waveNo, spawnedInWave, spawnedInLevel, killedInLevel, remaining;
     private int spawnTicks, respawnTicks;
     private boolean playerAlive, waitForPickup;
+    private String pickupMessage;
 
     public World(Screen scr) {
         screen = scr;
         smallFont = screen.getFont().deriveFont(12f);
+        mediumFont = screen.getFont().deriveFont(24f);
         bigFont = screen.getFont().deriveFont(36f);
         entities = new ConcurrentLinkedQueue<Entity>();
         ships = new ArrayList<Ship>();
@@ -56,6 +58,7 @@ public class World extends DefaultHook {
         spawnTicks = respawnTicks = 0;
         playerAlive = true;
         waitForPickup = false;
+        pickupMessage = null;
     }
 
     public void addEntity(Entity e) {
@@ -100,6 +103,14 @@ public class World extends DefaultHook {
             int xOffset = (int) (screen.getWidth() - bigFont.getStringBounds(message, graphics.getFontRenderContext()).getWidth()) / 2;
             graphics.setColor(color);
             graphics.drawString(message, xOffset, screen.getHeight() / 2);
+
+            if (pickupMessage != null) {
+                message = "YOU GOT: " + pickupMessage.toUpperCase();
+                xOffset = (int) (screen.getWidth() - mediumFont.getStringBounds(message, graphics.getFontRenderContext()).getWidth()) / 2;
+                graphics.setFont(mediumFont);
+                graphics.setColor(Color.WHITE);
+                graphics.drawString(message, xOffset, screen.getHeight() / 2 + 50);
+            }
         }
     }
 
@@ -125,6 +136,7 @@ public class World extends DefaultHook {
                 levelNo++;
                 waveNo = 1;
                 spawnTicks = spawnedInWave = spawnedInLevel = killedInLevel = remaining = 0;
+                pickupMessage = null;
                 level = Generator.generateLevel(levelNo);
                 wave = level.popWave();
             }
@@ -176,6 +188,7 @@ public class World extends DefaultHook {
                 }
                 else if (entity instanceof Pickup) {
                     waitForPickup = false;
+                    pickupMessage = ((Pickup) entity).getUpgrade().getName();
                 }
                 it.remove();
             }
