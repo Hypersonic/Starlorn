@@ -11,9 +11,9 @@ import java.awt.event.KeyEvent;
 
 public class Preferences {
 
-	private static HashMap<String, Integer> _data;
+    private static HashMap<String, Integer> _data;
 
-	public static void load(int width, int height) {
+    public static void load(int width, int height) {
         _data = new HashMap<String, Integer>();
         try {
             String filename = "preferences.txt";
@@ -35,7 +35,7 @@ public class Preferences {
         }
     }
 
-	public static void save() {
+    public static void save() {
         String filename = "preferences.txt";
         try {
             BufferedWriter b = new BufferedWriter(new FileWriter(filename));
@@ -49,23 +49,24 @@ public class Preferences {
         } catch (Exception e) {
             e.printStackTrace();
         }
-	}
+    }
 
     public static int getValue(String key) {
         return _data.get(key);
     }
 
-	private static void loadDefault(int width, int height) {
-		_data.put("upKey", KeyEvent.VK_W);
-		_data.put("downKey", KeyEvent.VK_S);
-		_data.put("leftKey", KeyEvent.VK_A);
-		_data.put("rightKey", KeyEvent.VK_D);
-		_data.put("shootKey", KeyEvent.VK_SPACE);
+    private static void loadDefault(int width, int height) {
+        _data.put("upKey", KeyEvent.VK_W);
+        _data.put("downKey", KeyEvent.VK_S);
+        _data.put("leftKey", KeyEvent.VK_A);
+        _data.put("rightKey", KeyEvent.VK_D);
+        _data.put("shootKey", KeyEvent.VK_SPACE);
+        _data.put("pauseKey", KeyEvent.VK_P);
 
-		_data.put("screenWidth", width);
-		_data.put("screenHeight", height);
-		_data.put("fullScreen", 0);
-	}
+        _data.put("screenWidth", width);
+        _data.put("screenHeight", height);
+        _data.put("fullScreen", 0);
+    }
 
 
 }
