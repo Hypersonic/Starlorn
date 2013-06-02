@@ -118,13 +118,13 @@ public class World extends DefaultHook {
             if (level.peekWave() == null && spawnTicks == 300) {
                 levelNo++;
                 waveNo = 1;
-                spawnTicks = spawnedInWave = remaining = 0;
+                spawnTicks = spawnedInWave = killedInWave = remaining = 0;
                 level = Generator.generateLevel(levelNo);
                 wave = level.popWave();
             }
             else if (level.peekWave() != null && spawnTicks == 120) {
                 waveNo++;
-                spawnTicks = spawnedInWave = remaining = 0;
+                spawnTicks = spawnedInWave = killedInWave = remaining = 0;
                 wave = level.popWave();
             }
             else if (!waitForPickup && playerAlive) {

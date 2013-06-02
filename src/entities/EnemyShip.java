@@ -36,7 +36,11 @@ public class EnemyShip extends Ship {
     }
 
     public boolean isHit(Bullet b) {
-        return b.wasFiredByPlayer() && super.isHit(b);
+        if (b.wasFiredByPlayer() && super.isHit(b)) {
+            killedByPlayer = true;
+            return true;
+        }
+        return false;
     }
 
     @Override
