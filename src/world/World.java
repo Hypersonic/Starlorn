@@ -178,7 +178,8 @@ public class World extends DefaultHook {
         remaining--;
         if (enemy.wasKilledByPlayer()) {
             killedInLevel++;
-            if (killedInLevel == spawnedInLevel && spawnedInWave == wave.getNumEnemies() && level.isLastWave())
+            if (level.isLastWave() && killedInLevel == spawnedInLevel &&
+                    spawnedInWave == wave.getNumEnemies())
                 spawnPickup(enemy);
         }
         ships.remove(enemy);
@@ -203,7 +204,7 @@ public class World extends DefaultHook {
 
     private void drawPaused(Graphics2D graphics) {
         String message = "PAUSED";
-        int xOffset = (int) (screen.getWidth() - bigFont.getStringBounds(message, graphics.getFontRenderContext()).getWidth()) / 2;
+        int xOffset = getXOffset(graphics, bigFont, message);
         graphics.setFont(bigFont);
         graphics.setColor(Color.WHITE);
         graphics.drawString(message, xOffset, screen.getHeight() / 2 - 50);
@@ -226,7 +227,7 @@ public class World extends DefaultHook {
         }
         else
             return;
-        int xOffset = (int) (screen.getWidth() - bigFont.getStringBounds(message, graphics.getFontRenderContext()).getWidth()) / 2;
+        int xOffset = getXOffset(graphics, bigFont, message);
         graphics.setFont(bigFont);
         graphics.setColor(color);
         graphics.drawString(message, xOffset, screen.getHeight() / 2);
@@ -237,8 +238,8 @@ public class World extends DefaultHook {
     private void drawUpgradeMessage(Graphics2D graphics) {
         String message1 = "YOU GOT: " + upgrade.getName().toUpperCase();
         String message2 = upgrade.getDescription().toUpperCase();
-        int xOffset1 = (int) (screen.getWidth() - mediumFont.getStringBounds(message1, graphics.getFontRenderContext()).getWidth()) / 2;
-        int xOffset2 = (int) (screen.getWidth() - smallFont.getStringBounds(message2, graphics.getFontRenderContext()).getWidth()) / 2;
+        int xOffset1 = getXOffset(graphics, mediumFont, message1);
+        int xOffset2 = getXOffset(graphics, smallFont, message2);
         graphics.setColor(Color.WHITE);
         graphics.setFont(mediumFont);
         graphics.drawString(message1, xOffset1, screen.getHeight() / 2 + 50);
@@ -258,6 +259,11 @@ public class World extends DefaultHook {
         menu.setup();
         screen.removeHook(this);
         screen.addHook(menu);
+    }
+
+    private int getXOffset(Graphics2D graphics, Font font, String message) {
+        double fontWidth = font.getStringBounds(message, graphics.getFontRenderContext()).getWidth();
+        return (int) (screen.getWidth() - fontWidth) / 2;
     }
 
     public void keyPressed(KeyEvent event) {
