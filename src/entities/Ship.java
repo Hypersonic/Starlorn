@@ -105,6 +105,10 @@ public class Ship extends Entity {
         super.step();
     }
 
+    public Ship getNearestTarget() {
+        return world.getPlayer();
+    }
+
     public void setShootRequested(boolean shoot) {
         shootRequested = shoot;
     }

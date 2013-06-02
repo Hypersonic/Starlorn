@@ -71,6 +71,11 @@ public class EnemyShip extends Ship {
         super.step();
     }
 
+    @Override
+    public Ship getNearestTarget() {
+        return world.getPlayer();
+    }
+
     public void setPath(Path p) {
         path = p;
     }

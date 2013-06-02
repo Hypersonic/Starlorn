@@ -158,6 +158,22 @@ public class PlayerShip extends Ship {
             frame = 0;
     }
 
+    @Override
+    public Ship getNearestTarget() {
+        Ship closest = world.getShips().get(0);
+        double distance = Math.pow(this.getRect().x - closest.getRect().x, 2) + Math.pow(this.getRect().y - closest.getRect().y, 2) ;
+        for (Ship ship : world.getShips()) {
+            if (ship instanceof EnemyShip) {
+                double newDistance = Math.pow(this.getRect().x - ship.getRect().x, 2) + Math.pow(this.getRect().y - ship.getRect().y, 2) ;
+                if (newDistance < distance) {
+                    closest = ship;
+                    distance = newDistance;
+                }
+            }
+        }
+        return closest;
+    }
+
     public void setGoingUp(boolean value) {
         goingUp = value;
     }
