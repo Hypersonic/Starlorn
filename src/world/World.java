@@ -85,7 +85,7 @@ public class World extends DefaultHook {
                 color = Color.RED;
                 message = "GAME OVER";
             }
-            else if (level.peekWave() == null && spawnTicks >= 30 && spawnTicks <= 270) {
+            else if (level.isLastWave() && spawnTicks >= 30 && spawnTicks <= 270) {
                 color = Color.YELLOW;
                 message = String.format("LEVEL %d COMPLETE", levelNo);
             }
@@ -116,14 +116,14 @@ public class World extends DefaultHook {
             }
         }
         else if (remaining == 0) {
-            if (level.peekWave() == null && spawnTicks == 300) {
+            if (level.isLastWave() && spawnTicks == 300) {
                 levelNo++;
                 waveNo = 1;
                 spawnTicks = spawnedInWave = spawnedInLevel = killedInLevel = remaining = 0;
                 level = Generator.generateLevel(levelNo);
                 wave = level.popWave();
             }
-            else if (level.peekWave() != null && spawnTicks == 120) {
+            else if (!level.isLastWave() && spawnTicks == 120) {
                 waveNo++;
                 spawnTicks = spawnedInWave = remaining = 0;
                 wave = level.popWave();
@@ -164,7 +164,7 @@ public class World extends DefaultHook {
                     remaining--;
                     if (((EnemyShip) entity).wasKilledByPlayer()) {
                         killedInLevel++;
-                        if (killedInLevel == spawnedInLevel && level.peekWave() == null && spawnedInWave == wave.getNumEnemies())
+                        if (killedInLevel == spawnedInLevel && spawnedInWave == wave.getNumEnemies() && level.isLastWave())
                             spawnPickup(entity);
                     }
                     ships.remove(entity);

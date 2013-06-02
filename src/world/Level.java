@@ -29,4 +29,8 @@ public class Level {
     public int numWaves() {
         return _num;
     }
+
+    public boolean isLastWave() {
+        return peekWave() == null;
+    }
 }
