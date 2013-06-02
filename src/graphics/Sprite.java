@@ -82,6 +82,22 @@ public class Sprite {
             return new Rectangle(13, 267, 8, 20);
         else if (name.equals("upgrade/generic"))
             return new Rectangle(443, 610, 17, 20);
+        else if (name.equals("explosion/1"))
+            return new Rectangle(17, 335, 15, 15);
+        else if (name.equals("explosion/2"))
+            return new Rectangle(49, 327, 31, 31);
+        else if (name.equals("explosion/3"))
+            return new Rectangle(95, 321, 43, 43);
+        else if (name.equals("explosion/4"))
+            return new Rectangle(153, 307, 79, 79);
+        else if (name.equals("explosion/5"))
+            return new Rectangle(5, 393, 91, 91);
+        else if (name.equals("explosion/6"))
+            return new Rectangle(107, 389, 107, 107);
+        else if (name.equals("explosion/7"))
+            return new Rectangle(249, 389, 107, 107);
+        else if (name.equals("explosion/8"))
+            return new Rectangle(385, 389, 107, 107);
         return null;
     }
 
