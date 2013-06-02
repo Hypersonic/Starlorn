@@ -42,19 +42,14 @@ public class EnemyShip extends Ship {
 
             double relativeX = path.getCoords(pathIndex)[0] - rect.x,
                    relativeY = path.getCoords(pathIndex)[1] - rect.y,
-                   theta = Math.atan2(relativeY, relativeX);
+                   theta = Math.atan2(relativeY, relativeX),
+                   dist = Math.sqrt(Math.pow(relativeX, 2) + Math.pow(relativeY, 2));
 
             xvel = maxSpeed * Math.cos(theta);
             yvel = maxSpeed * Math.sin(theta);
 
-            // If we're at our goal coordinate on the path, advance our goal
-            // and set our velocity to aim at the next goal
-            if (Math.round(rect.x) == Math.round(path.getCoords(pathIndex)[0])
-             && Math.round(rect.y) == Math.round(path.getCoords(pathIndex)[1])) {
+            if (dist <= maxSpeed)
                 pathIndex++;
-            }
-
-            // If we're done with our path, just despawn
             if (pathIndex >= path.getPathLength()) {
                 kill();
                 return;

@@ -97,7 +97,7 @@ public class World extends DefaultHook {
                 level = Generator.generateLevel(levelNo);
                 wave = level.popWave();
             }
-            else if (ticks == 120) {
+            else if (level.peekWave() != null && ticks == 120) {
                 waveNo++;
                 ticks = 0;
                 wave = level.popWave();
