@@ -63,8 +63,7 @@ public class Ship extends Entity {
 
     public boolean isHit(Bullet b) {
         Rectangle2D.Double brect = b.getRect();
-        return (brect.x + brect.width  > rect.x && brect.x < rect.x + rect.width &&
-                brect.y + brect.height > rect.y && brect.y < rect.y + rect.height);
+        return brect.intersects(rect);
     }
 
     /*
@@ -85,15 +84,21 @@ public class Ship extends Entity {
         // Create new shots, based on dem vars
         int numShots = topShot.getNumShots();
         for (int i = 0; i < numShots; i++) {
-            Bullet b = new Bullet(baseAim + topShot.getAimAngle(), damage,
-                    shotSpeed);
-            double centerx = rect.x + rect.width / 2 - b.getRect().width / 2;
-            b.getRect().x = centerx + topShot.getXOffset();
-            b.getRect().y = rect.y + 10;
+            Bullet b = spawnBullet();
             b.setWorld(this.getWorld());
         }
         cooldownTimer = cooldown;
     }
+
+    protected Bullet spawnBullet() {
+        Bullet b = new Bullet(baseAim + topShot.getAimAngle(), damage,
+                shotSpeed);
+        double centerx = rect.x + rect.width / 2 - b.getRect().width / 2;
+        b.getRect().x = centerx + topShot.getXOffset();
+        b.getRect().y = rect.y + 10;
+        return b;
+    }
+
     @Override
     public void step() {
         //Only baseCooldown if we're below the rate, otherwise the ship hasn't tried to shoot

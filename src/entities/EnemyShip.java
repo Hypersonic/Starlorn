@@ -35,6 +35,10 @@ public class EnemyShip extends Ship {
         return e;
     }
 
+    public boolean isHit(Bullet b) {
+        return super.isHit(b) && b.wasFiredByPlayer();
+    }
+
     @Override
     public void step() {
         if (path != null) {

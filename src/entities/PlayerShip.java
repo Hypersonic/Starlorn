@@ -17,6 +17,16 @@ public class PlayerShip extends Ship {
         frame = 0;
     }
 
+    protected Bullet spawnBullet() {
+        Bullet b = super.spawnBullet();
+        b.setFiredByPlayer(true);
+        return b;
+    }
+
+    public boolean isHit(Bullet b) {
+        return super.isHit(b) && !b.wasFiredByPlayer();
+    }
+
     public void step() {
         if (goingUp) {
             yvel--;
