@@ -69,14 +69,8 @@ public class Generator {
         int cooldown = (int) (Math.random() * (100 / difficulty) + 30);
         int cooldownRate = (int) Math.sqrt(difficulty) + 1;
         int maxSpeed = (int) Math.ceil(Math.random() * Math.log(difficulty)) * 5;
-        if (Math.random() < .01)
-            enemy.addUpgrade(new ScatterShotUpgrade());
-        if (Math.random() < .01)
-            enemy.addUpgrade(new TripleShotUpgrade());
-        if (Math.random() < .01)
-            enemy.addUpgrade(new DoubleShotUpgrade());
-        if (Math.random() < .01)
-            enemy.addUpgrade(new DualShotUpgrade());
+        if (Math.random() < .05)
+            enemy.addUpgrade(getRandomUpgrade());
         enemy.setBaseShotSpeed(shotSpeed);
         enemy.setBaseCooldown(cooldown);
         enemy.setCooldownRate(cooldownRate);
@@ -86,5 +80,15 @@ public class Generator {
 
     public static EnemyShip generateEnemy() {
         return generateEnemy(1);
+    }
+
+    public static GunUpgrade getRandomUpgrade() {
+        GunUpgrade[] upgrades = new GunUpgrade[5];
+        upgrades[0] = new ScatterShotUpgrade();
+        upgrades[1] = new TripleShotUpgrade();
+        upgrades[2] = new DoubleShotUpgrade();
+        upgrades[3] = new DualShotUpgrade();
+        upgrades[4] = new SpeedShotUpgrade();
+        return upgrades[(int) (Math.random() * upgrades.length)];
     }
 }
