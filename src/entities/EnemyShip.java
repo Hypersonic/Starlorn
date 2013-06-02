@@ -38,6 +38,10 @@ public class EnemyShip extends Ship {
     public boolean isHit(Bullet b) {
         if (b.wasFiredByPlayer() && super.isHit(b)) {
             killedByPlayer = true;
+            Explosion e = new Explosion();
+            e.getRect().x = this.getRect().x + this.getRect().width/2;
+            e.getRect().y = this.getRect().y + this.getRect().height/2;
+            world.addEntity(e);
             return true;
         }
         return false;
