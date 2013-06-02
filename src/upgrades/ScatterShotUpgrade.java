@@ -24,4 +24,9 @@ public class ScatterShotUpgrade extends GunUpgrade {
         // Random speed, either 1, 2, or 3
         return (int) (Math.random() * 3) + shotspeed;
     }
+
+    @Override
+    public Upgrade clone() {
+        return new ScatterShotUpgrade();
+    }
 }

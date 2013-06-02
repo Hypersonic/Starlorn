@@ -27,4 +27,9 @@ public class DoubleShotUpgrade extends GunUpgrade {
         }
         return direction * Math.PI/8;
     }
+
+    @Override
+    public Upgrade clone() {
+        return new DoubleShotUpgrade();
+    }
 }

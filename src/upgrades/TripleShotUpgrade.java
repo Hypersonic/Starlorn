@@ -22,4 +22,9 @@ public class TripleShotUpgrade extends GunUpgrade {
         if (_shotNum > 2) _shotNum = 0;
         return direction * Math.PI/8;
     }
+
+    @Override
+    public Upgrade clone() {
+        return new TripleShotUpgrade();
+    }
 }

@@ -54,6 +54,9 @@ public class Ship extends Entity {
         s.cooldownRate = cooldownRate;
         s.maxSpeed = maxSpeed;
         s.baseAim = baseAim;
+        for (GunUpgrade up : gunUpgrades) {
+            s.addUpgrade(up.clone());
+        }
     }
 
     public void addUpgrade(Upgrade upgrade) {

@@ -56,4 +56,9 @@ public class GunUpgrade extends Upgrade {
     public int getShotSpeed(int shotspeed) {
         return shotspeed;
     }
+
+    @Override
+    public Upgrade clone() {
+        return new GunUpgrade();
+    }
 }

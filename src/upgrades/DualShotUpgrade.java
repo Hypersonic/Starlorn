@@ -27,4 +27,9 @@ public class DualShotUpgrade extends GunUpgrade {
         }
         return direction * 10;
     }
+
+    @Override
+    public Upgrade clone() {
+        return new DualShotUpgrade();
+    }
 }

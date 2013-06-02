@@ -25,6 +25,10 @@ public class Upgrade {
     public String getDescription() {
         return _description;
     }
+
+    public Upgrade clone() {
+        return new Upgrade();
+    }
     
     public String getSpriteName() {
         return "upgrade/generic";
