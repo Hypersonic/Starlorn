@@ -88,6 +88,8 @@ public class Menu extends DefaultHook {
             new HighScoresButtonCallback().invoke();
         else if (event.getKeyCode() == KeyEvent.VK_S)
             new SettingsButtonCallback().invoke();
+        else if (event.getKeyCode() == KeyEvent.VK_Q)
+            new QuitButtonCallback().invoke();
     }
 
     @Override

@@ -132,8 +132,6 @@ public class Screen extends Canvas implements Runnable, KeyListener,
     }
 
     public void keyReleased(KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.VK_Q)
-            shutdown();
         for (Hook hook : hooks)
             hook.keyReleased(event);
     }

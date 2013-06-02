@@ -283,6 +283,8 @@ public class World extends DefaultHook {
             player.setGoingRight(false);
         else if (event.getKeyCode() == Preferences.getValue("shootKey"))
             player.setShootRequested(false);
+        else if (event.getKeyCode() == KeyEvent.VK_Q)
+            endGame();
     }
 
     public Screen getScreen() {
