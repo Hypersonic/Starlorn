@@ -10,8 +10,8 @@ public class Starlorn {
         Screen screen = new Screen();
         Menu menu = new Menu(screen);
 
-        Preferences.load();
         screen.setup();
+        Preferences.load(screen.getWidth(), screen.getHeight());
         menu.setup();
         screen.addHook(menu);
         screen.run();

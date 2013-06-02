@@ -10,7 +10,7 @@ import edu.stuy.starlorn.graphics.Screen;
 import edu.stuy.starlorn.entities.Entity;
 import edu.stuy.starlorn.entities.PlayerShip;
 import edu.stuy.starlorn.entities.Pickup;
-import edu.stuy.starlorn.upgrades.DoubleShotUpgrade;
+import edu.stuy.starlorn.upgrades.ScatterShotUpgrade;
 import edu.stuy.starlorn.upgrades.GunUpgrade;
 import edu.stuy.starlorn.util.Generator;
 import edu.stuy.starlorn.util.Preferences;
@@ -32,8 +32,7 @@ public class World extends DefaultHook {
         player.setWorld(this);
         level = Generator.generateLevel();
 
-
-        Pickup p = new Pickup(new DoubleShotUpgrade());
+        Pickup p = new Pickup(new ScatterShotUpgrade());
         p.setWorld(this);
     }
 

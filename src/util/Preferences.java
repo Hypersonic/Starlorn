@@ -13,7 +13,7 @@ public class Preferences {
 
 	private static HashMap<String, Integer> _data;
 
-	public static void load() {
+	public static void load(int width, int height) {
         _data = new HashMap<String, Integer>();
         try {
             String filename = "preferences.txt";
@@ -28,7 +28,7 @@ public class Preferences {
 
         } catch (FileNotFoundException e) {
             System.out.println("You don't seem to have a preferences file. I'll make one for you, then.");
-            loadDefault();
+            loadDefault(width, height);
             save();
         } catch (IOException e) {
             e.printStackTrace();
@@ -55,15 +55,15 @@ public class Preferences {
         return _data.get(key);
     }
 
-	private static void loadDefault() {
+	private static void loadDefault(int width, int height) {
 		_data.put("upKey", KeyEvent.VK_W);
 		_data.put("downKey", KeyEvent.VK_S);
 		_data.put("leftKey", KeyEvent.VK_A);
 		_data.put("rightKey", KeyEvent.VK_D);
 		_data.put("shootKey", KeyEvent.VK_SPACE);
 
-		_data.put("screenWidth", 800);
-		_data.put("screenHeight", 640);
+		_data.put("screenWidth", width);
+		_data.put("screenHeight", height);
 		_data.put("fullScreen", 0);
 	}
 
