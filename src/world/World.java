@@ -17,7 +17,6 @@ import edu.stuy.starlorn.entities.Pickup;
 import edu.stuy.starlorn.entities.PlayerShip;
 import edu.stuy.starlorn.entities.Ship;
 import edu.stuy.starlorn.menu.Menu;
-import edu.stuy.starlorn.upgrades.DoubleShotUpgrade;
 import edu.stuy.starlorn.upgrades.Upgrade;
 import edu.stuy.starlorn.util.Generator;
 import edu.stuy.starlorn.util.Preferences;
@@ -198,7 +197,7 @@ public class World extends DefaultHook {
     }
 
     private void spawnPickup(Entity source) {
-        Upgrade up = new DoubleShotUpgrade();
+        Upgrade up = Generator.getRandomUpgrade();
         Pickup bonus = new Pickup(up, source.getRect().x, source.getRect().y);
         bonus.setWorld(this);
         waitForPickup = true;
