@@ -69,8 +69,6 @@ public class Generator {
         int cooldown = (int) (Math.random() * (100 / difficulty) + 30);
         int cooldownRate = (int) Math.sqrt(difficulty) + 1;
         int maxSpeed = (int) Math.ceil(Math.random() * Math.log(difficulty)) * 5;
-        if (Math.random() < .05)
-            enemy.addUpgrade(getRandomUpgrade());
         enemy.setBaseShotSpeed(shotSpeed);
         enemy.setBaseCooldown(cooldown);
         enemy.setCooldownRate(cooldownRate);
