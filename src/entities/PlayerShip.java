@@ -11,7 +11,7 @@ public class PlayerShip extends Ship {
     private static final int FRAMES_PER_SPRITE = 3;
 
     private boolean goingUp, goingDown, goingLeft, goingRight;
-    private int frame, invincibility;
+    private int frame, invincibility, hitboxSize;
 
     public PlayerShip(double displayx, double displayy) {
         super("player/straight/still");
@@ -20,12 +20,14 @@ public class PlayerShip extends Ship {
         goingUp = goingDown = goingLeft = goingRight = false;
         frame = 0;
         invincibility = 90;
+        hitboxSize = 4;
     }
 
     public boolean isHit(Bullet b) {
         if (!b.wasFiredByPlayer() && invincibility == 0) {
             Rectangle2D.Double brect = b.getRect();
-            return brect.contains(rect.x + rect.width / 2, rect.y + rect.height / 2);
+            return brect.intersects(rect.x + rect.width / 2 - hitboxSize / 2,
+                rect.y + rect.height / 2 - hitboxSize / 2, hitboxSize, hitboxSize);
         }
         return false;
     }
