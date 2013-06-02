@@ -63,18 +63,28 @@ public class World extends DefaultHook {
 
         graphics.setFont(smallFont);
         graphics.setColor(Color.WHITE);
-        graphics.drawString("Level " + levelNo + ", Wave " + waveNo, 50, 50);
-        graphics.drawString("Remaining: " + countLivingEnemies() + "/" + spawnedInWave, 50, 80);
-        graphics.setColor(Color.GRAY);
-        graphics.drawString("Ticks: " + ticks, 50, 110);
+        graphics.drawString(String.format("Level %d, Wave %d/%d", levelNo,
+                            waveNo, level.numWaves()), 50, 50);
+        graphics.drawString(String.format("Remaining: %d/%d",
+                            countLivingEnemies(), spawnedInWave), 50, 80);
 
         if (spawnedInWave == wave.getNumEnemies() && countLivingEnemies() == 0) {
             graphics.setFont(bigFont);
-            graphics.setColor(Color.YELLOW);
-            if (level.peekWave() == null && ticks >= 30 && ticks <= 270)
-                graphics.drawString("LEVEL " + levelNo + " COMPLETE", 500, 350);
-            else if (ticks >= 30 && ticks <= 90)
-                graphics.drawString("WAVE " + waveNo + " COMPLETE", 500, 350);
+            Color color;
+            String message;
+            if (level.peekWave() == null && ticks >= 30 && ticks <= 270) {
+                color = Color.YELLOW;
+                message = String.format("LEVEL %d COMPLETE", levelNo);
+            }
+            else if (ticks >= 30 && ticks <= 90) {
+                color = Color.WHITE;
+                message = String.format("WAVE %d OF %d COMPLETE", waveNo, level.numWaves());
+            }
+            else
+                return;
+            int xOffset = (int) (screen.getWidth() - bigFont.getStringBounds(message, graphics.getFontRenderContext()).getWidth()) / 2;
+            graphics.setColor(color);
+            graphics.drawString(message, xOffset, screen.getHeight() / 2);
         }
     }
 
