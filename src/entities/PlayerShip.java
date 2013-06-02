@@ -1,5 +1,7 @@
 package edu.stuy.starlorn.entities;
 
+import java.awt.Graphics2D;
+
 import edu.stuy.starlorn.graphics.Anchor;
 import edu.stuy.starlorn.upgrades.GunUpgrade;
 
@@ -26,7 +28,12 @@ public class PlayerShip extends Ship {
     }
 
     public boolean isHit(Bullet b) {
-        return !b.wasFiredByPlayer() && super.isHit(b);
+        return !b.wasFiredByPlayer() && invincibility == 0 && super.isHit(b);
+    }
+
+    public void draw(Graphics2D graphics) {
+        if ((invincibility / 2) % 3 != 1)
+            super.draw(graphics);
     }
 
     public void step() {
@@ -65,6 +72,8 @@ public class PlayerShip extends Ship {
         }
         super.step();
         keepOnScreen();
+        if (invincibility > 0)
+            invincibility--;
 
         String spritename = "player/";
         Anchor anchor;
