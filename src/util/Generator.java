@@ -8,8 +8,8 @@ import edu.stuy.starlorn.entities.EnemyShip;
 public class Generator {
     public static Path generatePath(int numPoints) {
         Path p = new Path();
-        int screenWidth = 100;
-        int screenHeight = 100;
+        int screenWidth = Preferences.getValue("screenWidth");
+        int screenHeight = Preferences.getValue("screenHeight");
         int firstx = (int) Math.round(Math.random()) * screenWidth; // Spawn us at one edge
         int firsty = (int) (Math.random() * screenHeight);
         p.addCoords(firstx, firsty);
