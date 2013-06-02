@@ -28,6 +28,10 @@ public class Bullet extends Entity {
             if (that.isHit(this)) {
                 this.kill();
                 that.kill();
+                Explosion e = new Explosion();
+                e.getRect().x = this.getRect().x + this.getRect().width/2;
+                e.getRect().y = this.getRect().y + this.getRect().height/2;
+                world.addEntity(e);
             }
         }
     }

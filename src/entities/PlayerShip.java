@@ -8,7 +8,7 @@ public class PlayerShip extends Ship {
     private static final int FRAMES_PER_SPRITE = 3;
 
     private boolean goingUp, goingDown, goingLeft, goingRight;
-    private int frame;
+    private int frame, invincibility;
 
     public PlayerShip(double displayx, double displayy) {
         super("player/straight/still");
@@ -16,6 +16,7 @@ public class PlayerShip extends Ship {
         rect.y = displayy - 200;
         goingUp = goingDown = goingLeft = goingRight = false;
         frame = 0;
+        invincibility = 90;
     }
 
     protected Bullet spawnBullet(GunUpgrade topShot, int shotSpeed) {
