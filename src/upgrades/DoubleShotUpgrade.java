@@ -7,7 +7,7 @@ public class DoubleShotUpgrade extends GunUpgrade {
         super();
         _right = true;
         _name = "Double shot";
-        _description = "";
+        _description = "2x the fun!";
     }
 
     @Override
