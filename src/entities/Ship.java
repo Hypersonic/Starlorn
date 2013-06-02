@@ -6,6 +6,7 @@ import java.util.LinkedList;
 
 import edu.stuy.starlorn.graphics.Sprite;
 import edu.stuy.starlorn.upgrades.GunUpgrade;
+import edu.stuy.starlorn.upgrades.Upgrade;
 
 public class Ship extends Entity {
 
@@ -57,8 +58,9 @@ public class Ship extends Entity {
         return s;
     }
 
-    public void addUpgrade(GunUpgrade upgrade) {
-        gunUpgrades.add(upgrade);
+    public void addUpgrade(Upgrade upgrade) {
+        if (upgrade instanceof GunUpgrade)
+            gunUpgrades.add((GunUpgrade) upgrade);
     }
 
     public boolean isHit(Bullet b) {

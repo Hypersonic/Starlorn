@@ -2,7 +2,6 @@ package edu.stuy.starlorn.entities;
 
 import java.awt.geom.Rectangle2D;
 
-import edu.stuy.starlorn.upgrades.GunUpgrade;
 import edu.stuy.starlorn.upgrades.Upgrade;
 
 public class Pickup extends Entity {
@@ -34,7 +33,7 @@ public class Pickup extends Entity {
         setYvel(speed * Math.sin(theta));
         super.step();
         if (dist < 50) {
-            world.getPlayer().addUpgrade((GunUpgrade) getUpgrade());
+            world.getPlayer().addUpgrade(getUpgrade());
             kill();
         }
     }
