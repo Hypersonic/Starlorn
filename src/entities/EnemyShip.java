@@ -12,7 +12,7 @@ public class EnemyShip extends Ship {
         shootRequested = true; // shoot as often as possible
         baseAim = 3 * Math.PI / 2; // Aim down
         path = null;
-        pathIndex = 0;
+        pathIndex = -1;
     }
 
     public EnemyShip(Path p) {
@@ -20,25 +20,38 @@ public class EnemyShip extends Ship {
         path = p;
     }
 
-    public EnemyShip clone() {
-        EnemyShip e = (EnemyShip) super.clone();
+    protected void clone(EnemyShip e) {
+        super.clone(e);
         e.path = path;
+    }
+
+    public EnemyShip clone() {
+        EnemyShip e = new EnemyShip();
+        clone(e);
         return e;
     }
 
     @Override
     public void step() {
         if (path != null) {
+            if (pathIndex == -1) {
+                pathIndex++;
+                rect.x = path.getCoords(0)[0];
+                rect.y = path.getCoords(0)[1];
+            }
+
+            double relativeX = path.getCoords(pathIndex)[0] - rect.x,
+                   relativeY = path.getCoords(pathIndex)[1] - rect.y,
+                   theta = Math.atan2(relativeY, relativeX);
+
+            xvel = maxSpeed * Math.cos(theta);
+            yvel = maxSpeed * Math.sin(theta);
+
             // If we're at our goal coordinate on the path, advance our goal
             // and set our velocity to aim at the next goal
             if (Math.round(rect.x) == Math.round(path.getCoords(pathIndex)[0])
              && Math.round(rect.y) == Math.round(path.getCoords(pathIndex)[1])) {
                 pathIndex++;
-                int relativeX = (int) rect.x - path.getCoords(pathIndex)[0];
-                int relativeY = (int) rect.y - path.getCoords(pathIndex)[1];
-                double theta = Math.atan2(relativeX, relativeY);
-                xvel = maxSpeed * Math.cos(theta);
-                yvel = maxSpeed * Math.sin(theta);
             }
 
             // If we're done with our path, just despawn

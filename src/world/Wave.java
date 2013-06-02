@@ -7,7 +7,7 @@ public class Wave {
     protected EnemyShip _enemyType;
     protected int _numEnemies;
     protected int _intermission;
-    
+
     public Wave(Path path, EnemyShip enemyType, int numEnemies, int intermission) {
         _path = path;
         _enemyType = enemyType;
@@ -16,17 +16,17 @@ public class Wave {
     }
 
     public Wave() {
-        this(new Path(), new EnemyShip(), 10, 10);
+        this(new Path(), new EnemyShip(), 10, 60);
     }
 
     public Path getPath() {
         return _path;
     }
-    
+
     public void setPath(Path p) {
         _path = p;
     }
-    
+
     public EnemyShip getEnemyType() {
         return _enemyType;
     }

@@ -44,8 +44,7 @@ public class Ship extends Entity {
         this(null);
     }
 
-    public Ship clone() {
-        Ship s = new Ship();
+    protected void clone(Ship s) {
         s.sprite = sprite;
         s.baseDamage = baseDamage;
         s.baseShotSpeed = baseShotSpeed;
@@ -55,7 +54,6 @@ public class Ship extends Entity {
         s.cooldownRate = cooldownRate;
         s.maxSpeed = maxSpeed;
         s.baseAim = baseAim;
-        return s;
     }
 
     public void addUpgrade(Upgrade upgrade) {

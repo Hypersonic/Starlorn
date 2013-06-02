@@ -31,10 +31,10 @@ public class Generator {
         return generatePath(10);
     }
 
-    public static Wave generateWave(int dificulty) {
+    public static Wave generateWave(int difficulty) {
         Wave wave = new Wave();
-        int numEnemies = (int) (Math.random() * dificulty * dificulty);
-        EnemyShip enemyType = generateEnemy(dificulty);
+        int numEnemies = (int) (difficulty / 2 + (Math.random() * difficulty));
+        EnemyShip enemyType = generateEnemy(difficulty);
         Path path = generatePath();
         wave.setPath(path);
         wave.setEnemyType(enemyType);
@@ -46,28 +46,27 @@ public class Generator {
         return generateWave(1);
     }
 
-    public static Level generateLevel(int numWaves, int dificulty) {
+    public static Level generateLevel(int numWaves, int difficulty) {
         Level level = new Level();
         for (int i = 0; i < numWaves; i++) {
-            level.addWave(generateWave(dificulty));
+            level.addWave(generateWave(difficulty));
         }
         return level;
     }
 
-    public static Level generateLevel() {
-        return generateLevel(1, 1);
+    public static Level generateLevel(int number) {
+        return generateLevel(number, number * 10);
     }
 
-    public static EnemyShip generateEnemy(int dificulty) {
-        EnemyShip enemy = new EnemyShip();
-        Path path = generatePath(dificulty + 5);
-        int damage = (int) (Math.random() * dificulty);
-        int shotSpeed = (int) (Math.random() * dificulty);
-        int health = (int) (Math.random() * dificulty * 10);
-        int cooldown = (int) (Math.random() * (100 / dificulty) + 5);
-        int cooldownRate = (int) (Math.random() * Math.log(dificulty)); // increase the cooldown rate logarithmically
-        int maxSpeed = (int) (Math.random() * dificulty);
-        enemy.setPath(path);
+    public static EnemyShip generateEnemy(int difficulty) {
+        Path path = generatePath(difficulty + 5);
+        EnemyShip enemy = new EnemyShip(path);
+        int damage = (int) (Math.random() * difficulty);
+        int shotSpeed = (int) (Math.random() * difficulty);
+        int health = (int) (Math.random() * difficulty * 10);
+        int cooldown = (int) (Math.random() * (100 / difficulty) + 5);
+        int cooldownRate = (int) (Math.random() * Math.log(difficulty)); // increase the cooldown rate logarithmically
+        int maxSpeed = (int) (Math.random() * difficulty);
         enemy.setBaseDamage(damage);
         enemy.setBaseShotSpeed(shotSpeed);
         enemy.setMaxHealth(health);
