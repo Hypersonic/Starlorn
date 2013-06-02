@@ -74,8 +74,10 @@ public class World extends DefaultHook {
         graphics.setColor(Color.WHITE);
         graphics.drawString(String.format("Level %d, Wave %d/%d", levelNo,
                             waveNo, level.numWaves()), 50, 50);
-        graphics.drawString(String.format("Remaining: %d/%d",
-                            remaining, spawnedInWave), 50, 80);
+        graphics.drawString(String.format("Lives: %d", playerLives), 50, 75);
+        graphics.setColor(Color.GRAY);
+        graphics.drawString(String.format("Enemies: %d/%d",
+                            remaining, spawnedInWave), 50, 100);
 
         if (playerLives == 0 || (spawnedInWave == wave.getNumEnemies() && remaining == 0)) {
             graphics.setFont(bigFont);
