@@ -9,10 +9,14 @@ public class Pickup extends Entity {
     protected Upgrade upgrade;
     protected double speed;
 
-    public Pickup(Upgrade up) {
-        super(up.getSpriteName());
+    public Pickup(Upgrade up, double x, double y) {
+        super(x, y, up.getSpriteName());
         upgrade = up;
         speed = 5;
+    }
+
+    public Pickup(Upgrade up) {
+        this(up, 0, 0);
     }
 
     public Upgrade getUpgrade() {

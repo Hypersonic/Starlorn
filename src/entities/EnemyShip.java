@@ -4,8 +4,11 @@ import edu.stuy.starlorn.world.Path;
 import edu.stuy.starlorn.upgrades.GunUpgrade;
 
 public class EnemyShip extends Ship {
+
     protected Path path;
     protected int pathIndex; // Index of our location on the path
+
+    private boolean killedByPlayer;
 
     public EnemyShip() {
         super("enemy/straight");
@@ -13,6 +16,7 @@ public class EnemyShip extends Ship {
         baseAim = 3 * Math.PI / 2; // Aim down
         path = null;
         pathIndex = -1;
+        killedByPlayer = false;
     }
 
     public EnemyShip(Path p) {
@@ -68,6 +72,10 @@ public class EnemyShip extends Ship {
 
     public int getPathIndex() {
         return pathIndex;
+    }
+
+    public boolean wasKilledByPlayer() {
+        return killedByPlayer;
     }
 
 }

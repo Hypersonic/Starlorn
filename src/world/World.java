@@ -11,7 +11,11 @@ import edu.stuy.starlorn.graphics.DefaultHook;
 import edu.stuy.starlorn.graphics.Screen;
 import edu.stuy.starlorn.entities.Entity;
 import edu.stuy.starlorn.entities.EnemyShip;
+import edu.stuy.starlorn.entities.Pickup;
 import edu.stuy.starlorn.entities.PlayerShip;
+import edu.stuy.starlorn.menu.Menu;
+import edu.stuy.starlorn.upgrades.DoubleShotUpgrade;
+import edu.stuy.starlorn.upgrades.Upgrade;
 import edu.stuy.starlorn.util.Generator;
 import edu.stuy.starlorn.util.Preferences;
 
@@ -26,7 +30,9 @@ public class World extends DefaultHook {
     private PlayerShip player;
     private Level level;
     private Wave wave;
-    private int ticks, levelNo, waveNo, spawnedInWave;
+    private int playerLives, levelNo, waveNo, spawnedInWave, killedInWave, remaining;
+    private int spawnTicks, respawnTicks;
+    private boolean playerAlive, waitForPickup;
 
     public World(Screen scr) {
         screen = scr;
@@ -37,8 +43,13 @@ public class World extends DefaultHook {
         player.setWorld(this);
         level = Generator.generateLevel(1);
         wave = level.popWave();
-        ticks = spawnedInWave = 0;
+
+        playerLives = 3;
+        spawnedInWave = killedInWave = remaining = 0;
         levelNo = waveNo = 1;
+        spawnTicks = respawnTicks = 0;
+        playerAlive = true;
+        waitForPickup = false;
     }
 
     public void addEntity(Entity e) {
@@ -50,33 +61,29 @@ public class World extends DefaultHook {
     }
 
     public void step(Graphics2D graphics) {
-        doProgress();
-        Iterator<Entity> it = entities.iterator();
-        while (it.hasNext()) {
-            Entity entity = it.next();
-            entity.step();
-            if (entity.isDead())
-                it.remove();
-            else
-                entity.draw(graphics);
-        }
+        stepLevelProgress();
+        stepEntities(graphics);
 
         graphics.setFont(smallFont);
         graphics.setColor(Color.WHITE);
         graphics.drawString(String.format("Level %d, Wave %d/%d", levelNo,
                             waveNo, level.numWaves()), 50, 50);
         graphics.drawString(String.format("Remaining: %d/%d",
-                            countLivingEnemies(), spawnedInWave), 50, 80);
+                            remaining, spawnedInWave), 50, 80);
 
-        if (spawnedInWave == wave.getNumEnemies() && countLivingEnemies() == 0) {
+        if (spawnedInWave == wave.getNumEnemies() && remaining == 0) {
             graphics.setFont(bigFont);
             Color color;
             String message;
-            if (level.peekWave() == null && ticks >= 30 && ticks <= 270) {
+            if (playerLives == 0) {
+                color = Color.RED;
+                message = "GAME OVER";
+            }
+            else if (level.peekWave() == null && spawnTicks >= 30 && spawnTicks <= 270) {
                 color = Color.YELLOW;
                 message = String.format("LEVEL %d COMPLETE", levelNo);
             }
-            else if (ticks >= 30 && ticks <= 90) {
+            else if (spawnTicks >= 30 && spawnTicks <= 90) {
                 color = Color.WHITE;
                 message = String.format("WAVE %d OF %d COMPLETE", waveNo, level.numWaves());
             }
@@ -88,45 +95,90 @@ public class World extends DefaultHook {
         }
     }
 
-    private void doProgress() {
+    private void stepLevelProgress() {
         if (spawnedInWave < wave.getNumEnemies()) {
-            if (ticks < wave.getIntermission())
-                ticks++;
+            if (spawnTicks < wave.getIntermission())
+                spawnTicks++;
             else {
                 spawnedInWave++;
-                ticks = 0;
+                remaining++;
+                spawnTicks = 0;
                 EnemyShip ship = wave.getEnemyType().clone();
                 ship.setWorld(this);
             }
         }
-        else if (countLivingEnemies() == 0) {
-            if (level.peekWave() == null && ticks == 300) {
+        else if (remaining == 0) {
+            if (level.peekWave() == null && spawnTicks == 300) {
                 levelNo++;
                 waveNo = 1;
-                ticks = 0;
-                spawnedInWave = 0;
+                spawnTicks = spawnedInWave = remaining = 0;
                 level = Generator.generateLevel(levelNo);
                 wave = level.popWave();
             }
-            else if (level.peekWave() != null && ticks == 120) {
+            else if (level.peekWave() != null && spawnTicks == 120) {
                 waveNo++;
-                ticks = 0;
-                spawnedInWave = 0;
+                spawnTicks = spawnedInWave = remaining = 0;
                 wave = level.popWave();
             }
-            else {
-                ticks++;
+            else if (!waitForPickup && playerAlive) {
+                spawnTicks++;
             }
+        }
+        if (!playerAlive) {
+            if (respawnTicks == 120) {
+                if (playerLives == 0) {
+                    endGame();
+                    return;
+                }
+                player = new PlayerShip(screen.getWidth(), screen.getHeight());
+                player.setWorld(this);
+                playerAlive = true;
+                respawnTicks = 0;
+            }
+            else
+                respawnTicks++;
         }
     }
 
-    private int countLivingEnemies() {
-        int num = 0;
-        for (Entity entity : entities) {
-            if (entity instanceof EnemyShip)
-                num++;
+    private void stepEntities(Graphics2D graphics) {
+        Iterator<Entity> it = entities.iterator();
+        while (it.hasNext()) {
+            Entity entity = it.next();
+            entity.step();
+            if (entity.isDead()) {
+                if (entity instanceof PlayerShip) {
+                    playerAlive = false;
+                    playerLives--;
+                }
+                else if (entity instanceof EnemyShip) {
+                    remaining--;
+                    if (((EnemyShip) entity).wasKilledByPlayer()) {
+                        killedInWave++;
+                        if (killedInWave == spawnedInWave && spawnedInWave == wave.getNumEnemies())
+                            spawnPickup(entity);
+                    }
+                }
+                else if (entity instanceof Pickup) {
+                    waitForPickup = false;
+                }
+                it.remove();
+            }
+            else
+                entity.draw(graphics);
         }
-        return num;
+    }
+
+    private void spawnPickup(Entity source) {
+        Upgrade up = new DoubleShotUpgrade();
+        Pickup bonus = new Pickup(up, source.getRect().x, source.getRect().y);
+        bonus.setWorld(this);
+        waitForPickup = true;
+    }
+
+    private void endGame() {
+        Menu menu = new Menu(screen);
+        screen.removeHook(this);
+        screen.addHook(menu);
     }
 
     public void keyPressed(KeyEvent event) {
