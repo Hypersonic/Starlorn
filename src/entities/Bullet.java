@@ -29,8 +29,10 @@ public class Bullet extends Entity {
                 this.kill();
                 that.kill();
                 Explosion e = new Explosion();
-                e.getRect().x = this.getRect().x + this.getRect().width/2;
-                e.getRect().y = this.getRect().y + this.getRect().height/2;
+                double thatcx = that.getRect().x + that.getRect().width / 2,
+                       thatcy = that.getRect().y + that.getRect().height / 2;
+                e.getRect().x = thatcx - e.getRect().width;
+                e.getRect().y = thatcy - e.getRect().height;
                 world.addEntity(e);
             }
         }
