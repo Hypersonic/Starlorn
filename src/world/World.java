@@ -4,15 +4,18 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import edu.stuy.starlorn.graphics.DefaultHook;
 import edu.stuy.starlorn.graphics.Screen;
+import edu.stuy.starlorn.entities.Bullet;
 import edu.stuy.starlorn.entities.Entity;
 import edu.stuy.starlorn.entities.EnemyShip;
 import edu.stuy.starlorn.entities.Pickup;
 import edu.stuy.starlorn.entities.PlayerShip;
+import edu.stuy.starlorn.entities.Ship;
 import edu.stuy.starlorn.menu.Menu;
 import edu.stuy.starlorn.upgrades.DoubleShotUpgrade;
 import edu.stuy.starlorn.upgrades.Upgrade;
@@ -27,6 +30,7 @@ public class World extends DefaultHook {
     private Screen screen;
     private Font smallFont, bigFont;
     private ConcurrentLinkedQueue<Entity> entities;
+    private ArrayList<Ship> ships;
     private PlayerShip player;
     private Level level;
     private Wave wave;
@@ -39,8 +43,10 @@ public class World extends DefaultHook {
         smallFont = screen.getFont().deriveFont(12f);
         bigFont = screen.getFont().deriveFont(36f);
         entities = new ConcurrentLinkedQueue<Entity>();
+        ships = new ArrayList<Ship>();
         player = new PlayerShip(screen.getWidth(), screen.getHeight());
         player.setWorld(this);
+        ships.add(player);
         level = Generator.generateLevel(1);
         wave = level.popWave();
 
@@ -105,6 +111,7 @@ public class World extends DefaultHook {
                 spawnTicks = 0;
                 EnemyShip ship = wave.getEnemyType().clone();
                 ship.setWorld(this);
+                ships.add(ship);
             }
         }
         else if (remaining == 0) {
@@ -132,6 +139,7 @@ public class World extends DefaultHook {
                 }
                 player = new PlayerShip(screen.getWidth(), screen.getHeight());
                 player.setWorld(this);
+                ships.add(player);
                 playerAlive = true;
                 respawnTicks = 0;
             }
@@ -149,6 +157,7 @@ public class World extends DefaultHook {
                 if (entity instanceof PlayerShip) {
                     playerAlive = false;
                     playerLives--;
+                    ships.remove(entity);
                 }
                 else if (entity instanceof EnemyShip) {
                     remaining--;
@@ -157,6 +166,7 @@ public class World extends DefaultHook {
                         if (killedInWave == spawnedInWave && spawnedInWave == wave.getNumEnemies())
                             spawnPickup(entity);
                     }
+                    ships.remove(entity);
                 }
                 else if (entity instanceof Pickup) {
                     waitForPickup = false;
@@ -213,5 +223,9 @@ public class World extends DefaultHook {
 
     public PlayerShip getPlayer() {
         return player;
+    }
+
+    public ArrayList<Ship> getShips() {
+        return ships;
     }
 }

@@ -23,6 +23,13 @@ public class Bullet extends Entity {
         super.step();
         if (!onScreen())
             kill();
+
+        for (Ship that : world.getShips()) {
+            if (that.isHit(this)) {
+                this.kill();
+                that.kill();
+            }
+        }
     }
 
     public void setSpeed(int speed) {
