@@ -1,6 +1,7 @@
 package edu.stuy.starlorn.entities;
 
 import edu.stuy.starlorn.graphics.Anchor;
+import edu.stuy.starlorn.upgrades.GunUpgrade;
 
 public class PlayerShip extends Ship {
 
@@ -17,8 +18,8 @@ public class PlayerShip extends Ship {
         frame = 0;
     }
 
-    protected Bullet spawnBullet() {
-        Bullet b = super.spawnBullet();
+    protected Bullet spawnBullet(GunUpgrade topShot, int shotSpeed) {
+        Bullet b = super.spawnBullet(topShot, shotSpeed);
         b.setFiredByPlayer(true);
         return b;
     }

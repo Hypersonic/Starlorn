@@ -11,8 +11,7 @@ import edu.stuy.starlorn.upgrades.Upgrade;
 public class Ship extends Entity {
 
     protected LinkedList<GunUpgrade> gunUpgrades;
-    protected int baseDamage, baseShotSpeed, health, maxHealth, cooldownTimer,
-                  baseCooldown, cooldownRate, maxSpeed;
+    protected int baseShotSpeed, cooldownTimer, baseCooldown, cooldownRate, maxSpeed;
     protected double baseAim;
     protected boolean shootRequested;
 
@@ -20,10 +19,7 @@ public class Ship extends Entity {
         super(x, y, name);
         gunUpgrades = new LinkedList<GunUpgrade>();
         gunUpgrades.add(new GunUpgrade()); // add default gunupgrade
-        baseDamage = 1;
         baseShotSpeed = 12;
-        maxHealth = 10;
-        health = maxHealth;
         baseAim = Math.PI / 2; //Aim up by default
         baseCooldown = 10;
         cooldownTimer = 0;
@@ -46,10 +42,7 @@ public class Ship extends Entity {
 
     protected void clone(Ship s) {
         s.sprite = sprite;
-        s.baseDamage = baseDamage;
         s.baseShotSpeed = baseShotSpeed;
-        s.maxHealth = maxHealth;
-        s.health = maxHealth;
         s.baseCooldown = baseCooldown;
         s.cooldownRate = cooldownRate;
         s.maxSpeed = maxSpeed;
@@ -71,28 +64,25 @@ public class Ship extends Entity {
      */
     public void shoot() {
         GunUpgrade topShot = gunUpgrades.get(0);
-        int damage = baseDamage;
         int shotSpeed = baseShotSpeed;
         int cooldown = baseCooldown;
         for (GunUpgrade up : gunUpgrades) {
             if (up.getNumShots() > topShot.getNumShots())
                 topShot = up;
-            damage = up.getDamage(damage);
             shotSpeed = up.getShotSpeed(shotSpeed);
             cooldown = up.getCooldown(cooldown);
         }
         // Create new shots, based on dem vars
         int numShots = topShot.getNumShots();
         for (int i = 0; i < numShots; i++) {
-            Bullet b = spawnBullet();
+            Bullet b = spawnBullet(topShot, shotSpeed);
             b.setWorld(this.getWorld());
         }
         cooldownTimer = cooldown;
     }
 
-    protected Bullet spawnBullet() {
-        Bullet b = new Bullet(baseAim + topShot.getAimAngle(), damage,
-                shotSpeed);
+    protected Bullet spawnBullet(GunUpgrade topShot, int shotSpeed) {
+        Bullet b = new Bullet(baseAim + topShot.getAimAngle(), shotSpeed);
         double centerx = rect.x + rect.width / 2 - b.getRect().width / 2;
         b.getRect().x = centerx + topShot.getXOffset();
         b.getRect().y = rect.y + 10;
@@ -118,28 +108,12 @@ public class Ship extends Entity {
         return shootRequested;
     }
 
-    public void setBaseDamage(int damage) {
-        baseDamage = damage;
-    }
-
-    public int getBaseDamage() {
-        return baseDamage;
-    }
-
     public void setBaseShotSpeed(int speed) {
         baseShotSpeed = speed;
     }
 
     public int getBaseShotSpeed() {
         return baseShotSpeed;
-    }
-
-    public void setMaxHealth(int health) {
-        maxHealth = health;
-    }
-
-    public int getMaxHealth() {
-        return maxHealth;
     }
 
     public void setBaseCooldown(int baseCooldown) {
