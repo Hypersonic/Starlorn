@@ -12,6 +12,7 @@ public class EnemyShip extends Ship {
 
     public EnemyShip() {
         super("enemy/straight");
+        bulletSprite = "bullet/purple/long";
         shootRequested = true; // shoot as often as possible
         baseAim = 3 * Math.PI / 2; // Aim down
         path = null;

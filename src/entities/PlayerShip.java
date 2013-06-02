@@ -22,18 +22,18 @@ public class PlayerShip extends Ship {
         invincibility = 90;
     }
 
-    protected Bullet spawnBullet(GunUpgrade topShot, int shotSpeed) {
-        Bullet b = super.spawnBullet(topShot, shotSpeed);
-        b.setFiredByPlayer(true);
-        return b;
-    }
-
     public boolean isHit(Bullet b) {
         if (!b.wasFiredByPlayer() && invincibility == 0) {
             Rectangle2D.Double brect = b.getRect();
             return brect.contains(rect.x + rect.width / 2, rect.y + rect.height / 2);
         }
         return false;
+    }
+
+    protected Bullet spawnBullet(GunUpgrade topShot, int shotSpeed) {
+        Bullet b = super.spawnBullet(topShot, shotSpeed);
+        b.setFiredByPlayer(true);
+        return b;
     }
 
     public void draw(Graphics2D graphics) {

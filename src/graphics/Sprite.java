@@ -97,6 +97,9 @@ public class Sprite {
 
         else if (name.equals("bullet/blue/long"))
             return new Rectangle(13, 267, 8, 20);
+        else if (name.equals("bullet/purple/long"))
+            return new Rectangle(458, 566, 6, 20);
+
         else if (name.equals("upgrade/generic"))
             return new Rectangle(443, 610, 17, 20);
         return null;

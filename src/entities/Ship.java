@@ -11,6 +11,7 @@ import edu.stuy.starlorn.upgrades.Upgrade;
 public class Ship extends Entity {
 
     protected LinkedList<GunUpgrade> gunUpgrades;
+    protected String bulletSprite;
     protected int baseShotSpeed, cooldownTimer, baseCooldown, cooldownRate, maxSpeed;
     protected double baseAim;
     protected boolean shootRequested;
@@ -19,6 +20,7 @@ public class Ship extends Entity {
         super(x, y, name);
         gunUpgrades = new LinkedList<GunUpgrade>();
         gunUpgrades.add(new GunUpgrade()); // add default gunupgrade
+        bulletSprite = "bullet/blue/long";
         baseShotSpeed = 12;
         baseAim = Math.PI / 2; //Aim up by default
         baseCooldown = 10;
@@ -85,7 +87,7 @@ public class Ship extends Entity {
     }
 
     protected Bullet spawnBullet(GunUpgrade topShot, int shotSpeed) {
-        Bullet b = new Bullet(baseAim + topShot.getAimAngle(), shotSpeed);
+        Bullet b = new Bullet(baseAim + topShot.getAimAngle(), shotSpeed, bulletSprite);
         double centerx = rect.x + rect.width / 2 - b.getRect().width / 2;
         b.getRect().x = centerx + topShot.getXOffset();
         b.getRect().y = rect.y + 10;

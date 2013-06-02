@@ -5,12 +5,8 @@ public class Bullet extends Entity {
     protected int speed;
     protected boolean firedByPlayer;
 
-    public Bullet() {
-        super("bullet/blue/long");
-    }
-
-    public Bullet(double angle, int speed) {
-        this();
+    public Bullet(double angle, int speed, String sprite) {
+        super(sprite);
         this.angle = angle;
         this.speed = speed;
         firedByPlayer = false;

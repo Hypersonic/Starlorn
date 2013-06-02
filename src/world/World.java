@@ -191,9 +191,6 @@ public class World extends DefaultHook {
         graphics.drawString(String.format("Level %d, Wave %d/%d", levelNo,
                             waveNo, level.numWaves()), 50, 50);
         graphics.drawString(String.format("Lives: %d", playerLives), 50, 75);
-        graphics.setColor(Color.GRAY);
-        graphics.drawString(String.format("Enemies: %d/%d",
-                            remaining, spawnedInWave), 50, 100);
 
         if (paused) {
             drawPaused(graphics);
@@ -206,8 +203,8 @@ public class World extends DefaultHook {
         String message = "PAUSED";
         int xOffset = getXOffset(graphics, bigFont, message);
         graphics.setFont(bigFont);
-        graphics.setColor(Color.WHITE);
-        graphics.drawString(message, xOffset, screen.getHeight() / 2 - 50);
+        graphics.setColor(Color.GRAY);
+        graphics.drawString(message, xOffset, screen.getHeight() / 2 - 100);
     }
 
     private void drawLevelProgress(Graphics2D graphics) {
@@ -230,7 +227,7 @@ public class World extends DefaultHook {
         int xOffset = getXOffset(graphics, bigFont, message);
         graphics.setFont(bigFont);
         graphics.setColor(color);
-        graphics.drawString(message, xOffset, screen.getHeight() / 2);
+        graphics.drawString(message, xOffset, screen.getHeight() / 2 - 10);
         if (upgrade != null)
             drawUpgradeMessage(graphics);
     }
