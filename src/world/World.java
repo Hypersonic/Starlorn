@@ -36,7 +36,7 @@ public class World extends DefaultHook {
     private int playerLives, levelNo, waveNo, spawnedInWave, spawnedInLevel, killedInLevel, remaining;
     private int spawnTicks, respawnTicks;
     private boolean paused, playerAlive, waitForPickup;
-    private String pickupMessage;
+    private Upgrade upgrade;
 
     public World(Screen scr) {
         screen = scr;
@@ -57,7 +57,7 @@ public class World extends DefaultHook {
         spawnTicks = respawnTicks = 0;
         playerAlive = true;
         paused = waitForPickup = false;
-        pickupMessage = null;
+        upgrade = null;
     }
 
     public void addEntity(Entity e) {
@@ -130,7 +130,7 @@ public class World extends DefaultHook {
         levelNo++;
         waveNo = 1;
         spawnTicks = spawnedInWave = spawnedInLevel = killedInLevel = remaining = 0;
-        pickupMessage = null;
+        upgrade = null;
         level = Generator.generateLevel(levelNo);
         wave = level.popWave();
     }
@@ -159,7 +159,7 @@ public class World extends DefaultHook {
                     killEnemy((EnemyShip) entity);
                 else if (entity instanceof Pickup) {
                     waitForPickup = false;
-                    pickupMessage = ((Pickup) entity).getUpgrade().getName();
+                    upgrade = ((Pickup) entity).getUpgrade();
                 }
                 it.remove();
             }
@@ -197,11 +197,8 @@ public class World extends DefaultHook {
         if (paused) {
             drawPaused(graphics);
         }
-        if (playerLives == 0 || (spawnedInWave == wave.getNumEnemies() && remaining == 0)) {
+        if (playerLives == 0 || (spawnedInWave == wave.getNumEnemies() && remaining == 0))
             drawLevelProgress(graphics);
-            if (pickupMessage != null)
-                drawPickupMessage(graphics);
-        }
     }
 
     private void drawPaused(Graphics2D graphics) {
@@ -233,14 +230,20 @@ public class World extends DefaultHook {
         graphics.setFont(bigFont);
         graphics.setColor(color);
         graphics.drawString(message, xOffset, screen.getHeight() / 2);
+        if (upgrade != null)
+            drawUpgradeMessage(graphics);
     }
 
-    private void drawPickupMessage(Graphics2D graphics) {
-        String message = "YOU GOT: " + pickupMessage.toUpperCase();
-        int xOffset = (int) (screen.getWidth() - mediumFont.getStringBounds(message, graphics.getFontRenderContext()).getWidth()) / 2;
-        graphics.setFont(mediumFont);
+    private void drawUpgradeMessage(Graphics2D graphics) {
+        String message1 = "YOU GOT: " + upgrade.getName().toUpperCase();
+        String message2 = upgrade.getDescription().toUpperCase();
+        int xOffset1 = (int) (screen.getWidth() - mediumFont.getStringBounds(message1, graphics.getFontRenderContext()).getWidth()) / 2;
+        int xOffset2 = (int) (screen.getWidth() - smallFont.getStringBounds(message2, graphics.getFontRenderContext()).getWidth()) / 2;
         graphics.setColor(Color.WHITE);
-        graphics.drawString(message, xOffset, screen.getHeight() / 2 + 50);
+        graphics.setFont(mediumFont);
+        graphics.drawString(message1, xOffset1, screen.getHeight() / 2 + 50);
+        graphics.setFont(smallFont);
+        graphics.drawString(message2, xOffset2, screen.getHeight() / 2 + 80);
     }
 
     private void spawnPickup(Entity source) {
