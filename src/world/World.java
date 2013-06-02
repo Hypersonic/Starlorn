@@ -77,7 +77,7 @@ public class World extends DefaultHook {
         graphics.drawString(String.format("Remaining: %d/%d",
                             remaining, spawnedInWave), 50, 80);
 
-        if (spawnedInWave == wave.getNumEnemies() && remaining == 0) {
+        if (playerLives == 0 || (spawnedInWave == wave.getNumEnemies() && remaining == 0)) {
             graphics.setFont(bigFont);
             Color color;
             String message;
@@ -132,7 +132,7 @@ public class World extends DefaultHook {
             }
         }
         if (!playerAlive) {
-            if (respawnTicks == 120) {
+            if (respawnTicks == 90) {
                 if (playerLives == 0) {
                     endGame();
                     return;
@@ -187,6 +187,7 @@ public class World extends DefaultHook {
 
     private void endGame() {
         Menu menu = new Menu(screen);
+        menu.setup();
         screen.removeHook(this);
         screen.addHook(menu);
     }

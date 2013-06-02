@@ -72,7 +72,7 @@ public class Menu extends DefaultHook {
 
     public void step(Graphics2D graphics) {
         graphics.setColor(Color.WHITE);
-        for (Star star: stars) {
+        for (Star star : stars) {
             star.update();
             star.draw(graphics);
         }

@@ -57,7 +57,6 @@ public class Generator {
     }
 
     public static EnemyShip generateEnemy(int difficulty) {
-        System.out.println("difficulty: " + difficulty);
         Path path = generatePath(difficulty + 5);
         EnemyShip enemy = new EnemyShip(path);
         int shotSpeed = (int) (1 + Math.random() * difficulty) + 10;
