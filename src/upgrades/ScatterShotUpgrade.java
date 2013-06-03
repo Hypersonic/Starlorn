@@ -4,7 +4,7 @@ public class ScatterShotUpgrade extends GunUpgrade {
 
     public ScatterShotUpgrade() {
         super();
-        _name = "Scattershot";
+        _name = "Scatter Shot";
         _description = "Skrillex x Foreign Beggars";
     }
 

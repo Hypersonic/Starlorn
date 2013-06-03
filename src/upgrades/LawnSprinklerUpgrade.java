@@ -7,7 +7,7 @@ public class LawnSprinklerUpgrade extends GunUpgrade {
     public LawnSprinklerUpgrade() {
         super();
         _name = "Lawn Sprinkler";
-        _description = "¸.·´¯`·.´¯`·.¸¸.·´¯`·.¸";
+        _description = "_.-^-._.-^-._";
         _direction = -0.2;
     }
 

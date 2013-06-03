@@ -6,7 +6,7 @@ public class DoubleShotUpgrade extends GunUpgrade {
     public DoubleShotUpgrade() {
         super();
         _right = true;
-        _name = "Double shot";
+        _name = "Double Shot";
         _description = "2x the fun!";
     }
 
