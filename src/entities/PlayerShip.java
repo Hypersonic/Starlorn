@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.stuy.starlorn.graphics.Anchor;
-import edu.stuy.starlorn.upgrades.GunUpgrade;
 
 public class PlayerShip extends Ship {
 
@@ -37,10 +36,9 @@ public class PlayerShip extends Ship {
     }
 
     @Override
-    protected Bullet spawnBullet(GunUpgrade topShot, double shotSpeed) {
-        Bullet b = super.spawnBullet(topShot, shotSpeed);
+    protected void spawnBullet(Bullet b) {
+        super.spawnBullet(b);
         b.setFiredByPlayer(true);
-        return b;
     }
 
     public void draw(Graphics2D graphics) {

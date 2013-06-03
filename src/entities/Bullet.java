@@ -2,15 +2,15 @@ package edu.stuy.starlorn.entities;
 
 public class Bullet extends Entity {
 
-    protected double speed;
+    protected double speed, agility;
     protected boolean firedByPlayer, isSeeking;
+    protected Ship target;
 
-    public Bullet(double angle, double speed, String sprite) {
+    public Bullet(String sprite, double angle, double speed) {
         super(sprite);
         this.angle = angle;
         this.speed = speed;
-        firedByPlayer = false;
-        isSeeking = false;
+        firedByPlayer = isSeeking = false;
         setXvel(speed * Math.cos(-angle));
         setYvel(speed * Math.sin(-angle));
     }
@@ -37,6 +37,12 @@ public class Bullet extends Entity {
                 world.addEntity(e);
             }
         }
+    }
+
+    public void seek(double agility, Ship target) {
+        isSeeking = true;
+        this.agility = agility;
+        this.target = target;
     }
 
     public void setSpeed(double speed) {

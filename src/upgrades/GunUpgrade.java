@@ -53,6 +53,21 @@ public class GunUpgrade extends Upgrade {
         return shotspeed;
     }
 
+    /*
+     * Returns whether or not this upgrade causes shots to seek a target.
+     */
+    public boolean getSeeking(boolean seeking) {
+        return seeking;
+    }
+
+    /*
+     * Get the max turn angle of bullets created by this upgrade, in
+     * radians per second.
+     */
+    public double getAgility(double agility) {
+        return agility;
+    }
+
     @Override
     public Upgrade clone() {
         return new GunUpgrade();

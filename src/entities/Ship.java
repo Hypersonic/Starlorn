@@ -71,27 +71,33 @@ public class Ship extends Entity {
         GunUpgrade topShot = gunUpgrades.get(0);
         double shotSpeed = baseShotSpeed;
         double cooldown = baseCooldown;
+        boolean seeking = false;
+        double agility = 0;
         for (GunUpgrade up : gunUpgrades) {
             if (up.getNumShots() >= topShot.getNumShots())
                 topShot = up;
             shotSpeed = up.getShotSpeed(shotSpeed);
             cooldown = up.getCooldown(cooldown);
+            seeking = up.getSeeking(seeking);
+            agility = up.getAgility(agility);
         }
+
         // Create new shots, based on dem vars
         int numShots = topShot.getNumShots();
         for (int i = 0; i < numShots; i++) {
-            Bullet b = spawnBullet(topShot, shotSpeed);
-            b.setWorld(this.getWorld());
+            Bullet b = new Bullet(bulletSprite, baseAim + topShot.getAimAngle(), shotSpeed);
+            if (seeking)
+                b.seek(agility, getNearestTarget());
+            double centerx = rect.x + rect.width / 2 - b.getRect().width / 2;
+            b.getRect().x = centerx + topShot.getXOffset();
+            b.getRect().y = rect.y + 10;
+            spawnBullet(b);
         }
         cooldownTimer = (int) cooldown;
     }
 
-    protected Bullet spawnBullet(GunUpgrade topShot, double shotSpeed) {
-        Bullet b = new Bullet(baseAim + topShot.getAimAngle(), shotSpeed, bulletSprite);
-        double centerx = rect.x + rect.width / 2 - b.getRect().width / 2;
-        b.getRect().x = centerx + topShot.getXOffset();
-        b.getRect().y = rect.y + 10;
-        return b;
+    protected void spawnBullet(Bullet b) {
+        b.setWorld(getWorld());
     }
 
     @Override
