@@ -1,6 +1,7 @@
 package edu.stuy.starlorn.menu;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -12,13 +13,15 @@ import edu.stuy.starlorn.world.World;
 public class Menu extends DefaultHook {
 
     private Screen screen;
+    private Font bigFont, smallFont;
     private long lastFrame;
-
     private Button[] buttons;
     private Star[] stars;
 
     public Menu(Screen scr) {
         screen = scr;
+        bigFont = screen.getFont().deriveFont(64f);
+        smallFont = screen.getFont().deriveFont(12f);
     }
 
     public void setup() {
@@ -71,6 +74,7 @@ public class Menu extends DefaultHook {
     }
 
     public void step(Graphics2D graphics) {
+        drawTitle(graphics);
         graphics.setColor(Color.WHITE);
         for (Star star : stars) {
             star.update();
@@ -78,6 +82,19 @@ public class Menu extends DefaultHook {
         }
         for (Button button : buttons)
             button.draw(graphics);
+    }
+
+    private void drawTitle(Graphics2D graphics) {
+        String text1 = "STARLORN!";
+        String text2 = "by Josh Hofing, Ben Kurtovic, and Victor Jiao";
+        int xOffset1 = (int) (screen.getWidth() - bigFont.getStringBounds(text1, graphics.getFontRenderContext()).getWidth()) / 2;
+        int xOffset2 = (int) (screen.getWidth() - smallFont.getStringBounds(text2, graphics.getFontRenderContext()).getWidth()) / 2;
+        graphics.setColor(Color.GRAY);
+        graphics.setFont(bigFont);
+        graphics.drawString(text1, xOffset1, screen.getHeight() / 2 - 250);
+        graphics.setColor(Color.WHITE);
+        graphics.setFont(smallFont);
+        graphics.drawString(text2, xOffset2, screen.getHeight() / 2 - 200);
     }
 
     @Override
