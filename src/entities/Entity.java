@@ -146,15 +146,4 @@ public class Entity {
         return (rect.x >= 0 && rect.x <= world.getScreen().getWidth() - rect.width &&
                 rect.y >= 0 && rect.y <= world.getScreen().getHeight() - rect.height);
     }
-
-    public void keepOnScreen() {
-        if (rect.x < 0)
-            rect.x = 0;
-        else if (rect.x > world.getScreen().getWidth() - rect.width)
-            rect.x = world.getScreen().getWidth() - rect.width;
-        if (rect.y < 0)
-            rect.y = 0;
-        else if (rect.y > world.getScreen().getHeight() - rect.height)
-            rect.y = world.getScreen().getHeight() - rect.height;
-    }
 }

@@ -1,5 +1,6 @@
 package edu.stuy.starlorn.entities;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
@@ -10,24 +11,27 @@ public class PlayerShip extends Ship {
 
     private static final int FRAMES_PER_SPRITE = 3;
 
-    private boolean goingUp, goingDown, goingLeft, goingRight;
-    private int frame, invincibility, hitboxSize;
+    private Rectangle2D.Double hitbox;
+    private float hitboxAlpha;
+    private boolean goingUp, goingDown, goingLeft, goingRight, incHitboxAlpha;
+    private int frame, invincibility;
 
     public PlayerShip(double displayx, double displayy) {
         super("player/straight/still");
         rect.x = displayx / 2 - rect.width / 2;
         rect.y = displayy - 200;
-        goingUp = goingDown = goingLeft = goingRight = false;
+        hitbox = new Rectangle2D.Double(rect.x + rect.width / 2 - 3,
+                                        rect.y + rect.height / 2 - 3, 6, 6);
+        hitboxAlpha = 1;
+        goingUp = goingDown = goingLeft = goingRight = incHitboxAlpha = false;
         frame = 0;
         invincibility = 90;
-        hitboxSize = 4;
     }
 
     public boolean isHit(Bullet b) {
         if (!b.wasFiredByPlayer() && invincibility == 0) {
             Rectangle2D.Double brect = b.getRect();
-            return brect.intersects(rect.x + rect.width / 2 - hitboxSize / 2,
-                rect.y + rect.height / 2 - hitboxSize / 2, hitboxSize, hitboxSize);
+            return brect.intersects(hitbox);
         }
         return false;
     }
@@ -41,6 +45,8 @@ public class PlayerShip extends Ship {
     public void draw(Graphics2D graphics) {
         if ((invincibility / 2) % 3 != 1)
             super.draw(graphics);
+        graphics.setColor(new Color(0.7f, 0.85f, 1f, hitboxAlpha));
+        graphics.fill(hitbox);
     }
 
     public void step() {
@@ -78,10 +84,49 @@ public class PlayerShip extends Ship {
                 xvel++;
         }
         super.step();
+        hitbox.x += xvel;
+        hitbox.y += yvel;
         keepOnScreen();
+        updateSprite();
         if (invincibility > 0)
             invincibility--;
 
+        if (incHitboxAlpha) {
+            hitboxAlpha += 0.1;
+            if (hitboxAlpha > 1) {
+                hitboxAlpha = 1;
+                incHitboxAlpha = false;
+            }
+        }
+        else {
+            hitboxAlpha -= 0.1;
+            if (hitboxAlpha < 0) {
+                hitboxAlpha = 0;
+                incHitboxAlpha = true;
+            }
+        }
+    }
+
+    private void keepOnScreen() {
+        if (rect.x < 0) {
+            rect.x = 0;
+            hitbox.x = rect.x + rect.width / 2 - hitbox.width;
+        }
+        else if (rect.x > world.getScreen().getWidth() - rect.width) {
+            rect.x = world.getScreen().getWidth() - rect.width;
+            hitbox.x = rect.x + rect.width / 2 - hitbox.width;
+        }
+        if (rect.y < 0) {
+            rect.y = 0;
+            hitbox.y = rect.y + rect.height / 2 - hitbox.height;
+        }
+        else if (rect.y > world.getScreen().getHeight() - rect.height) {
+            rect.y = world.getScreen().getHeight() - rect.height;
+            hitbox.y = rect.y + rect.height / 2 - hitbox.height;
+        }
+    }
+
+    private void updateSprite() {
         String spritename = "player/";
         Anchor anchor;
         if (xvel < 0) {
