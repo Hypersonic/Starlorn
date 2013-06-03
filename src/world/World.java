@@ -30,7 +30,7 @@ public class World extends DefaultHook {
     private Font smallFont, mediumFont, bigFont;
     private ConcurrentLinkedQueue<Entity> entities;
     private ArrayList<Ship> ships;
-    private ArrayList<Star> stars;
+    private Star[] stars;
     private PlayerShip player;
     private Level level;
     private Wave wave;
@@ -46,10 +46,10 @@ public class World extends DefaultHook {
         bigFont = screen.getFont().deriveFont(36f);
         entities = new ConcurrentLinkedQueue<Entity>();
         ships = new ArrayList<Ship>();
-        stars = new ArrayList<Star>();
+        stars = new Star[250];
         for (int i = 0; i < 250; i++)
-            stars.add(new Star(Math.random() * screen.getWidth(),
-                               Math.random() * screen.getHeight()));
+            stars[i] = new Star(Math.random() * screen.getWidth(),
+                                Math.random() * screen.getHeight());
         player = new PlayerShip(screen.getWidth(), screen.getHeight());
         player.setInvincibility(0);
         player.setWorld(this);
