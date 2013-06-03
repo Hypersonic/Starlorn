@@ -7,8 +7,8 @@ public class GunUpgrade extends Upgrade {
 
     public GunUpgrade() {
         super();
-        _name = "Unnamed gun upgrade";
-        _description = "Gun Upgrade!";
+        _name = "Default Gun";
+        _description = "No changes at all!";
     }
 
     /*
@@ -18,6 +18,7 @@ public class GunUpgrade extends Upgrade {
     public int getNumShots() {
         return 1;
     }
+
     /*
      * Gives an angle this ship should aim at, measured in radians,
      * From the vertical axis.
@@ -27,6 +28,7 @@ public class GunUpgrade extends Upgrade {
     public double getAimAngle() {
         return 0;
     }
+
     /*
      * Gives a number of coordinates to offset the shot's origin
      * on the X axis from wherever shots would normally come from.
@@ -36,20 +38,14 @@ public class GunUpgrade extends Upgrade {
     public int getXOffset() {
         return 0;
     }
-    /* 
-     * Given the amount of damage that would be done, tell how much should be done.
-     * Multipliers, buffs, etc go here.
-     * All should be applied
-     */
-    public int getDamage(int damage) {
-        return damage;
-    }
+
     /*
      * Get the cooldown between shots, in ticks, based off the previous one
      */
     public int getCooldown(int cooldown) {
         return cooldown;
     }
+
     /*
      * Get the speed the shot should move at
      */

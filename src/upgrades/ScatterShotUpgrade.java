@@ -7,7 +7,7 @@ public class ScatterShotUpgrade extends GunUpgrade {
         _name = "Scattershot";
         _description = "Skrillex x Foreign Beggars";
     }
-    
+
     @Override
     public int getNumShots() {
         return 4;

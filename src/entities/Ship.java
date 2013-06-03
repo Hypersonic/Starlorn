@@ -72,7 +72,7 @@ public class Ship extends Entity {
         int shotSpeed = baseShotSpeed;
         int cooldown = baseCooldown;
         for (GunUpgrade up : gunUpgrades) {
-            if (up.getNumShots() > topShot.getNumShots())
+            if (up.getNumShots() >= topShot.getNumShots())
                 topShot = up;
             shotSpeed = up.getShotSpeed(shotSpeed);
             cooldown = up.getCooldown(cooldown);
