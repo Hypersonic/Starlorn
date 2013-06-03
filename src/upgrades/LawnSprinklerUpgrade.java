@@ -24,7 +24,7 @@ public class LawnSprinklerUpgrade extends GunUpgrade {
         else 
           _direction += 0.1;
         // Random angle going forwards
-        return (Math.PI * (1 - .5));
+        return (Math.PI * (1 - _direction));
     }
 
     @Override
