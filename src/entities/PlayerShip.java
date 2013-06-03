@@ -51,6 +51,15 @@ public class PlayerShip extends Ship {
     }
 
     public void step() {
+        updateVelocity();
+        super.step();
+        updateHitbox();
+        keepOnScreen();
+        updateSpriteImage();
+        updateInvincibility();
+    }
+
+    private void updateVelocity() {
         if (goingUp) {
             yvel--;
             if (yvel < -maxSpeed)
@@ -84,14 +93,11 @@ public class PlayerShip extends Ship {
             else if (xvel < 0)
                 xvel++;
         }
-        super.step();
+    }
+
+    private void updateHitbox() {
         hitbox.x += xvel;
         hitbox.y += yvel;
-        keepOnScreen();
-        updateSprite();
-        if (invincibility > 0)
-            invincibility--;
-
         if (incHitboxAlpha) {
             hitboxAlpha += 0.1;
             if (hitboxAlpha > 1) {
@@ -127,7 +133,7 @@ public class PlayerShip extends Ship {
         }
     }
 
-    private void updateSprite() {
+    private void updateSpriteImage() {
         String spritename = "player/";
         Anchor anchor;
         if (xvel < 0) {
@@ -157,6 +163,32 @@ public class PlayerShip extends Ship {
         frame++;
         if (frame >= FRAMES_PER_SPRITE * 2)
             frame = 0;
+    }
+
+    private void updateInvincibility() {
+        if (invincibility > 0)
+            invincibility--;
+        else {
+            for (Ship that : world.getShips()) {
+                if (that != this && rect.intersects(that.getRect()))
+                    collideWithEnemy((EnemyShip) that);
+            }
+        }
+    }
+
+    private void collideWithEnemy(EnemyShip enemy) {
+        this.kill();
+        enemy.kill();
+        enemy.setKilledByPlayer(true);
+        Explosion e1 = new Explosion(), e2 = new Explosion();
+        double thatcx = enemy.getRect().x + enemy.getRect().width / 2,
+               thatcy = enemy.getRect().y + enemy.getRect().height / 2;
+        e1.getRect().x = rect.x + rect.width / 2 - e1.getRect().width;
+        e1.getRect().y = rect.y + rect.height / 2 - e1.getRect().height;
+        e2.getRect().x = thatcx - e2.getRect().width;
+        e2.getRect().y = thatcy - e2.getRect().height;
+        world.addEntity(e1);
+        world.addEntity(e2);
     }
 
     @Override

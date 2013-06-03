@@ -92,4 +92,7 @@ public class EnemyShip extends Ship {
         return killedByPlayer;
     }
 
+    public void setKilledByPlayer(boolean value) {
+        killedByPlayer = value;
+    }
 }

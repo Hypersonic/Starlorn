@@ -99,7 +99,7 @@ public class World extends DefaultHook {
                 spawnTicks++;
         }
         if (!playerAlive) {
-            if (respawnTicks == 90) {
+            if (respawnTicks == 60) {
                 if (playerLives == 0) {
                     endGame();
                     return;
