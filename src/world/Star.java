@@ -9,16 +9,15 @@ public class Star extends Rectangle2D.Double {
     private double speed;
     private Color color;
 
-    public Star(double x, double y, int n) {
+    public Star(double x, double y) {
         super(x, y, 1, 1);
         speed = 1 + Math.random() * 2;
-        if (n % 25 == 0)
-            color = new Color(1f, 1f, 1f, (float) Math.random());
+        float light = (float) Math.random();
+        color = new Color(light, light, light);
     }
 
     public void draw(Graphics2D graphics) {
-        if (color != null)
-            graphics.setColor(color);
+        graphics.setColor(color);
         graphics.fill(this);
     }
 
