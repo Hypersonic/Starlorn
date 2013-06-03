@@ -21,7 +21,7 @@ public class Menu extends DefaultHook {
     public Menu(Screen scr) {
         screen = scr;
         bigFont = screen.getFont().deriveFont(64f);
-        smallFont = screen.getFont().deriveFont(12f);
+        smallFont = screen.getFont().deriveFont(11f);
     }
 
     public void setup() {
@@ -85,7 +85,7 @@ public class Menu extends DefaultHook {
     }
 
     private void drawTitle(Graphics2D graphics) {
-        String text1 = "STARLORN!";
+        String text1 = "STARLORN";
         String text2 = "by Josh Hofing, Ben Kurtovic, and Victor Jiao";
         int xOffset1 = (int) (screen.getWidth() - bigFont.getStringBounds(text1, graphics.getFontRenderContext()).getWidth()) / 2;
         int xOffset2 = (int) (screen.getWidth() - smallFont.getStringBounds(text2, graphics.getFontRenderContext()).getWidth()) / 2;
