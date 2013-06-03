@@ -4,18 +4,24 @@ public class Bullet extends Entity {
 
     protected int speed;
     protected boolean firedByPlayer;
+    protected boolean isSeeking;
 
     public Bullet(double angle, int speed, String sprite) {
         super(sprite);
         this.angle = angle;
         this.speed = speed;
         firedByPlayer = false;
+        isSeeking = false;
+        setXvel(speed * Math.cos(-angle));
+        setYvel(speed * Math.sin(-angle));
     }
 
     @Override
     public void step() {
-        setXvel(speed * Math.cos(-angle));
-        setYvel(speed * Math.sin(-angle));
+        if (isSeeking){
+            setXvel(speed * Math.cos(-angle));
+            setYvel(speed * Math.sin(-angle));
+        }
         super.step();
         if (!onScreen())
             kill();
@@ -40,6 +46,14 @@ public class Bullet extends Entity {
 
     public int getSpeed() {
         return speed;
+    }
+
+    public void setSeeking(boolean seek) {
+        this.isSeeking = seek;
+    }
+
+    public int getSeeking() {
+        return isSeeking;
     }
 
     public void setFiredByPlayer(boolean value) {
