@@ -3,8 +3,7 @@ package edu.stuy.starlorn.entities;
 public class Bullet extends Entity {
 
     protected int speed;
-    protected boolean firedByPlayer;
-    protected boolean isSeeking;
+    protected boolean firedByPlayer, isSeeking;
 
     public Bullet(double angle, int speed, String sprite) {
         super(sprite);
@@ -52,7 +51,7 @@ public class Bullet extends Entity {
         this.isSeeking = seek;
     }
 
-    public int getSeeking() {
+    public boolean getSeeking() {
         return isSeeking;
     }
 
