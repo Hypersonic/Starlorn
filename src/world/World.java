@@ -49,7 +49,7 @@ public class World extends DefaultHook {
         stars = new Star[250];
         for (int i = 0; i < 250; i++)
             stars[i] = new Star(Math.random() * screen.getWidth(),
-                                Math.random() * screen.getHeight());
+                                Math.random() * screen.getHeight(), i);
         player = new PlayerShip(screen.getWidth(), screen.getHeight());
         player.setInvincibility(0);
         player.setWorld(this);
