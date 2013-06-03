@@ -36,7 +36,8 @@ public class PlayerShip extends Ship {
         return false;
     }
 
-    protected Bullet spawnBullet(GunUpgrade topShot, int shotSpeed) {
+    @Override
+    protected Bullet spawnBullet(GunUpgrade topShot, double shotSpeed) {
         Bullet b = super.spawnBullet(topShot, shotSpeed);
         b.setFiredByPlayer(true);
         return b;

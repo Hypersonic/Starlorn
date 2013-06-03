@@ -69,8 +69,8 @@ public class Ship extends Entity {
      */
     public void shoot() {
         GunUpgrade topShot = gunUpgrades.get(0);
-        int shotSpeed = baseShotSpeed;
-        int cooldown = baseCooldown;
+        double shotSpeed = baseShotSpeed;
+        double cooldown = baseCooldown;
         for (GunUpgrade up : gunUpgrades) {
             if (up.getNumShots() >= topShot.getNumShots())
                 topShot = up;
@@ -83,10 +83,10 @@ public class Ship extends Entity {
             Bullet b = spawnBullet(topShot, shotSpeed);
             b.setWorld(this.getWorld());
         }
-        cooldownTimer = cooldown;
+        cooldownTimer = (int) cooldown;
     }
 
-    protected Bullet spawnBullet(GunUpgrade topShot, int shotSpeed) {
+    protected Bullet spawnBullet(GunUpgrade topShot, double shotSpeed) {
         Bullet b = new Bullet(baseAim + topShot.getAimAngle(), shotSpeed, bulletSprite);
         double centerx = rect.x + rect.width / 2 - b.getRect().width / 2;
         b.getRect().x = centerx + topShot.getXOffset();

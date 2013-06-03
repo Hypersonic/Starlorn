@@ -2,10 +2,10 @@ package edu.stuy.starlorn.entities;
 
 public class Bullet extends Entity {
 
-    protected int speed;
+    protected double speed;
     protected boolean firedByPlayer, isSeeking;
 
-    public Bullet(double angle, int speed, String sprite) {
+    public Bullet(double angle, double speed, String sprite) {
         super(sprite);
         this.angle = angle;
         this.speed = speed;
@@ -39,11 +39,11 @@ public class Bullet extends Entity {
         }
     }
 
-    public void setSpeed(int speed) {
+    public void setSpeed(double speed) {
         this.speed = speed;
     }
 
-    public int getSpeed() {
+    public double getSpeed() {
         return speed;
     }
 

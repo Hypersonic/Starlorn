@@ -35,21 +35,21 @@ public class GunUpgrade extends Upgrade {
      * Not garunteed to return the same thing each time, should probably keep track of which shot this is (like getAimAngle)
      * Should be chosen based off of getNumShots
      */
-    public int getXOffset() {
+    public double getXOffset() {
         return 0;
     }
 
     /*
      * Get the cooldown between shots, in ticks, based off the previous one
      */
-    public int getCooldown(int cooldown) {
+    public double getCooldown(double cooldown) {
         return cooldown;
     }
 
     /*
      * Get the speed the shot should move at
      */
-    public int getShotSpeed(int shotspeed) {
+    public double getShotSpeed(double shotspeed) {
         return shotspeed;
     }
 
