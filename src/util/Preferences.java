@@ -25,10 +25,11 @@ public class Preferences {
             }
 
             br.close();
+            loadDefault(width, height, false); // load in any missing options
 
         } catch (FileNotFoundException e) {
             System.out.println("You don't seem to have a preferences file. I'll make one for you, then.");
-            loadDefault(width, height);
+            loadDefault(width, height, true);
             save();
         } catch (IOException e) {
             e.printStackTrace();
@@ -55,18 +56,18 @@ public class Preferences {
         return _data.get(key);
     }
 
-    private static void loadDefault(int width, int height) {
-        _data.put("upKey", KeyEvent.VK_W);
-        _data.put("downKey", KeyEvent.VK_S);
-        _data.put("leftKey", KeyEvent.VK_A);
-        _data.put("rightKey", KeyEvent.VK_D);
-        _data.put("shootKey", KeyEvent.VK_SPACE);
-        _data.put("pauseKey", KeyEvent.VK_P);
+    private static void loadDefault(int width, int height, boolean force) {
+        if (force || !_data.containsKey("upKey")) _data.put("upKey", KeyEvent.VK_W);
+        if (force || !_data.containsKey("downKey")) _data.put("downKey", KeyEvent.VK_S);
+        if (force || !_data.containsKey("leftKey")) _data.put("leftKey", KeyEvent.VK_A);
+        if (force || !_data.containsKey("rightKey")) _data.put("rightKey", KeyEvent.VK_D);
+        if (force || !_data.containsKey("shootKey")) _data.put("shootKey", KeyEvent.VK_SPACE);
+        if (force || !_data.containsKey("pauseKey")) _data.put("pauseKey", KeyEvent.VK_P);
 
-        _data.put("fancyGraphics", 1);
-        _data.put("screenWidth", width);
-        _data.put("screenHeight", height);
-        _data.put("fullScreen", 0);
+        if (force || !_data.containsKey("fancyGraphics")) _data.put("fancyGraphics", 1);
+        if (force || !_data.containsKey("screenWidth")) _data.put("screenWidth", width);
+        if (force || !_data.containsKey("screenHeight")) _data.put("screenHeight", height);
+        if (force || !_data.containsKey("fullscreen")) _data.put("fullScreen", 0);
     }
 
 
