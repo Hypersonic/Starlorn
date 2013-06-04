@@ -1,5 +1,8 @@
 package edu.stuy.starlorn.upgrades;
 
+import edu.stuy.starlorn.entities.PlayerShip;
+import edu.stuy.starlorn.entities.Ship;
+
 /*
  * Upgrades that modify a ship's gun/shots
  */
@@ -27,6 +30,14 @@ public class GunUpgrade extends Upgrade {
      */
     public double getAimAngle() {
         return 0;
+    }
+
+    /*
+     * Gives the name of the bullet sprite.
+     */
+    public String getSprite(Ship ship) {
+        return (ship instanceof PlayerShip) ?
+            "bullet/blue/long" : "bullet/purple/long";
     }
 
     /*
