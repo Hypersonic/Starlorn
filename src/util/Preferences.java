@@ -63,6 +63,7 @@ public class Preferences {
         _data.put("shootKey", KeyEvent.VK_SPACE);
         _data.put("pauseKey", KeyEvent.VK_P);
 
+        _data.put("fancyGraphics", 1);
         _data.put("screenWidth", width);
         _data.put("screenHeight", height);
         _data.put("fullScreen", 0);
