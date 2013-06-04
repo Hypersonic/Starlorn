@@ -3,6 +3,7 @@ package edu.stuy.starlorn.upgrades;
 public class LawnSprinklerUpgrade extends GunUpgrade {
 
     private double _direction;
+    private boolean _where;
 
     public LawnSprinklerUpgrade() {
         super();
@@ -13,9 +14,14 @@ public class LawnSprinklerUpgrade extends GunUpgrade {
 
     @Override
     public double getAimAngle() {
-        _direction += 0.2;
+        if (_where)
+            _direction += 0.2;
+        if (!_where)
+            _direction -= 0.2;
         if (_direction >= 1.6)
-            _direction = 0;
+            _where = false;
+        if (_direction <= 0)
+            _where = true;
         return (Math.PI * (0.8 - _direction) / 2);
     }
 
