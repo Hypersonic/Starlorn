@@ -1,16 +1,22 @@
 package edu.stuy.starlorn.entities;
 
+import edu.stuy.starlorn.graphics.Anchor;
+
 public class Bullet extends Entity {
 
     protected double speed, agility;
     protected boolean firedByPlayer, isSeeking;
+    protected String[] sprites;
+    protected int spriteIndex;
     protected Ship target;
 
-    public Bullet(String sprite, double angle, double speed) {
-        super(sprite);
+    public Bullet(String[] sprites, double angle, double speed) {
+        super(sprites[0]);
         this.angle = angle;
         this.speed = speed;
+        this.sprites = sprites;
         firedByPlayer = isSeeking = false;
+        spriteIndex = 0;
         setXvel(speed * Math.cos(angle));
         setYvel(speed * -Math.sin(angle));
     }
@@ -25,6 +31,12 @@ public class Bullet extends Entity {
         for (Ship that : world.getShips()) {
             if (that.isHit(this))
                 explode(that);
+        }
+        if (sprites.length > 1) {
+            spriteIndex++;
+            if (spriteIndex >= sprites.length)
+                spriteIndex = 0;
+            updateSprite(sprites[spriteIndex], Anchor.TOP_CENTER);
         }
     }
 

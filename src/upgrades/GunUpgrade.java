@@ -33,11 +33,12 @@ public class GunUpgrade extends Upgrade {
     }
 
     /*
-     * Gives the name of the bullet sprite.
+     * Gives the name of the bullet sprites, as an array to be cycled through.
      */
-    public String getSprite(Ship ship) {
-        return (ship instanceof PlayerShip) ?
-            "bullet/blue/long" : "bullet/purple/long";
+    public String[] getSprites(Ship ship) {
+        if (ship instanceof PlayerShip)
+            return new String[]{"bullet/blue/long"};
+        return new String[]{"bullet/purple/long"};
     }
 
     /*
