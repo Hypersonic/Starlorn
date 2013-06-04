@@ -121,7 +121,7 @@ public class World extends DefaultHook {
         ship.setMovementSpeed(speed);
         ship.setPath(Generator.generatePath(ship.getPath().getPathLength(),
                      ship.getPath().getCoords(0)[0], ship.getPath().getCoords(0)[1]));
-        if (Math.random() < .1)
+        if (Math.random() < ((double) levelNo) / (10 + levelNo))
             ship.addUpgrade(Generator.getRandomUpgrade());
         ship.setWorld(this);
         ships.add(ship);
