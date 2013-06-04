@@ -67,6 +67,7 @@ public class Ship extends Entity {
      */
     public void shoot() {
         GunUpgrade topShot = gunUpgrades.get(0);
+        String[] sprites = null;
         double shotSpeed = baseShotSpeed;
         double cooldown = baseCooldown;
         boolean seeking = false;
@@ -74,6 +75,7 @@ public class Ship extends Entity {
         for (GunUpgrade up : gunUpgrades) {
             if (up.getNumShots() >= topShot.getNumShots())
                 topShot = up;
+            sprites = up.getSprites(sprites, this);
             shotSpeed = up.getShotSpeed(shotSpeed);
             cooldown = up.getCooldown(cooldown);
             seeking = up.getSeeking(seeking);
@@ -83,8 +85,7 @@ public class Ship extends Entity {
         // Create new shots, based on dem vars
         int numShots = topShot.getNumShots();
         for (int i = 0; i < numShots; i++) {
-            Bullet b = new Bullet(topShot.getSprites(this),
-                                  baseAim + topShot.getAimAngle(), shotSpeed);
+            Bullet b = new Bullet(sprites, baseAim + topShot.getAimAngle(), shotSpeed);
             if (seeking)
                 b.seek(agility, getNearestTarget());
             double centerx = rect.x + rect.width / 2 - b.getRect().width / 2;

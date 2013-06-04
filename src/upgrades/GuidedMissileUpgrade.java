@@ -10,7 +10,7 @@ public class GuidedMissileUpgrade extends GunUpgrade {
     }
 
     @Override
-    public String[] getSprites(Ship ship) {
+    public String[] getSprites(String[] sprites, Ship ship) {
         return new String[]{
             "bullet/missile/1", "bullet/missile/2", "bullet/missile/3",
             "bullet/missile/4", "bullet/missile/5"};
