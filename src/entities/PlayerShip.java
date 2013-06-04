@@ -24,7 +24,7 @@ public class PlayerShip extends Ship {
         hitboxAlpha = 1;
         goingUp = goingDown = goingLeft = goingRight = incHitboxAlpha = false;
         frame = 0;
-        invincibility = 90;
+        invincibility = 120;
     }
 
     public boolean isHit(Bullet b) {
@@ -191,8 +191,8 @@ public class PlayerShip extends Ship {
 
     @Override
     public Ship getNearestTarget() {
-        Ship closest = world.getShips().get(0);
-        double distance = Math.pow(this.getRect().x - closest.getRect().x, 2) + Math.pow(this.getRect().y - closest.getRect().y, 2) ;
+        Ship closest = null;
+        double distance = Double.MAX_VALUE;
         for (Ship ship : world.getShips()) {
             if (ship instanceof EnemyShip) {
                 double newDistance = Math.pow(this.getRect().x - ship.getRect().x, 2) + Math.pow(this.getRect().y - ship.getRect().y, 2) ;

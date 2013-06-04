@@ -62,7 +62,7 @@ public class GunUpgrade extends Upgrade {
 
     /*
      * Get the max turn angle of bullets created by this upgrade, in
-     * radians per second.
+     * radians per tick.
      */
     public double getAgility(double agility) {
         return agility;
