@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.stuy.starlorn.util.Preferences;
 import edu.stuy.starlorn.graphics.Anchor;
 import edu.stuy.starlorn.graphics.Sprite;
 import edu.stuy.starlorn.world.World;
@@ -64,7 +65,7 @@ public class Entity {
     public void draw(Graphics2D graphics) {
         if (sprite != null) {
             graphics.setPaint(sprite.getPaint(rect));
-            if (angle != Math.PI / 2) {
+            if (angle != Math.PI / 2 && Preferences.getValue("fancyGraphics") == 1) {
                 double theta = Math.PI / 2 - angle,
                        centerx = rect.x + rect.width / 2,
                        centery = rect.y + rect.height / 2;
