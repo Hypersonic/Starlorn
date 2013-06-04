@@ -15,6 +15,7 @@ public class Starlorn {
         menu.setup();
         screen.addHook(menu);
         screen.run();
+        Preferences.save();
         System.exit(0);
     }
 }
