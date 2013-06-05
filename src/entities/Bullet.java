@@ -21,8 +21,19 @@ public class Bullet extends Entity {
         setYvel(speed * -Math.sin(angle));
     }
 
+    public Bullet clone() {
+        Bullet b = new Bullet(sprites, angle, speed);
+        b.firedByPlayer = this.firedByPlayer;
+        b.isSeeking = isSeeking;
+        b.getRect().x = this.getRect().x;
+        b.getRect().y = this.getRect().y;
+        return b;
+    }
+
     @Override
     public void step() {
+        xvel = speed * Math.cos(angle);
+        yvel = -speed * Math.sin(angle);
         if (isSeeking)
             seekTarget();
         super.step();
@@ -104,5 +115,21 @@ public class Bullet extends Entity {
 
     public boolean wasFiredByPlayer() {
         return firedByPlayer;
+    }
+
+    public double getAngle() {
+        return angle;
+    }
+
+    public void setAngle(double ang) {
+        angle = ang;
+    }
+
+    public void setSprites(String[] spr) {
+        sprites = spr;
+    }
+
+    public String[] getSprites() {
+        return sprites;
     }
 }

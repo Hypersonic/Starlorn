@@ -56,7 +56,7 @@ public class World extends DefaultHook {
         ships.add(player);
         level = Generator.generateLevel(1);
         wave = level.popWave();
-
+        
         playerLives = 3;
         spawnedInWave = spawnedInLevel = killedInLevel = remaining = 0;
         levelNo = waveNo = 1;

@@ -3,6 +3,7 @@ package edu.stuy.starlorn.entities;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
+import java.util.Iterator;
 
 import edu.stuy.starlorn.graphics.Sprite;
 import edu.stuy.starlorn.upgrades.GunUpgrade;
@@ -62,38 +63,65 @@ public class Ship extends Entity {
         return brect.intersects(rect);
     }
 
+    public LinkedList<Bullet> applyUpgrade(Bullet bull, GunUpgrade up) {
+        LinkedList<Bullet> createdBullets = new LinkedList<Bullet>();
+        for (int i = 0; i < up.getNumShots(); i++) {
+            Bullet b = bull.clone();
+            b.setAngle(b.getAngle() + up.getAimAngle());
+            b.setSeeking(up.getSeeking(b.getSeeking()));
+            b.setSpeed(up.getShotSpeed(b.getSpeed()));
+            b.getRect().x += up.getXOffset();
+            createdBullets.add(b);
+        }
+        return createdBullets;
+    }
+
+    public LinkedList<Bullet> applyAllUpgrades() {
+        LinkedList<Bullet> bullets = new LinkedList<Bullet>();
+        LinkedList<Bullet> newBullets = new LinkedList<Bullet>();
+        String[] sprites = {"bullet/blue/long"};
+        Bullet firstBullet = new Bullet(sprites, baseAim, 10);
+        double centerx = rect.x + rect.width / 2 - firstBullet.getRect().width / 2;
+        firstBullet.getRect().x = centerx;
+        firstBullet.getRect().y = this.getRect().y;
+        bullets.add(firstBullet);
+        for (GunUpgrade up : gunUpgrades) {
+            Iterator<Bullet> it = bullets.iterator();
+            while (it.hasNext()) {
+                Bullet b = it.next();
+                LinkedList<Bullet> created = applyUpgrade(b, up);
+                for (Bullet bul : created) {
+                    newBullets.add(bul);
+                }
+                it.remove();
+            }
+
+            for (Bullet b : newBullets)
+                bullets.add(b);
+            newBullets.clear();
+        }
+
+        return bullets;
+    }
+
     /*
      * Create the shots based on the available GunUpgrades
      */
     public void shoot() {
-        GunUpgrade topShot = gunUpgrades.get(0);
+        cooldownTimer = baseCooldown;
+        double agility = 1;
         String[] sprites = null;
-        double shotSpeed = baseShotSpeed;
-        double cooldown = baseCooldown;
-        boolean seeking = false;
-        double agility = 0;
         for (GunUpgrade up : gunUpgrades) {
-            if (up.getNumShots() >= topShot.getNumShots())
-                topShot = up;
-            sprites = up.getSprites(sprites, this);
-            shotSpeed = up.getShotSpeed(shotSpeed);
-            cooldown = up.getCooldown(cooldown);
-            seeking = up.getSeeking(seeking);
+            cooldownTimer = (int) up.getCooldown(cooldownTimer);
             agility = up.getAgility(agility);
+            sprites = up.getSprites(sprites, this);
         }
-
-        // Create new shots, based on dem vars
-        int numShots = topShot.getNumShots();
-        for (int i = 0; i < numShots; i++) {
-            Bullet b = new Bullet(sprites, baseAim + topShot.getAimAngle(), shotSpeed);
-            if (seeking)
+        for (Bullet b : applyAllUpgrades()) {
+            if (b.getSeeking())
                 b.seek(agility, getNearestTarget());
-            double centerx = rect.x + rect.width / 2 - b.getRect().width / 2;
-            b.getRect().x = centerx + topShot.getXOffset();
-            b.getRect().y = rect.y + 10;
+            b.setSprites(sprites);
             spawnBullet(b);
         }
-        cooldownTimer = (int) cooldown;
     }
 
     protected void spawnBullet(Bullet b) {
