@@ -109,7 +109,7 @@ public class Ship extends Entity {
      */
     public void shoot() {
         cooldownTimer = baseCooldown;
-        double agility = 1;
+        double agility = 0;
         String[] sprites = null;
         for (GunUpgrade up : gunUpgrades) {
             cooldownTimer = (int) up.getCooldown(cooldownTimer);
