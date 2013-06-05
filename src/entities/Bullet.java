@@ -127,6 +127,7 @@ public class Bullet extends Entity {
 
     public void setSprites(String[] spr) {
         sprites = spr;
+        updateSprite(sprites[0]);
     }
 
     public String[] getSprites() {
