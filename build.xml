@@ -48,4 +48,15 @@
         <java jar="${bin}/${ant.project.name}.jar" fork="true"/>
     </target>
 
+    <target name="urn">
+        <echo message="  ______"/>
+        <echo message=" (______)"/>
+        <echo message="   )  ("/>
+        <echo message=" ,'    `."/>
+        <echo message="(        )"/>
+        <echo message=" `.    .'"/>
+        <echo message="   )  ("/>
+        <echo message="  /____\"/>
+</target>
+
 </project>
