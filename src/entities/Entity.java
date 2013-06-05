@@ -15,7 +15,7 @@ import edu.stuy.starlorn.world.World;
  */
 public class Entity {
 
-    private static final boolean DRAW_OUTLINES = false;
+    private static final boolean DRAW_OUTLINES = Preferences.getValue("devMode")==1;
 
     protected Rectangle2D.Double rect;
     protected double xvel, yvel, angle;
