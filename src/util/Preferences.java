@@ -26,6 +26,7 @@ public class Preferences {
 
             br.close();
             loadDefault(width, height, false); // load in any missing options
+            save();
 
         } catch (FileNotFoundException e) {
             System.out.println("You don't seem to have a preferences file. I'll make one for you, then.");
@@ -65,6 +66,7 @@ public class Preferences {
         if (force || !_data.containsKey("pauseKey")) _data.put("pauseKey", KeyEvent.VK_P);
 
         if (force || !_data.containsKey("fancyGraphics")) _data.put("fancyGraphics", 1);
+        if (force || !_data.containsKey("devMode")) _data.put("devMode", 0);
         if (force || !_data.containsKey("screenWidth")) _data.put("screenWidth", width);
         if (force || !_data.containsKey("screenHeight")) _data.put("screenHeight", height);
         if (force || !_data.containsKey("fullscreen")) _data.put("fullScreen", 0);
