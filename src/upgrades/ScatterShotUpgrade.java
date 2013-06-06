@@ -26,6 +26,12 @@ public class ScatterShotUpgrade extends GunUpgrade {
     }
 
     @Override
+    public double getCooldown(double cooldown) {
+        return cooldown * 3;
+    }
+
+
+    @Override
     public Upgrade clone() {
         return new ScatterShotUpgrade();
     }
