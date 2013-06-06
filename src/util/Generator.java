@@ -81,7 +81,7 @@ public class Generator {
     }
 
     public static GunUpgrade getRandomUpgrade() {
-        GunUpgrade[] upgrades = new GunUpgrade[7];
+        GunUpgrade[] upgrades = new GunUpgrade[8];
         upgrades[0] = new ScatterShotUpgrade();
         upgrades[1] = new TripleShotUpgrade();
         upgrades[2] = new DoubleShotUpgrade();
@@ -89,6 +89,7 @@ public class Generator {
         upgrades[4] = new SpeedShotUpgrade();
         upgrades[5] = new LawnSprinklerUpgrade();
         upgrades[6] = new GuidedMissileUpgrade();
+        upgrades[7] = new SideShotUpgrade();
         return upgrades[(int) (Math.random() * upgrades.length)];
     }
 }

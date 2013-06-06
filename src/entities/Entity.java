@@ -3,6 +3,7 @@ package edu.stuy.starlorn.entities;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.AffineTransform;
 
 import edu.stuy.starlorn.util.Preferences;
 import edu.stuy.starlorn.graphics.Anchor;
@@ -69,9 +70,11 @@ public class Entity {
                 double theta = Math.PI / 2 - angle,
                        centerx = rect.x + rect.width / 2,
                        centery = rect.y + rect.height / 2;
-                graphics.rotate(theta, centerx, centery);
-                graphics.fill(rect);
-                graphics.rotate(-theta, centerx, centery);
+                AffineTransform at=new AffineTransform();
+                at.translate(centerx, centery);
+                at.rotate(theta);
+                at.translate(-rect.width/2, -rect.height/2);
+                graphics.drawImage(sprite.getPaint(rect).getImage(), at, null);
             }
             else
                 graphics.fill(rect);
