@@ -9,7 +9,6 @@ import edu.stuy.starlorn.upgrades.*;
 public class Generator {
 
     public static Path generatePath(int numPoints, int firstx, int firsty) {
-        numPoints += 2;
         Path p = new Path();
         int screenWidth = Preferences.getValue("screenWidth");
         int screenHeight = Preferences.getValue("screenHeight") / 2;
@@ -59,7 +58,7 @@ public class Generator {
     }
 
     public static Level generateLevel(int number) {
-        return generateLevel(number + 1, number * 5);
+        return generateLevel(number + 1, number * 3);
     }
 
     public static EnemyShip generateEnemy(int difficulty) {
