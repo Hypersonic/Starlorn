@@ -5,40 +5,30 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 import edu.stuy.starlorn.graphics.DefaultHook;
 import edu.stuy.starlorn.graphics.Screen;
 import edu.stuy.starlorn.world.World;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-  import java.io.File;
 public class Menu extends DefaultHook {
 
+    private static final String MUSIC_FILE = "res/title.wav";
     private Screen screen;
     private Font bigFont, smallFont;
     private long lastFrame;
     private Button[] buttons;
     private Star[] stars;
     private Clip clip;
-    
 
-    
     public Menu(Screen scr) {
         screen = scr;
         bigFont = screen.getFont().deriveFont(64f);
         smallFont = screen.getFont().deriveFont(11f);
-        try{
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("res/Starlorn.wav").getAbsoluteFile());
-            clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-            clip.start();
-            
-        }catch(Exception ex){
-            System.out.println("Error with playing sound.");
-            ex.printStackTrace();
-        }
     }
 
     public void setup() {
@@ -58,6 +48,16 @@ public class Menu extends DefaultHook {
         stars = new Star[400];
         for (int i = 0; i < 400; i++)
             stars[i] = new Star(screen.getWidth(), screen.getHeight());
+
+        try {
+            InputStream stream = new FileInputStream(MUSIC_FILE);
+            AudioInputStream audio = AudioSystem.getAudioInputStream(stream);
+            clip = AudioSystem.getClip();
+            clip.open(audio);
+            clip.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public interface Callback {
@@ -66,7 +66,6 @@ public class Menu extends DefaultHook {
 
     private class PlayButtonCallback implements Callback {
         public void invoke() {
-            
             World world = new World(screen);
             screen.removeHook(Menu.this);
             screen.addHook(world);
@@ -115,7 +114,6 @@ public class Menu extends DefaultHook {
         graphics.setFont(smallFont);
         graphics.drawString(text2, xOffset2, screen.getHeight() / 2 - 200);
     }
-    
 
     @Override
     public void keyReleased(KeyEvent event) {

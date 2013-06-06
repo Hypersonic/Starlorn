@@ -1,7 +1,7 @@
 package edu.stuy.starlorn.graphics;
 
-import java.io.InputStream;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.IOException;
 import java.awt.Rectangle;
 import java.awt.TexturePaint;
