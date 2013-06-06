@@ -18,7 +18,7 @@ public class GuidedMissileUpgrade extends GunUpgrade {
 
     @Override
     public double getCooldown(double cooldown) {
-        return cooldown * 1.25;
+        return cooldown * 3;
     }
 
     @Override
