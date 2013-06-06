@@ -11,7 +11,7 @@ public class Star extends Rectangle2D.Double {
 
     public Star(double x, double y) {
         super(x, y, 1, 1);
-        width = height = Math.random() + 1;
+        width = height = (int) Math.round(Math.random() + 1);
         speed = 1 + Math.random() * 2;
         float light = (float) Math.random();
         color = new Color(light, light, light);
