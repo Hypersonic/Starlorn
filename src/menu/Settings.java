@@ -103,5 +103,7 @@ public class Settings extends DefaultHook {
     public void mouseMoved(MouseEvent event) {
         for (Button button : buttons)
             button.update(event);
+        for (HoverBox hoverbox : hoverBoxes)
+            hoverbox.update(event);
     }
 }
