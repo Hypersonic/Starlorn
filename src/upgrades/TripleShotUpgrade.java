@@ -11,6 +11,11 @@ public class TripleShotUpgrade extends GunUpgrade {
     }
 
     @Override
+    public double getCooldown(double cooldown) {
+        return cooldown * 2;
+    }
+
+    @Override
     public int getNumShots() {
         return 3;
     }
