@@ -8,8 +8,8 @@ public class SpeedShotUpgrade extends GunUpgrade {
     }
 
     @Override
-    public double getCooldown(double cooldown) {
-        return cooldown / 3;
+    public double getShotSpeed(double shotspeed) {
+        return shotspeed * 2;
     }
 
     @Override
