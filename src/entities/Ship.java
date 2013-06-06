@@ -140,6 +140,10 @@ public class Ship extends Entity {
         super.step();
     }
 
+    public int getNumUpgrades() {
+        return gunUpgrades.size();
+    }
+
     public Ship getNearestTarget() {
         return world.getPlayer();
     }
