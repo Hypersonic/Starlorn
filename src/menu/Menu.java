@@ -63,7 +63,10 @@ public class Menu extends DefaultHook {
 
     private class SettingsButtonCallback implements Callback {
         public void invoke() {
-            System.out.println("Not implemented yet!");
+            Settings settings = new Settings(screen);
+            settings.setup();
+            screen.removeHook(Menu.this);
+            screen.addHook(settings);
         }
     }
 

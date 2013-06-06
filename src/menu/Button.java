@@ -11,7 +11,9 @@ import edu.stuy.starlorn.graphics.Screen;
 public class Button {
 
     private Rectangle rect;
-    private Menu.Callback callback;
+    private Menu.Callback mcallback;
+    private Settings.Callback scallback;
+    private String which;
     private Font font;
     private String label;
     private int xOffset, yOffset;
@@ -20,11 +22,23 @@ public class Button {
     public Button(Screen screen, int x, int y, int w, int h, String text,
                   float size, Menu.Callback cb) {
         rect = new Rectangle(x, y, w, h);
-        callback = cb;
+        mcallback = cb;
         font = screen.getFont().deriveFont(size);
         label = text;
         xOffset = yOffset = -1;
         pressed = hover = false;
+        which = "menu";
+    }
+
+    public Button(Screen screen, int x, int y, int w, int h, String text,
+                  float size, Settings.Callback cb) {
+        rect = new Rectangle(x, y, w, h);
+        scallback = cb;
+        font = screen.getFont().deriveFont(size);
+        label = text;
+        xOffset = yOffset = -1;
+        pressed = hover = false;
+        which = "settings";
     }
 
     public boolean isPressed() {
@@ -41,7 +55,12 @@ public class Button {
 
         if (pressed && !buttonDown) {
             pressed = false;
-            callback.invoke();
+            if (which.equals("menu")){
+                mcallback.invoke();
+            }
+            if (which.equals("settings")){
+                scallback.invoke();
+            }
             return;
         }
 
