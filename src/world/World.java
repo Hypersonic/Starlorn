@@ -56,7 +56,7 @@ public class World extends DefaultHook {
         ships.add(player);
         level = Generator.generateLevel(1);
         wave = level.popWave();
-        
+
         playerLives = 3;
         spawnedInWave = spawnedInLevel = killedInLevel = remaining = 0;
         levelNo = waveNo = 1;
@@ -118,8 +118,11 @@ public class World extends DefaultHook {
         ship.setMovementSpeed(speed);
         ship.setPath(Generator.generatePath(ship.getPath().getPathLength(),
                      ship.getPath().getCoords(0)[0], ship.getPath().getCoords(0)[1]));
-        if (Math.random() < ((double) levelNo) / (10 + levelNo))
+        int rarity = 1;
+        while (Math.random() * rarity < ((double) levelNo) / (10 + levelNo)) {
             ship.addUpgrade(Generator.getRandomUpgrade());
+            rarity++;
+        }
         ship.setWorld(this);
         ships.add(ship);
     }
