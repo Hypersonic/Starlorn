@@ -18,7 +18,7 @@ public class SideShotUpgrade extends GunUpgrade {
 
     @Override
     public double getCooldown(double cooldown) {
-        return cooldown;
+        return 1.5 * cooldown;
     }
 
     @Override
