@@ -8,7 +8,7 @@ public class EnemyShip extends Ship {
     protected Path path;
     protected int pathIndex; // Index of our location on the path
 
-    private boolean killedByPlayer;
+    private boolean killedByPlayer, killedByCollision;
 
     public EnemyShip() {
         super("enemy/straight");
@@ -16,7 +16,7 @@ public class EnemyShip extends Ship {
         baseAim = 3 * Math.PI / 2; // Aim down
         path = null;
         pathIndex = -1;
-        killedByPlayer = false;
+        killedByPlayer = killedByCollision = false;
     }
 
     public EnemyShip(Path p) {
@@ -70,6 +70,14 @@ public class EnemyShip extends Ship {
         super.step();
     }
 
+    public long getScoreValue() {
+        long score = 100;
+        if (killedByCollision)
+            score -= 50;
+        score += getNumUpgrades() * 25;
+        return score;
+    }
+
     @Override
     public Ship getNearestTarget() {
         return world.getPlayer();
@@ -93,5 +101,13 @@ public class EnemyShip extends Ship {
 
     public void setKilledByPlayer(boolean value) {
         killedByPlayer = value;
+    }
+
+    public boolean wasKilledByCollision() {
+        return killedByCollision;
+    }
+
+    public void setKilledByCollision(boolean value) {
+        killedByCollision = value;
     }
 }

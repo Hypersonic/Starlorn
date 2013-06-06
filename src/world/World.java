@@ -34,7 +34,8 @@ public class World extends DefaultHook {
     private PlayerShip player;
     private Level level;
     private Wave wave;
-    private int playerLives, levelNo, waveNo, spawnedInWave, spawnedInLevel,
+    private long score;
+    private int lives, levelNo, waveNo, spawnedInWave, spawnedInLevel,
                 killedInLevel, remaining, spawnTicks, respawnTicks;
     private boolean paused, playerAlive, waitForPickup;
     private Upgrade upgrade;
@@ -57,8 +58,8 @@ public class World extends DefaultHook {
         level = Generator.generateLevel(1);
         wave = level.popWave();
 
-        playerLives = 3;
-        spawnedInWave = spawnedInLevel = killedInLevel = remaining = 0;
+        lives = 3;
+        score = spawnedInWave = spawnedInLevel = killedInLevel = remaining = 0;
         levelNo = waveNo = 1;
         spawnTicks = respawnTicks = 0;
         playerAlive = true;
@@ -99,9 +100,9 @@ public class World extends DefaultHook {
                 spawnTicks++;
         }
         if (!playerAlive) {
-            if (playerLives > 0 && respawnTicks == 60)
+            if (lives > 0 && respawnTicks == 60)
                 spawnPlayer();
-            else if (playerLives == 0 && respawnTicks == 120)
+            else if (lives == 0 && respawnTicks == 120)
                 endGame();
             else
                 respawnTicks++;
@@ -192,13 +193,14 @@ public class World extends DefaultHook {
 
     private void killPlayer(PlayerShip player) {
         playerAlive = false;
-        playerLives--;
+        lives--;
         ships.remove(player);
     }
 
     private void killEnemy(EnemyShip enemy) {
         remaining--;
         if (enemy.wasKilledByPlayer()) {
+            score += enemy.getScoreValue();
             killedInLevel++;
             if (level.isLastWave() && killedInLevel == spawnedInLevel &&
                     spawnedInWave == wave.getNumEnemies())
@@ -210,14 +212,15 @@ public class World extends DefaultHook {
     private void drawHUD(Graphics2D graphics) {
         graphics.setFont(smallFont);
         graphics.setColor(Color.WHITE);
+        graphics.drawString(String.format("Score: %d", score), 50, 50);
         graphics.drawString(String.format("Level %d, Wave %d/%d", levelNo,
-                            waveNo, level.numWaves()), 50, 50);
-        graphics.drawString(String.format("Lives: %d", playerLives), 50, 75);
+                            waveNo, level.numWaves()), 50, 75);
+        graphics.drawString(String.format("Lives: %d", lives), 50, 100);
 
         if (paused) {
             drawPaused(graphics);
         }
-        if (playerLives == 0 || (spawnedInWave == wave.getNumEnemies() && remaining == 0))
+        if (lives == 0 || (spawnedInWave == wave.getNumEnemies() && remaining == 0))
             drawLevelProgress(graphics);
     }
 
@@ -232,7 +235,7 @@ public class World extends DefaultHook {
     private void drawLevelProgress(Graphics2D graphics) {
         Color color;
         String message;
-        if (playerLives == 0) {
+        if (lives == 0) {
             color = Color.RED;
             message = "GAME OVER";
         }

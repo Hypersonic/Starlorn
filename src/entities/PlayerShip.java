@@ -178,6 +178,7 @@ public class PlayerShip extends Ship {
         this.kill();
         enemy.kill();
         enemy.setKilledByPlayer(true);
+        enemy.setKilledByCollision(true);
         Explosion e1 = new Explosion(), e2 = new Explosion();
         double thatcx = enemy.getRect().x + enemy.getRect().width / 2,
                thatcy = enemy.getRect().y + enemy.getRect().height / 2;

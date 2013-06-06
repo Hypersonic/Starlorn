@@ -49,7 +49,8 @@ public class Ship extends Entity {
         s.maxSpeed = maxSpeed;
         s.baseAim = baseAim;
         for (GunUpgrade up : gunUpgrades) {
-            s.addUpgrade(up.clone());
+            if (up.getName() != "Default Gun")
+                s.addUpgrade(up.clone());
         }
     }
 
@@ -141,7 +142,7 @@ public class Ship extends Entity {
     }
 
     public int getNumUpgrades() {
-        return gunUpgrades.size();
+        return gunUpgrades.size() - 1;  // Ignore default GunUpgrade
     }
 
     public Ship getNearestTarget() {

@@ -70,10 +70,10 @@ public class Entity {
                 double theta = Math.PI / 2 - angle,
                        centerx = rect.x + rect.width / 2,
                        centery = rect.y + rect.height / 2;
-                AffineTransform at=new AffineTransform();
+                AffineTransform at = new AffineTransform();
                 at.translate(centerx, centery);
                 at.rotate(theta);
-                at.translate(-rect.width/2, -rect.height/2);
+                at.translate(-rect.width / 2, -rect.height / 2);
                 graphics.drawImage(sprite.getPaint(rect).getImage(), at, null);
             }
             else
