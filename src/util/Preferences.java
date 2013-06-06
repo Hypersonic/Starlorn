@@ -13,6 +13,10 @@ public class Preferences {
 
     private static HashMap<String, Integer> _data;
 
+    public static void put(String key, Integer data){
+        _data.put(key,data);
+    }
+
     public static void load(int width, int height) {
         _data = new HashMap<String, Integer>();
         try {
