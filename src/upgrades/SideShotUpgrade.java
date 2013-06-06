@@ -7,8 +7,18 @@ public class SideShotUpgrade extends GunUpgrade {
     public SideShotUpgrade() {
         super();
         _name = "Side Shot";
-        _description = "Crap.";
+        _description = "Everything you know it revolves to the... side";
         _left = false;
+    }
+
+    @Override
+    public int getNumShots() {
+        return 2;
+    }
+
+    @Override
+    public double getCooldown(double cooldown) {
+        return cooldown * 2;
     }
 
     @Override
