@@ -149,6 +149,10 @@ public class World extends DefaultHook {
 
     private void stepStars(Graphics2D graphics) {
         for (Star star : stars) {
+            if (paused) {
+                star.draw(graphics);
+                continue;
+            }
             star.step();
             if (star.y >= screen.getHeight()) {
                 star.y = 0;
