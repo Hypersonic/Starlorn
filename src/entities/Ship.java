@@ -76,10 +76,9 @@ public class Ship extends Entity {
         return createdBullets;
     }
 
-    public LinkedList<Bullet> applyAllUpgrades() {
+    public LinkedList<Bullet> applyAllUpgrades(String[] sprites) {
         LinkedList<Bullet> bullets = new LinkedList<Bullet>();
         LinkedList<Bullet> newBullets = new LinkedList<Bullet>();
-        String[] sprites = {"bullet/blue/long"};
         Bullet firstBullet = new Bullet(sprites, baseAim, 10);
         double centerx = rect.x + rect.width / 2 - firstBullet.getRect().width / 2;
         firstBullet.getRect().x = centerx;
@@ -108,15 +107,16 @@ public class Ship extends Entity {
      * Create the shots based on the available GunUpgrades
      */
     public void shoot() {
-        cooldownTimer = baseCooldown;
+        double cooling = baseCooldown;
         double agility = 0;
         String[] sprites = null;
         for (GunUpgrade up : gunUpgrades) {
-            cooldownTimer = (int) up.getCooldown(cooldownTimer);
+            cooling = up.getCooldown(cooling);
             agility = up.getAgility(agility);
             sprites = up.getSprites(sprites, this);
         }
-        for (Bullet b : applyAllUpgrades()) {
+        cooldownTimer = (int) cooling;
+        for (Bullet b : applyAllUpgrades(sprites)) {
             if (b.getSeeking())
                 b.seek(agility, getNearestTarget());
             b.setSprites(sprites);
@@ -124,6 +124,7 @@ public class Ship extends Entity {
         }
     }
 
+    /* Post-creation hook for subclasses to modify bullets. */
     protected void spawnBullet(Bullet b) {
         b.setWorld(getWorld());
     }
