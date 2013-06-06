@@ -7,7 +7,7 @@ public class SideShotUpgrade extends GunUpgrade {
     public SideShotUpgrade() {
         super();
         _name = "Side Shot";
-        _description = "Everything you know it revolves to the... side";
+        _description = "Everything you own in a box to the... side";
         _left = false;
     }
 
