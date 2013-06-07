@@ -4,30 +4,50 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.util.Date;
+import java.util.TreeSet;
 
 public class HighScores {
-    protected ScoreTree _scores;
+
+    public static final int MAX_SCORES = 3;
+
+    protected TreeSet<Score> _scores;
 
     public HighScores() {
-        _scores = new ScoreTree();
+        _scores = new TreeSet<Score>();
     }
 
-    public void addScore(String name, long score) {
-        _scores.add(new HighScore(name, score));
+    public void add(String name, long score, Date date) {
+        _scores.add(new Score(name, score, date));
     }
 
-    public HighScore[] getScoresSorted() {
-        return _scores.getScoresSorted();
+    public void add(String name, long score) {
+        _scores.add(new Score(name, score));
     }
 
-    public void saveScores(String filename) {
+    public int count() {
+        return _scores.size();
+    }
+
+    public long getLowest() {
+        if (count() == 0)
+            return 0;
+        return _scores.first().getScore();
+    }
+
+    public Score popLowest() {
+        return _scores.pollFirst();
+    }
+
+    public void save(String filename) {
         try {
             BufferedWriter w = new BufferedWriter(new FileWriter(filename));
-            HighScore[] scores = getScoresSorted();
-            for (int i = 0; i < scores.length; i++) {
-                w.write(scores[i].getName().replace(":", "\\:").replace("\n", " ")); //Escape colons, remove newlines
+            for (Score score : _scores) {
+                w.write(score.getName().replace(":", "\\:").replace("\n", " ")); //Escape colons, remove newlines
                 w.write(" : "); // separator
-                w.write("" + scores[i].getScore());
+                w.write("" + score.getScore());
+                w.write(" : ");
+                w.write("" + score.getDate().getTime());
                 w.newLine();
             }
             w.close();
@@ -36,87 +56,86 @@ public class HighScores {
         }
     }
 
-    public void saveScores() {
-        saveScores("scores.txt");
+    public void save() {
+        save("scores.txt");
     }
 
-    public void loadScores(String filename) {
+    public void load(String filename) {
         try {
             BufferedReader b = new BufferedReader(new FileReader(filename));
             while (b.ready()) {
                 String[] data = b.readLine().split(" : ");
-                if (data.length != 2) {
+                if (data.length != 3) {
                     System.out.println("Some line in the scores file isn't formatted right. I'll ignore it");
                     break;
                 }
                 String name = data[0].replace("\\:", ":"); // We'll escape their colons whilst saving, so unescape them whilst loading
                 long score = Long.parseLong(data[1]);
-                addScore(name, score);
+                long time = Long.parseLong(data[2]);
+                add(name, score, new Date(time));
             }
             b.close();
         } catch (java.io.IOException e) {
             System.out.println("No highscores file exists, so we'll make one later.");
         }
     }
-    
-    public void loadScores() {
-        loadScores("scores.txt");
+
+    public void load() {
+        load("scores.txt");
     }
 
-    private class ScoreTree {
-        private HighScore _val;
-        private ScoreTree _left, _right;
-        private int _size;
+    public class Score implements Comparable {
 
-        public ScoreTree(HighScore score) {
-            _val = score;
-            _size = 1;
-        }
-        public ScoreTree() {
-            this(null);
-            _size = 0;
+        private String _name;
+        private long _score;
+        private Date _date;
+
+        public Score(String name, long score, Date date) {
+            _name = name;
+            _score = score;
+            _date = date;
         }
 
-        public void add(HighScore score) {
-            _size++;
-            if (_val == null) _val = score;
-            else {
-                if (score.compareTo(_val) > 0) {
-                    if (_right == null) _right = new ScoreTree(score);
-                    else _right.add(score);
-                } else {
-                    if (_left == null) _left = new ScoreTree(score);
-                    else _left.add(score);
-                }
-            }
+        public Score(String name, long score) {
+            this(name, score, new Date());
         }
 
-        /*
-         * Returns an array with the scores, sorted from lowest to highest
-         */
-        public HighScore[] getScoresSorted() {
-            HighScore[] sortedScores = new HighScore[_size];
-            int index = 0;
-            if (_left != null) {
-                HighScore[] leftScores = _left.getScoresSorted();
-                for (int j = 0; j < leftScores.length; j++) {
-                    sortedScores[index] = leftScores[j];
-                    index++;
+        public void setName(String name) {
+            _name = name;
+        }
+
+        public String getName() {
+            return _name;
+        }
+
+        public void setScore(long score) {
+            _score = score;
+        }
+
+        public long getScore() {
+            return _score;
+        }
+
+        public void setDate (Date date) {
+            _date = date;
+        }
+
+        public Date getDate() {
+            return _date;
+        }
+
+        public int compareTo(Object o) {
+            if (o instanceof Score) {
+                long otherScore = ((Score) o).getScore();
+                if (otherScore > _score)
+                    return -1;
+                else if (otherScore < _score)
+                    return 1;
+                else {
+                    return -_date.compareTo(((Score) o).getDate());
                 }
-            }
-            if (_val != null) {
-                sortedScores[index] = _val;
-                index++;
-            }
-            if (_right != null) {
-                HighScore[] rightScores = _right.getScoresSorted();
-                for (int j = 0; j < rightScores.length; j++) {
-                    sortedScores[index] = rightScores[j];
-                    index++;
-                }
-            }
-            return sortedScores;
+            } else
+                throw new java.lang.IllegalArgumentException("Expected Score");
         }
     }
-
 }

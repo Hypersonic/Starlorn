@@ -20,6 +20,7 @@ import edu.stuy.starlorn.entities.Ship;
 import edu.stuy.starlorn.menu.Menu;
 import edu.stuy.starlorn.upgrades.Upgrade;
 import edu.stuy.starlorn.util.Generator;
+import edu.stuy.starlorn.util.HighScores;
 import edu.stuy.starlorn.util.Preferences;
 
 /*
@@ -280,6 +281,16 @@ public class World extends DefaultHook {
     }
 
     private void endGame() {
+        HighScores scores = new HighScores();
+        scores.load();
+        if (scores.count() < HighScores.MAX_SCORES || scores.getLowest() < score) {
+            scores.add("Ben Kurtovic", score);
+            while (scores.count() > HighScores.MAX_SCORES) {
+                HighScores.Score lowest = scores.popLowest();
+                System.out.println(String.format("You displaced a score of %d by %s!", lowest.getScore(), lowest.getName()));
+            }
+            scores.save();
+        }
         Menu menu = new Menu(screen);
         menu.setup();
         screen.removeHook(this);
