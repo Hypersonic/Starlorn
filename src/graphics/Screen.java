@@ -10,7 +10,7 @@ import javax.swing.event.*;
 
 import edu.stuy.starlorn.graphics.Hook;
 
-public class Screen extends JFrame implements Runnable, ActionListener, KeyListener, MouseInputListener {
+public class Screen extends JFrame implements Runnable, KeyListener, MouseInputListener {
 
     private static final long serialVersionUID = 1L;
     private static final int MAX_FPS = 60;
@@ -125,11 +125,6 @@ public class Screen extends JFrame implements Runnable, ActionListener, KeyListe
     }
 
     /* EVENT HANDLERS */
-
-    public void actionPerformed(ActionEvent event) {
-        if (!hooks.empty())
-            hooks.peek().actionPerformed(event);
-    }
 
     public void keyTyped(KeyEvent event) {
         if (!hooks.empty())
