@@ -21,7 +21,7 @@ public class Settings extends DefaultHook {
 
     public Settings(Screen scr) {
         screen = scr;
-        bigFont = screen.getFont().deriveFont(64f);
+        bigFont = screen.getFont().deriveFont(48f);
         smallFont = screen.getFont().deriveFont(11f);
     }
 
@@ -53,11 +53,7 @@ public class Settings extends DefaultHook {
             stars[i] = new Star(screen.getWidth(), screen.getHeight());
     }
 
-    public interface Callback {
-        void invoke();
-    }
-
-    private class BackButtonCallback implements Callback {
+    private class BackButtonCallback implements Menu.Callback {
         public void invoke() {
             Menu menu = new Menu(screen);
             menu.setup();
