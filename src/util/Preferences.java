@@ -14,6 +14,7 @@ public class Preferences {
     private static HashMap<String, Integer> _data;
 
     public static void put(String key, Integer data){
+        if (_data == null) load(800, 600);
         _data.put(key,data);
     }
 
@@ -58,6 +59,7 @@ public class Preferences {
     }
 
     public static int getValue(String key) {
+        if (_data == null) load(800, 600);
         return _data.get(key);
     }
 
