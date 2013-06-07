@@ -35,7 +35,8 @@ public class Settings extends DefaultHook {
                                 new BackButtonCallback());
 
         hoverBoxes = new HoverBox[1];
-        hoverBoxes[0] = new HoverBox(screen, cx - 200, cy - 160, 190, 80, "W", 18f);
+        hoverBoxes[0] = new HoverBox(screen, cx - 200, cy - 160, 190, 80, "W", 18f,
+                                "upKey");
 
         stars = new Star[400];
         for (int i = 0; i < 400; i++)
@@ -85,6 +86,13 @@ public class Settings extends DefaultHook {
     public void keyReleased(KeyEvent event) {
         if (event.getKeyCode() == KeyEvent.VK_Q)
             new BackButtonCallback().invoke();
+    }
+
+    @Override
+    public void keyPressed(KeyEvent event) {
+
+        for (HoverBox hoverbox : hoverBoxes)
+            hoverbox.update(event);
     }
 
     @Override
