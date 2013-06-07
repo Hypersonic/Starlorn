@@ -52,6 +52,7 @@ public class Menu extends DefaultHook {
             World world = new World(screen);
             screen.removeHook(Menu.this);
             screen.addHook(world);
+            screen.hideCursor();
         }
     }
 

@@ -119,6 +119,17 @@ public class Screen extends Canvas implements Runnable, KeyListener,
         return font;
     }
 
+    public void hideCursor() {
+        BufferedImage img = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        Cursor blankCursor = kit.createCustomCursor(img, new Point(0, 0), "hidden");
+        setCursor(blankCursor);
+    }
+
+    public void showCursor() {
+        setCursor(Cursor.getDefaultCursor());
+    }
+
     /* EVENT HANDLERS */
 
     public void keyTyped(KeyEvent event) {
