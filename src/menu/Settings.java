@@ -94,6 +94,8 @@ public class Settings extends DefaultHook {
 
     @Override
     public void keyReleased(KeyEvent event) {
+         for (HoverBox hoverbox : hoverBoxes)
+            hoverbox.update(event);
         if (event.getKeyCode() == KeyEvent.VK_Q)
             new BackButtonCallback().invoke();
     }
@@ -109,10 +111,13 @@ public class Settings extends DefaultHook {
     public void mousePressed(MouseEvent event) {
         for (Button button : buttons)
             button.update(event);
+        for (HoverBox hoverbox : hoverBoxes)
+            hoverbox.update(event);
     }
 
     @Override
     public void mouseReleased(MouseEvent event) {
+
         for (Button button : buttons)
             button.update(event);
     }

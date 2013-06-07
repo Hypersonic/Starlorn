@@ -19,7 +19,7 @@ public class HoverBox {
     private String label;
     private String name;
     private int xOffset, yOffset;
-    private boolean hover;
+    private boolean hover, pressed;
     private boolean flicker;
     private boolean isflicker;
     private long old;
@@ -37,30 +37,49 @@ public class HoverBox {
         old = 0;
     }
 
+    public boolean isPressed() {
+        return pressed;
+    }
+
     public boolean isHover() {
         return hover;
     }
 
     public void update(MouseEvent event) {
-        boolean old = hover;
+        boolean old = pressed;
+        int mask = (event.getModifiersEx() & MouseEvent.BUTTON1_DOWN_MASK);
+        boolean buttonDown = mask == MouseEvent.BUTTON1_DOWN_MASK;
+
+        if (pressed && !buttonDown) {
+            pressed = false;
+        }
         if (event.getX() >= rect.x && event.getX() <= rect.x + rect.width
          && event.getY() >= rect.y && event.getY() <= rect.y + rect.height)
             hover = true;
         else
             hover = false;
-        if (!old && hover){
+
+        if (hover && buttonDown)
+            pressed = true;
+        else
+            pressed = false;
+
+        if (!old && pressed){
             isflicker = true;
+        }
+        if (old && !pressed){
+            isflicker = false;
         }
     }
 
     public void update(KeyEvent event) {
-        if (isHover() && event.getKeyCode() != KeyEvent.VK_Q){
+        if (isflicker && event.getKeyCode() != KeyEvent.VK_Q){
             label = event.getKeyText(event.getKeyCode());
             Preferences.put(name, event.getKeyCode());
             xOffset = -1;
-            isflicker = false;
         }
-
+        pressed = false;
+        isflicker = false;
     }
 
     public void draw(Graphics2D graphics) {
@@ -69,11 +88,14 @@ public class HoverBox {
             yOffset = (int) (font.getLineMetrics(label, graphics.getFontRenderContext()).getAscent() + rect.height) / 2;
         }
 
-        if (isHover())
+        if (pressed)
+            graphics.setColor(Color.RED);
+        else if (hover)
             graphics.setColor(Color.GREEN);
-
         else
             graphics.setColor(Color.WHITE);
+
+
         graphics.fill(rect);
         graphics.setColor(Color.GRAY);
         graphics.setFont(font);
