@@ -283,7 +283,7 @@ public class World extends DefaultHook {
     private void endGame() {
         HighScores scores = new HighScores();
         scores.load();
-        if (scores.count() < HighScores.MAX_SCORES || scores.getLowest() < score) {
+        if (score > 0 && (scores.count() < HighScores.MAX_SCORES || scores.getLowest() < score)) {
             scores.add("Ben Kurtovic", score);
             while (scores.count() > HighScores.MAX_SCORES) {
                 HighScores.Score lowest = scores.popLowest();
@@ -293,8 +293,8 @@ public class World extends DefaultHook {
         }
         Menu menu = new Menu(screen);
         menu.setup();
-        screen.removeHook(this);
-        screen.addHook(menu);
+        screen.popHook();
+        screen.pushHook(menu);
         screen.showCursor();
     }
 

@@ -30,7 +30,7 @@ public class Settings extends DefaultHook {
             cy = screen.getHeight() / 2;
 
         buttons = new Button[1];
-   
+
         buttons[0] = new Button(screen, cx + 10, cy + 80, 190, 80, "Back", 18f,
                                 new BackButtonCallback());
 
@@ -50,8 +50,8 @@ public class Settings extends DefaultHook {
         public void invoke() {
             Menu menu = new Menu(screen);
             menu.setup();
-            screen.removeHook(Settings.this);
-            screen.addHook(menu);
+            screen.popHook();
+            screen.pushHook(menu);
         }
     }
 

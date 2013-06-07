@@ -9,7 +9,7 @@ import java.util.TreeSet;
 
 public class HighScores {
 
-    public static final int MAX_SCORES = 3;
+    public static final int MAX_SCORES = 20;
 
     protected TreeSet<Score> _scores;
 
@@ -135,7 +135,7 @@ public class HighScores {
                     return -_date.compareTo(((Score) o).getDate());
                 }
             } else
-                throw new java.lang.IllegalArgumentException("Expected Score");
+                throw new IllegalArgumentException("Expected Score");
         }
     }
 }

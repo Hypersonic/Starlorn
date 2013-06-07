@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
 import java.io.*;
-import java.util.ArrayList;
+import java.util.Stack;
 import javax.swing.*;
 import javax.swing.event.*;
 
@@ -19,14 +19,14 @@ public class Screen extends Canvas implements Runnable, KeyListener,
 
     private boolean running;
     private long lastTick;
-    private ArrayList<Hook> hooks;
+    private Stack<Hook> hooks;
     private JFrame frame;
     private Font font;
 
     public Screen() {
         running = false;
         lastTick = 0;
-        hooks = new ArrayList<Hook>();
+        hooks = new Stack<Hook>();
         frame = new JFrame();
         font = loadFont();
     }
@@ -80,11 +80,9 @@ public class Screen extends Canvas implements Runnable, KeyListener,
         graphics.setColor(Color.BLACK);
         graphics.setFont(font);
         graphics.fillRect(0, 0, getWidth(), getHeight());
-        for (Hook hook : hooks)
-            hook.step(graphics);
+        hooks.peek().step(graphics);
         graphics.dispose();
         strategy.show();
-
     }
 
     private void tick() {
@@ -107,12 +105,16 @@ public class Screen extends Canvas implements Runnable, KeyListener,
         running = false;
     }
 
-    public void addHook(Hook hook) {
-        hooks.add(hook);
+    public void pushHook(Hook hook) {
+        hooks.push(hook);
     }
 
-    public void removeHook(Hook hook) {
-        hooks.remove(hook);
+    public Hook popHook() {
+        return hooks.pop();
+    }
+
+    public Hook peekHook() {
+        return hooks.peek();
     }
 
     public Font getFont() {

@@ -50,8 +50,8 @@ public class Menu extends DefaultHook {
     private class PlayButtonCallback implements Callback {
         public void invoke() {
             World world = new World(screen);
-            screen.removeHook(Menu.this);
-            screen.addHook(world);
+            screen.popHook();
+            screen.pushHook(world);
             screen.hideCursor();
         }
     }
@@ -66,8 +66,8 @@ public class Menu extends DefaultHook {
         public void invoke() {
             Settings settings = new Settings(screen);
             settings.setup();
-            screen.removeHook(Menu.this);
-            screen.addHook(settings);
+            screen.popHook();
+            screen.pushHook(settings);
         }
     }
 
