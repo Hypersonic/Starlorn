@@ -182,10 +182,10 @@ public class PlayerShip extends Ship {
         Explosion e1 = new Explosion(), e2 = new Explosion();
         double thatcx = enemy.getRect().x + enemy.getRect().width / 2,
                thatcy = enemy.getRect().y + enemy.getRect().height / 2;
-        e1.getRect().x = rect.x + rect.width / 2 - e1.getRect().width;
-        e1.getRect().y = rect.y + rect.height / 2 - e1.getRect().height;
-        e2.getRect().x = thatcx - e2.getRect().width;
-        e2.getRect().y = thatcy - e2.getRect().height;
+        e1.getRect().x = rect.x + rect.width / 2 - e1.getRect().width / 2;
+        e1.getRect().y = rect.y + rect.height / 2 - e1.getRect().height / 2;
+        e2.getRect().x = thatcx - e2.getRect().width / 2;
+        e2.getRect().y = thatcy - e2.getRect().height / 2;
         world.addEntity(e1);
         world.addEntity(e2);
     }

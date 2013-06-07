@@ -15,6 +15,7 @@ import edu.stuy.starlorn.entities.Entity;
 import edu.stuy.starlorn.entities.EnemyShip;
 import edu.stuy.starlorn.entities.Pickup;
 import edu.stuy.starlorn.entities.PlayerShip;
+import edu.stuy.starlorn.entities.ScorePopup;
 import edu.stuy.starlorn.entities.Ship;
 import edu.stuy.starlorn.menu.Menu;
 import edu.stuy.starlorn.upgrades.Upgrade;
@@ -202,6 +203,8 @@ public class World extends DefaultHook {
         if (enemy.wasKilledByPlayer()) {
             score += enemy.getScoreValue();
             killedInLevel++;
+            ScorePopup popup = new ScorePopup(screen, enemy);
+            popup.setWorld(this);
             if (level.isLastWave() && killedInLevel == spawnedInLevel &&
                     spawnedInWave == wave.getNumEnemies())
                 spawnPickup(enemy);

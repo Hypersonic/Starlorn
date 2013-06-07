@@ -36,7 +36,7 @@ public class Generator {
 
     public static Wave generateWave(int difficulty) {
         Wave wave = new Wave();
-        int numEnemies = (int) (difficulty / 2 + (Math.random() * difficulty));
+        int numEnemies = 2 + (int) (difficulty / 2 + (Math.random() * difficulty));
         EnemyShip enemyType = generateEnemy(difficulty);
         Path path = generatePath();
         wave.setPath(path);
