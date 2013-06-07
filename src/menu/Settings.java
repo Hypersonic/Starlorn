@@ -31,21 +31,21 @@ public class Settings extends DefaultHook {
 
         buttons = new Button[1];
    
-        buttons[0] = new Button(screen, cx + 10, cy + 80, 190, 80, "Back", 18f,
+        buttons[0] = new Button(screen, cx - 95, cy + 300, 190, 80, "Back", 18f,
                                 new BackButtonCallback());
 
         hoverBoxes = new HoverBox[6];
-        hoverBoxes[0] = new HoverBox(screen, cx - 200, cy - 200, 190, 80, "W", 18f,
+        hoverBoxes[0] = new HoverBox(screen, cx - 250, cy - 200, 190, 80, "W", 18f,
                                 "upKey");
-        hoverBoxes[1] = new HoverBox(screen, cx - 200, cy - 100, 190, 80, "W", 18f,
+        hoverBoxes[1] = new HoverBox(screen, cx - 250, cy - 50 , 190, 80, "W", 18f,
                                 "downKey");
-        hoverBoxes[2] = new HoverBox(screen, cx - 200, cy      , 190, 80, "W", 18f,
+        hoverBoxes[2] = new HoverBox(screen, cx - 250, cy + 100, 190, 80, "W", 18f,
                                 "leftKey");
-        hoverBoxes[3] = new HoverBox(screen, cx - 200, cy + 100, 190, 80, "W", 18f,
+        hoverBoxes[3] = new HoverBox(screen, cx + 160, cy - 200, 190, 80, "W", 18f,
                                 "rightKey");
-        hoverBoxes[4] = new HoverBox(screen, cx - 200, cy + 200, 190, 80, "W", 18f,
+        hoverBoxes[4] = new HoverBox(screen, cx + 160, cy -  50, 190, 80, "W", 18f,
                                 "shootKey");
-        hoverBoxes[5] = new HoverBox(screen, cx - 200, cy + 300, 190, 80, "W", 18f,
+        hoverBoxes[5] = new HoverBox(screen, cx + 160, cy + 100, 190, 80, "W", 18f,
                                 "pauseKey");
 
         stars = new Star[400];
