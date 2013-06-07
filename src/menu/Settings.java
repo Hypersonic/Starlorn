@@ -102,7 +102,6 @@ public class Settings extends DefaultHook {
 
     @Override
     public void keyPressed(KeyEvent event) {
-
         for (HoverBox hoverbox : hoverBoxes)
             hoverbox.update(event);
     }
@@ -117,7 +116,6 @@ public class Settings extends DefaultHook {
 
     @Override
     public void mouseReleased(MouseEvent event) {
-
         for (Button button : buttons)
             button.update(event);
     }

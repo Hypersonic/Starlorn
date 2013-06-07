@@ -30,7 +30,7 @@ public class NewHighScoreScreen extends DefaultHook {
         name = message = message2 = null;
         bigFont = screen.getFont().deriveFont(24f);
         smallFont = screen.getFont().deriveFont(16f);
-        timer = 60;
+        timer = 30;
         wait = true;
     }
 
