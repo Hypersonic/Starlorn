@@ -32,6 +32,7 @@ public class World extends DefaultHook {
     private ConcurrentLinkedQueue<Entity> entities;
     private ArrayList<Ship> ships;
     private Star[] stars;
+    private Rainbow[] rainbows;
     private PlayerShip player;
     private Level level;
     private Wave wave;
@@ -52,6 +53,10 @@ public class World extends DefaultHook {
         for (int i = 0; i < 250; i++)
             stars[i] = new Star(Math.random() * screen.getWidth(),
                                 Math.random() * screen.getHeight());
+        rainbows = new Rainbow[7];
+        for (int i = 0; i < 7; i++) {
+            rainbows[i] = new Rainbow(screen.getWidth()/7, screen.getHeight(), i);
+        }
         player = new PlayerShip(screen.getWidth(), screen.getHeight());
         player.setInvincibility(0);
         player.setWorld(this);
@@ -78,6 +83,7 @@ public class World extends DefaultHook {
 
     public void step(Graphics2D graphics) {
         stepLevelProgress();
+        stepRainbow(graphics);
         stepStars(graphics);
         stepEntities(graphics);
         drawHUD(graphics);
@@ -164,6 +170,17 @@ public class World extends DefaultHook {
                 star.x = Math.random() * screen.getWidth();
             }
             star.draw(graphics);
+        }
+    }
+    
+    private void stepRainbow(Graphics2D graphics) {
+        for (Rainbow rainbow : rainbows) {
+            if (paused) {
+                rainbow.draw(graphics);
+                continue;
+            }
+            rainbow.step();
+            rainbow.draw(graphics);
         }
     }
 
