@@ -26,7 +26,7 @@ public class Rainbow extends Rectangle2D.Double {
     }
 
     public Color nextColor() {
-        if(update == 10) {
+        if(update == 4) {
             update = 0;
             int newColor = curColor + 1;
             if (newColor > 6) newColor = 0;
@@ -50,7 +50,7 @@ public class Rainbow extends Rectangle2D.Double {
     }
 
     public void draw(Graphics2D graphics) {
-        graphics.setColor(nextColor());
+        graphics.setColor(colors[getColor()]);
         graphics.fill(this);
     }
 
