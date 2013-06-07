@@ -17,6 +17,7 @@ public class NewHighScoreScreen extends DefaultHook {
     private HighScores scores;
     private long score;
     private Date date;
+    private Score scoreObj;
     private String name, message, message2;
     private Font bigFont, smallFont;
     private int timer;
@@ -27,6 +28,7 @@ public class NewHighScoreScreen extends DefaultHook {
         this.scores = scores;
         this.score = score;
         date = new Date();
+        scoreObj = null;
         name = message = message2 = null;
         bigFont = screen.getFont().deriveFont(24f);
         smallFont = screen.getFont().deriveFont(16f);
@@ -35,7 +37,7 @@ public class NewHighScoreScreen extends DefaultHook {
     }
 
     public void finish() {
-        HighScoresScreen scoreScreen = new HighScoresScreen(screen, scores);
+        HighScoresScreen scoreScreen = new HighScoresScreen(screen, scores, scoreObj);
         screen.popHook();
         screen.pushHook(scoreScreen);
     }
@@ -49,7 +51,7 @@ public class NewHighScoreScreen extends DefaultHook {
         if (name == null) {
             name = JOptionPane.showInputDialog(screen, "What is your name?",
                 "Name", JOptionPane.QUESTION_MESSAGE);
-            scores.add(name, score, date);
+            scoreObj = scores.add(name, score, date);
             while (scores.extraScores())
                 getDisplaced();
             scores.save();

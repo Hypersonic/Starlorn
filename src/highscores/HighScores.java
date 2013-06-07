@@ -17,12 +17,14 @@ public class HighScores implements Iterable<Score> {
         _scores = new TreeSet<Score>();
     }
 
-    public void add(String name, long score, Date date) {
-        _scores.add(new Score(name, score, date));
+    public Score add(String name, long score, Date date) {
+        Score scoreObj = new Score(name, score, date);
+        _scores.add(scoreObj);
+        return scoreObj;
     }
 
-    public void add(String name, long score) {
-        _scores.add(new Score(name, score));
+    public Score add(String name, long score) {
+        return this.add(name, score, new Date());
     }
 
     public int count() {

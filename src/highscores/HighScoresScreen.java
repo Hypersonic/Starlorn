@@ -17,26 +17,33 @@ public class HighScoresScreen extends DefaultHook {
 
     private Screen screen;
     private HighScores scores;
+    private Score highlight;
     private Font bigFont, smallFont;
     private ArrayList<String> data;
     private String title;
-    private int titleOffset, dataOffset;
+    private int titleOffset, dataOffset, highlightIndex;
     private Button button;
     private Star[] stars;
 
-    public HighScoresScreen(Screen screen, HighScores scores) {
+    public HighScoresScreen(Screen screen, HighScores scores, Score score) {
         this.screen = screen;
         this.scores = scores;
+        highlight = score;
         bigFont = screen.getFont().deriveFont(48f);
         smallFont = screen.getFont().deriveFont(16f);
         data = null;
         title = "HIGH SCORES";
         titleOffset = dataOffset = 0;
+        highlightIndex = -1;
         button = new Button(screen, screen.getWidth() / 2 - 95, screen.getHeight() / 2 + 250,
                             190, 80, "Back", 18f, new BackButtonCallback());
         stars = new Star[400];
         for (int i = 0; i < 400; i++)
             stars[i] = new Star(screen.getWidth(), screen.getHeight());
+    }
+
+    public HighScoresScreen(Screen screen, HighScores scores) {
+        this(screen, scores, null);
     }
 
     public HighScoresScreen(Screen screen) {
@@ -60,7 +67,6 @@ public class HighScoresScreen extends DefaultHook {
                 title, graphics.getFontRenderContext()).getWidth()) / 2;
             getData(graphics);
         }
-        int i = 0;
 
         graphics.setColor(Color.WHITE);
         for (Star star : stars) {
@@ -72,8 +78,13 @@ public class HighScoresScreen extends DefaultHook {
         graphics.drawString(title, titleOffset, screen.getHeight() / 2 - 250);
         graphics.setColor(Color.WHITE);
         graphics.setFont(smallFont);
+        int i = 0;
         for (String datum : data) {
+            if (i == highlightIndex)
+                graphics.setColor(Color.YELLOW);
             graphics.drawString(datum, dataOffset, screen.getHeight() / 2 - 190 + 20 * i);
+            if (i == highlightIndex)
+                graphics.setColor(Color.WHITE);
             i++;
         }
         button.draw(graphics);
@@ -89,6 +100,8 @@ public class HighScoresScreen extends DefaultHook {
             if (formatted.length() > longest.length())
                 longest = formatted;
             data.add(formatted);
+            if (score == highlight)
+                highlightIndex = i - 1;
             i++;
         }
         dataOffset = (int) (screen.getWidth() - smallFont.getStringBounds(
@@ -97,7 +110,7 @@ public class HighScoresScreen extends DefaultHook {
 
     @Override
     public void keyReleased(KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.VK_Q)
+        if (event.getKeyCode() == KeyEvent.VK_Q || event.getKeyCode() == KeyEvent.VK_B)
             new BackButtonCallback().invoke();
     }
 
