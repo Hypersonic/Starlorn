@@ -55,7 +55,7 @@ public class NewHighScoreScreen extends DefaultHook {
             while (scores.extraScores())
                 getDisplaced();
             scores.save();
-            message = String.format("You got a new HIGH SCORE of %d!", score);
+            message = String.format("You got a new HIGH SCORE of %s!", scoreObj.getFormattedScore());
         }
 
         int x = getXOffset(graphics, bigFont, message);
@@ -78,9 +78,9 @@ public class NewHighScoreScreen extends DefaultHook {
     private void getDisplaced() {
         Score score = scores.popLowest();
         if (score.getName().equals(name))
-            message2 = String.format("This displaces your earlier score of %d!", score.getFormattedScore());
+            message2 = String.format("This displaces your earlier score of %s!", score.getFormattedScore());
         else
-            message2 = String.format("This displaces a score of %d by %s!", score.getFormattedScore(), score.getName());
+            message2 = String.format("This displaces a score of %s by %s!", score.getFormattedScore(), score.getName());
     }
 
     private int getXOffset(Graphics2D graphics, Font font, String message) {
