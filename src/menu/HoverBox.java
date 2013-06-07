@@ -27,7 +27,7 @@ public class HoverBox {
         rect = new Rectangle(x, y, w, h);
         font = screen.getFont().deriveFont(size);
         name = buttonname;
-        label = KeyEvent.getKeyText(Preferences.getValue("name"));
+        label = KeyEvent.getKeyText(Preferences.getValue(name));
         xOffset = yOffset = -1;
         hover = false;
     }
@@ -47,8 +47,8 @@ public class HoverBox {
     public void update(KeyEvent event) {
         if (isHover() && event.getKeyCode() != KeyEvent.VK_Q){
             label = event.getKeyText(event.getKeyCode());
-            name = label;
-            edu.stuy.starlorn.util.Preferences.put(name, event.getKeyCode());
+            Preferences.put(name, event.getKeyCode());
+            xOffset = -1;
         }
 
     }
@@ -67,5 +67,6 @@ public class HoverBox {
         graphics.setColor(Color.GRAY);
         graphics.setFont(font);
         graphics.drawString(label, rect.x + xOffset, rect.y + yOffset);
+        graphics.drawString(name, rect.x - rect.width, rect.y + yOffset);
     }
 }
