@@ -35,17 +35,17 @@ public class Settings extends DefaultHook {
                                 new BackButtonCallback());
 
         hoverBoxes = new HoverBox[6];
-        hoverBoxes[0] = new HoverBox(screen, cx - 250, cy - 200, 190, 80, "W", 18f,
+        hoverBoxes[0] = new HoverBox(screen, cx - 300, cy - 200, 190, 80, "W", 18f,
                                 "upKey");
-        hoverBoxes[1] = new HoverBox(screen, cx - 250, cy - 50 , 190, 80, "W", 18f,
+        hoverBoxes[1] = new HoverBox(screen, cx - 300, cy - 50 , 190, 80, "W", 18f,
                                 "downKey");
-        hoverBoxes[2] = new HoverBox(screen, cx - 250, cy + 100, 190, 80, "W", 18f,
+        hoverBoxes[2] = new HoverBox(screen, cx - 300, cy + 100, 190, 80, "W", 18f,
                                 "leftKey");
-        hoverBoxes[3] = new HoverBox(screen, cx + 160, cy - 200, 190, 80, "W", 18f,
+        hoverBoxes[3] = new HoverBox(screen, cx + 210, cy - 200, 190, 80, "W", 18f,
                                 "rightKey");
-        hoverBoxes[4] = new HoverBox(screen, cx + 160, cy -  50, 190, 80, "W", 18f,
+        hoverBoxes[4] = new HoverBox(screen, cx + 210, cy -  50, 190, 80, "W", 18f,
                                 "shootKey");
-        hoverBoxes[5] = new HoverBox(screen, cx + 160, cy + 100, 190, 80, "W", 18f,
+        hoverBoxes[5] = new HoverBox(screen, cx + 210, cy + 100, 190, 80, "W", 18f,
                                 "pauseKey");
 
         stars = new Star[400];
