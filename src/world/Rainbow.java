@@ -6,7 +6,6 @@ import java.awt.geom.Rectangle2D;
 
 public class Rainbow extends Rectangle2D.Double {
 
-    private Color color;
     private int curColor = 0;
     private int update = 0;
     private Color[] colors = {
@@ -23,8 +22,7 @@ public class Rainbow extends Rectangle2D.Double {
         super(color*width, 0, width, height);
         this.width = width;
         this.height = height;
-        curColor = color;
-        this.color = colors[color];
+        curColor = setColor(color);
     }
 
     public Color nextColor() {
@@ -39,6 +37,17 @@ public class Rainbow extends Rectangle2D.Double {
             return colors[curColor];
         }
     }
+    
+    public int setColor(int c) {
+        c %= colors.length;
+        if(c > 6)
+            c = 0;
+        return c;
+    }
+    
+    public int getColor() {
+        return curColor;
+    }
 
     public void draw(Graphics2D graphics) {
         graphics.setColor(nextColor());
@@ -46,6 +55,6 @@ public class Rainbow extends Rectangle2D.Double {
     }
 
     public void step() {
-        this.color = nextColor();
+        nextColor();
     }
 }
