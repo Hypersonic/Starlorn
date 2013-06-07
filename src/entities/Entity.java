@@ -26,7 +26,7 @@ public class Entity {
 
     public Entity(double x, double y, double width, double height) {
         rect = new Rectangle2D.Double(x, y, width, height);
-        xvel = yvel;
+        xvel = yvel = 0;
         angle = Math.PI / 2;
         dead = false;
     }
@@ -89,8 +89,10 @@ public class Entity {
      * Used for taking actions (moving, shooting, etc)
      */
     public void step() {
-        rect.x += xvel;
-        rect.y += yvel;
+        if (!dead) {
+            rect.x += xvel;
+            rect.y += yvel;
+        }
     }
 
     public Rectangle2D.Double getRect() {
