@@ -5,11 +5,12 @@ import java.io.FileReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.TreeSet;
 
-public class HighScores {
+public class HighScores implements Iterable<Score> {
 
-    protected static final int MAX_SCORES = 5;
+    protected static final int MAX_SCORES = 20;
     protected TreeSet<Score> _scores;
 
     public HighScores() {
@@ -44,6 +45,10 @@ public class HighScores {
 
     public boolean displaces(long score) {
         return count() < MAX_SCORES || getLowest() < score;
+    }
+
+    public Iterator<Score> iterator() {
+        return _scores.descendingIterator();
     }
 
     public void save(String filename) {

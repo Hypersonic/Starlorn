@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 
 import edu.stuy.starlorn.graphics.DefaultHook;
 import edu.stuy.starlorn.graphics.Screen;
+import edu.stuy.starlorn.highscores.HighScoresScreen;
 import edu.stuy.starlorn.world.World;
 
 public class Menu extends DefaultHook {
@@ -58,7 +59,9 @@ public class Menu extends DefaultHook {
 
     private class HighScoresButtonCallback implements Callback {
         public void invoke() {
-            System.out.println("Not implemented yet!");
+            HighScoresScreen highscores = new HighScoresScreen(screen);
+            screen.popHook();
+            screen.pushHook(highscores);
         }
     }
 

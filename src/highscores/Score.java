@@ -1,5 +1,6 @@
 package edu.stuy.starlorn.highscores;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 
 public class Score implements Comparable {
@@ -34,7 +35,12 @@ public class Score implements Comparable {
         return _score;
     }
 
-    public void setDate (Date date) {
+    public String getFormattedScore() {
+        DecimalFormat formatter = new DecimalFormat("#,###");
+        return formatter.format(_score);
+    }
+
+    public void setDate(Date date) {
         _date = date;
     }
 

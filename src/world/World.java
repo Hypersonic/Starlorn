@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -217,7 +218,8 @@ public class World extends DefaultHook {
     private void drawHUD(Graphics2D graphics) {
         graphics.setFont(smallFont);
         graphics.setColor(Color.WHITE);
-        graphics.drawString(String.format("Score: %d", score), 50, 50);
+        graphics.drawString(String.format("Score: %s",
+                            new DecimalFormat("#,###").format(score)), 50, 50);
         graphics.drawString(String.format("Level %d, Wave %d/%d", levelNo,
                             waveNo, level.numWaves()), 50, 75);
         graphics.drawString(String.format("Lives: %d", lives), 50, 100);

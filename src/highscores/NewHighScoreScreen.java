@@ -10,7 +10,6 @@ import javax.swing.JOptionPane;
 
 import edu.stuy.starlorn.graphics.DefaultHook;
 import edu.stuy.starlorn.graphics.Screen;
-import edu.stuy.starlorn.menu.Menu;
 
 public class NewHighScoreScreen extends DefaultHook {
 
@@ -20,6 +19,7 @@ public class NewHighScoreScreen extends DefaultHook {
     private Date date;
     private String name, message, message2;
     private Font bigFont, smallFont;
+    private int timer;
     private boolean wait;
 
     public NewHighScoreScreen(Screen screen, HighScores scores, long score) {
@@ -30,14 +30,14 @@ public class NewHighScoreScreen extends DefaultHook {
         name = message = message2 = null;
         bigFont = screen.getFont().deriveFont(24f);
         smallFont = screen.getFont().deriveFont(16f);
+        timer = 60;
         wait = true;
     }
 
     public void finish() {
-        Menu menu = new Menu(screen);           /// HIGH SCORES MENU
-        menu.setup();
+        HighScoresScreen scoreScreen = new HighScoresScreen(screen, scores);
         screen.popHook();
-        screen.pushHook(menu);
+        screen.pushHook(scoreScreen);
     }
 
     @Override
@@ -69,14 +69,16 @@ public class NewHighScoreScreen extends DefaultHook {
         else {
             graphics.drawString(message, x, screen.getHeight() / 2);
         }
+        if (timer > 0)
+            timer--;
     }
 
     private void getDisplaced() {
         Score score = scores.popLowest();
         if (score.getName().equals(name))
-            message2 = String.format("This displaces your earlier score of %d!", score.getScore());
+            message2 = String.format("This displaces your earlier score of %d!", score.getFormattedScore());
         else
-            message2 = String.format("This displaces a score of %d by %s!", score.getScore(), score.getName());
+            message2 = String.format("This displaces a score of %d by %s!", score.getFormattedScore(), score.getName());
     }
 
     private int getXOffset(Graphics2D graphics, Font font, String message) {
@@ -86,7 +88,7 @@ public class NewHighScoreScreen extends DefaultHook {
 
     @Override
     public void keyReleased(KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.VK_Q)
+        if (timer == 0)
             finish();
     }
 }
