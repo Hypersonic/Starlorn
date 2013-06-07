@@ -10,8 +10,7 @@ import javax.swing.event.*;
 
 import edu.stuy.starlorn.graphics.Hook;
 
-public class Screen extends Canvas implements Runnable, KeyListener,
-                                              MouseInputListener {
+public class Screen extends JFrame implements Runnable, ActionListener, KeyListener, MouseInputListener {
 
     private static final long serialVersionUID = 1L;
     private static final int MAX_FPS = 60;
@@ -20,34 +19,27 @@ public class Screen extends Canvas implements Runnable, KeyListener,
     private boolean running;
     private long lastTick;
     private Stack<Hook> hooks;
-    private JFrame frame;
     private Font font;
 
     public Screen() {
         running = false;
         lastTick = 0;
         hooks = new Stack<Hook>();
-        frame = new JFrame();
         font = loadFont();
     }
 
     public void setup() {
         Rectangle bounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
         setPreferredSize(new Dimension(bounds.width, bounds.height));
-
-        setFocusable(true);
         addKeyListener(this);
         addMouseListener(this);
         addMouseMotionListener(this);
-
-        frame.setTitle("Starlorn");
-        frame.setResizable(true);
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frame.setUndecorated(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(this);
-        frame.pack();
-        frame.setVisible(true);
+        setTitle("Starlorn");
+        setResizable(true);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setUndecorated(true);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
     }
 
     private Font loadFont() {
@@ -134,53 +126,58 @@ public class Screen extends Canvas implements Runnable, KeyListener,
 
     /* EVENT HANDLERS */
 
+    public void actionPerformed(ActionEvent event) {
+        if (!hooks.empty())
+            hooks.peek().actionPerformed(event);
+    }
+
     public void keyTyped(KeyEvent event) {
-        for (Hook hook : hooks)
-            hook.keyTyped(event);
+        if (!hooks.empty())
+            hooks.peek().keyTyped(event);
     }
 
     public void keyPressed(KeyEvent event) {
-        for (Hook hook : hooks)
-            hook.keyPressed(event);
+        if (!hooks.empty())
+            hooks.peek().keyPressed(event);
     }
 
     public void keyReleased(KeyEvent event) {
-        for (Hook hook : hooks)
-            hook.keyReleased(event);
+        if (!hooks.empty())
+            hooks.peek().keyReleased(event);
     }
 
     public void mouseClicked(MouseEvent event) {
-        for (Hook hook : hooks)
-            hook.mouseClicked(event);
+        if (!hooks.empty())
+            hooks.peek().mouseClicked(event);
     }
 
     public void mouseEntered(MouseEvent event) {
-        for (Hook hook : hooks)
-            hook.mouseEntered(event);
+        if (!hooks.empty())
+            hooks.peek().mouseEntered(event);
     }
 
     public void mouseExited(MouseEvent event) {
-        for (Hook hook : hooks)
-            hook.mouseExited(event);
+        if (!hooks.empty())
+            hooks.peek().mouseExited(event);
     }
 
     public void mousePressed(MouseEvent event) {
-        for (Hook hook : hooks)
-            hook.mousePressed(event);
+        if (!hooks.empty())
+            hooks.peek().mousePressed(event);
     }
 
     public void mouseReleased(MouseEvent event) {
-        for (Hook hook : hooks)
-            hook.mouseReleased(event);
+        if (!hooks.empty())
+            hooks.peek().mouseReleased(event);
     }
 
     public void mouseDragged(MouseEvent event) {
-        for (Hook hook : hooks)
-            hook.mouseDragged(event);
+        if (!hooks.empty())
+            hooks.peek().mouseDragged(event);
     }
 
     public void mouseMoved(MouseEvent event) {
-        for (Hook hook : hooks)
-            hook.mouseMoved(event);
+        if (!hooks.empty())
+            hooks.peek().mouseMoved(event);
     }
 }

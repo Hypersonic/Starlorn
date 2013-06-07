@@ -1,4 +1,4 @@
-package edu.stuy.starlorn.util;
+package edu.stuy.starlorn.highscores;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -9,8 +9,7 @@ import java.util.TreeSet;
 
 public class HighScores {
 
-    public static final int MAX_SCORES = 20;
-
+    protected static final int MAX_SCORES = 5;
     protected TreeSet<Score> _scores;
 
     public HighScores() {
@@ -37,6 +36,14 @@ public class HighScores {
 
     public Score popLowest() {
         return _scores.pollFirst();
+    }
+
+    public boolean extraScores() {
+        return count() > MAX_SCORES;
+    }
+
+    public boolean displaces(long score) {
+        return count() < MAX_SCORES || getLowest() < score;
     }
 
     public void save(String filename) {
@@ -82,60 +89,5 @@ public class HighScores {
 
     public void load() {
         load("scores.txt");
-    }
-
-    public class Score implements Comparable {
-
-        private String _name;
-        private long _score;
-        private Date _date;
-
-        public Score(String name, long score, Date date) {
-            _name = name;
-            _score = score;
-            _date = date;
-        }
-
-        public Score(String name, long score) {
-            this(name, score, new Date());
-        }
-
-        public void setName(String name) {
-            _name = name;
-        }
-
-        public String getName() {
-            return _name;
-        }
-
-        public void setScore(long score) {
-            _score = score;
-        }
-
-        public long getScore() {
-            return _score;
-        }
-
-        public void setDate (Date date) {
-            _date = date;
-        }
-
-        public Date getDate() {
-            return _date;
-        }
-
-        public int compareTo(Object o) {
-            if (o instanceof Score) {
-                long otherScore = ((Score) o).getScore();
-                if (otherScore > _score)
-                    return -1;
-                else if (otherScore < _score)
-                    return 1;
-                else {
-                    return -_date.compareTo(((Score) o).getDate());
-                }
-            } else
-                throw new IllegalArgumentException("Expected Score");
-        }
     }
 }

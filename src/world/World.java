@@ -17,10 +17,11 @@ import edu.stuy.starlorn.entities.Pickup;
 import edu.stuy.starlorn.entities.PlayerShip;
 import edu.stuy.starlorn.entities.ScorePopup;
 import edu.stuy.starlorn.entities.Ship;
+import edu.stuy.starlorn.highscores.HighScores;
+import edu.stuy.starlorn.highscores.NewHighScoreScreen;
 import edu.stuy.starlorn.menu.Menu;
 import edu.stuy.starlorn.upgrades.Upgrade;
 import edu.stuy.starlorn.util.Generator;
-import edu.stuy.starlorn.util.HighScores;
 import edu.stuy.starlorn.util.Preferences;
 
 /*
@@ -283,19 +284,18 @@ public class World extends DefaultHook {
     private void endGame() {
         HighScores scores = new HighScores();
         scores.load();
-        if (score > 0 && (scores.count() < HighScores.MAX_SCORES || scores.getLowest() < score)) {
-            scores.add("Ben Kurtovic", score);
-            while (scores.count() > HighScores.MAX_SCORES) {
-                HighScores.Score lowest = scores.popLowest();
-                System.out.println(String.format("You displaced a score of %d by %s!", lowest.getScore(), lowest.getName()));
-            }
-            scores.save();
-        }
-        Menu menu = new Menu(screen);
-        menu.setup();
-        screen.popHook();
-        screen.pushHook(menu);
         screen.showCursor();
+        if (score > 0 && scores.displaces(score)) {
+            NewHighScoreScreen hs = new NewHighScoreScreen(screen, scores, score);
+            screen.popHook();
+            screen.pushHook(hs);
+        }
+        else {
+            Menu menu = new Menu(screen);
+            menu.setup();
+            screen.popHook();
+            screen.pushHook(menu);
+        }
     }
 
     private int getXOffset(Graphics2D graphics, Font font, String message) {
@@ -303,6 +303,7 @@ public class World extends DefaultHook {
         return (int) (screen.getWidth() - fontWidth) / 2;
     }
 
+    @Override
     public void keyPressed(KeyEvent event) {
         if (event.getKeyCode() == Preferences.getValue("upKey"))
             player.setGoingUp(true);
@@ -318,6 +319,7 @@ public class World extends DefaultHook {
             paused = !paused;
     }
 
+    @Override
     public void keyReleased(KeyEvent event) {
         if (event.getKeyCode() == Preferences.getValue("upKey"))
             player.setGoingUp(false);
