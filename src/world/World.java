@@ -284,6 +284,7 @@ public class World extends DefaultHook {
         menu.setup();
         screen.removeHook(this);
         screen.addHook(menu);
+        screen.showCursor();
     }
 
     private int getXOffset(Graphics2D graphics, Font font, String message) {
