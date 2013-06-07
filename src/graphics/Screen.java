@@ -4,14 +4,13 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
 import java.io.*;
-import java.util.ArrayList;
+import java.util.Stack;
 import javax.swing.*;
 import javax.swing.event.*;
 
 import edu.stuy.starlorn.graphics.Hook;
 
-public class Screen extends Canvas implements Runnable, KeyListener,
-                                              MouseInputListener {
+public class Screen extends JFrame implements Runnable, KeyListener, MouseInputListener {
 
     private static final long serialVersionUID = 1L;
     private static final int MAX_FPS = 60;
@@ -19,35 +18,28 @@ public class Screen extends Canvas implements Runnable, KeyListener,
 
     private boolean running;
     private long lastTick;
-    private ArrayList<Hook> hooks;
-    private JFrame frame;
+    private Stack<Hook> hooks;
     private Font font;
 
     public Screen() {
         running = false;
         lastTick = 0;
-        hooks = new ArrayList<Hook>();
-        frame = new JFrame();
+        hooks = new Stack<Hook>();
         font = loadFont();
     }
 
     public void setup() {
         Rectangle bounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
         setPreferredSize(new Dimension(bounds.width, bounds.height));
-
-        setFocusable(true);
         addKeyListener(this);
         addMouseListener(this);
         addMouseMotionListener(this);
-
-        frame.setTitle("Starlorn");
-        frame.setResizable(true);
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frame.setUndecorated(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(this);
-        frame.pack();
-        frame.setVisible(true);
+        setTitle("Starlorn");
+        setResizable(true);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setUndecorated(true);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
     }
 
     private Font loadFont() {
@@ -80,11 +72,9 @@ public class Screen extends Canvas implements Runnable, KeyListener,
         graphics.setColor(Color.BLACK);
         graphics.setFont(font);
         graphics.fillRect(0, 0, getWidth(), getHeight());
-        for (Hook hook : hooks)
-            hook.step(graphics);
+        hooks.peek().step(graphics);
         graphics.dispose();
         strategy.show();
-
     }
 
     private void tick() {
@@ -107,12 +97,16 @@ public class Screen extends Canvas implements Runnable, KeyListener,
         running = false;
     }
 
-    public void addHook(Hook hook) {
-        hooks.add(hook);
+    public void pushHook(Hook hook) {
+        hooks.push(hook);
     }
 
-    public void removeHook(Hook hook) {
-        hooks.remove(hook);
+    public Hook popHook() {
+        return hooks.pop();
+    }
+
+    public Hook peekHook() {
+        return hooks.peek();
     }
 
     public Font getFont() {
@@ -133,52 +127,52 @@ public class Screen extends Canvas implements Runnable, KeyListener,
     /* EVENT HANDLERS */
 
     public void keyTyped(KeyEvent event) {
-        for (Hook hook : hooks)
-            hook.keyTyped(event);
+        if (!hooks.empty())
+            hooks.peek().keyTyped(event);
     }
 
     public void keyPressed(KeyEvent event) {
-        for (Hook hook : hooks)
-            hook.keyPressed(event);
+        if (!hooks.empty())
+            hooks.peek().keyPressed(event);
     }
 
     public void keyReleased(KeyEvent event) {
-        for (Hook hook : hooks)
-            hook.keyReleased(event);
+        if (!hooks.empty())
+            hooks.peek().keyReleased(event);
     }
 
     public void mouseClicked(MouseEvent event) {
-        for (Hook hook : hooks)
-            hook.mouseClicked(event);
+        if (!hooks.empty())
+            hooks.peek().mouseClicked(event);
     }
 
     public void mouseEntered(MouseEvent event) {
-        for (Hook hook : hooks)
-            hook.mouseEntered(event);
+        if (!hooks.empty())
+            hooks.peek().mouseEntered(event);
     }
 
     public void mouseExited(MouseEvent event) {
-        for (Hook hook : hooks)
-            hook.mouseExited(event);
+        if (!hooks.empty())
+            hooks.peek().mouseExited(event);
     }
 
     public void mousePressed(MouseEvent event) {
-        for (Hook hook : hooks)
-            hook.mousePressed(event);
+        if (!hooks.empty())
+            hooks.peek().mousePressed(event);
     }
 
     public void mouseReleased(MouseEvent event) {
-        for (Hook hook : hooks)
-            hook.mouseReleased(event);
+        if (!hooks.empty())
+            hooks.peek().mouseReleased(event);
     }
 
     public void mouseDragged(MouseEvent event) {
-        for (Hook hook : hooks)
-            hook.mouseDragged(event);
+        if (!hooks.empty())
+            hooks.peek().mouseDragged(event);
     }
 
     public void mouseMoved(MouseEvent event) {
-        for (Hook hook : hooks)
-            hook.mouseMoved(event);
+        if (!hooks.empty())
+            hooks.peek().mouseMoved(event);
     }
 }
