@@ -22,12 +22,18 @@ public class ScorePopup extends Entity {
     }
 
     public void draw(Graphics2D graphics) {
-        int x = (int) (rect.x - font.getStringBounds(score, graphics.getFontRenderContext()).getWidth() / 2);
-        int y = (int) (rect.y - font.getLineMetrics(score, graphics.getFontRenderContext()).getAscent() / 2);
+        if (rect.width == 0) {
+            rect.width = font.getStringBounds(score, graphics.getFontRenderContext()).getWidth();
+            rect.x -= rect.width / 2;
+        }
+        if (rect.height == 0) {
+            rect.height = font.getLineMetrics(score, graphics.getFontRenderContext()).getAscent();
+            rect.y -= rect.height / 2;
+        }
         float opacity = Math.min(life / 30f, 1f);
         graphics.setFont(font);
         graphics.setColor(new Color(opacity, opacity, opacity));
-        graphics.drawString(score, x, y);
+        graphics.drawString(score, (int) rect.x, (int) (rect.y + rect.height));
     }
 
     public void step() {

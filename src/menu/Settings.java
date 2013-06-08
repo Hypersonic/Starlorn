@@ -21,7 +21,7 @@ public class Settings extends DefaultHook {
 
     public Settings(Screen scr) {
         screen = scr;
-        bigFont = screen.getFont().deriveFont(64f);
+        bigFont = screen.getFont().deriveFont(48f);
         smallFont = screen.getFont().deriveFont(11f);
     }
 
@@ -30,28 +30,35 @@ public class Settings extends DefaultHook {
             cy = screen.getHeight() / 2;
 
         buttons = new Button[1];
-   
-        buttons[0] = new Button(screen, cx + 10, cy + 80, 190, 80, "Back", 18f,
+
+        buttons[0] = new Button(screen, cx - 95, cy + 300, 190, 80, "Back", 18f,
                                 new BackButtonCallback());
 
-        hoverBoxes = new HoverBox[1];
-        hoverBoxes[0] = new HoverBox(screen, cx - 200, cy - 160, 190, 80, "W", 18f);
+        hoverBoxes = new HoverBox[6];
+        hoverBoxes[0] = new HoverBox(screen, cx - 300, cy - 200, 190, 80, "W", 18f,
+                                "upKey");
+        hoverBoxes[1] = new HoverBox(screen, cx - 300, cy - 50 , 190, 80, "W", 18f,
+                                "downKey");
+        hoverBoxes[2] = new HoverBox(screen, cx - 300, cy + 100, 190, 80, "W", 18f,
+                                "leftKey");
+        hoverBoxes[3] = new HoverBox(screen, cx + 210, cy - 200, 190, 80, "W", 18f,
+                                "rightKey");
+        hoverBoxes[4] = new HoverBox(screen, cx + 210, cy -  50, 190, 80, "W", 18f,
+                                "shootKey");
+        hoverBoxes[5] = new HoverBox(screen, cx + 210, cy + 100, 190, 80, "W", 18f,
+                                "pauseKey");
 
         stars = new Star[400];
         for (int i = 0; i < 400; i++)
             stars[i] = new Star(screen.getWidth(), screen.getHeight());
     }
 
-    public interface Callback {
-        void invoke();
-    }
-
-    private class BackButtonCallback implements Callback {
+    private class BackButtonCallback implements Menu.Callback {
         public void invoke() {
             Menu menu = new Menu(screen);
             menu.setup();
-            screen.removeHook(Settings.this);
-            screen.addHook(menu);
+            screen.popHook();
+            screen.pushHook(menu);
         }
     }
 
@@ -83,14 +90,24 @@ public class Settings extends DefaultHook {
 
     @Override
     public void keyReleased(KeyEvent event) {
+         for (HoverBox hoverbox : hoverBoxes)
+            hoverbox.update(event);
         if (event.getKeyCode() == KeyEvent.VK_Q)
             new BackButtonCallback().invoke();
+    }
+
+    @Override
+    public void keyPressed(KeyEvent event) {
+        for (HoverBox hoverbox : hoverBoxes)
+            hoverbox.update(event);
     }
 
     @Override
     public void mousePressed(MouseEvent event) {
         for (Button button : buttons)
             button.update(event);
+        for (HoverBox hoverbox : hoverBoxes)
+            hoverbox.update(event);
     }
 
     @Override
@@ -103,5 +120,7 @@ public class Settings extends DefaultHook {
     public void mouseMoved(MouseEvent event) {
         for (Button button : buttons)
             button.update(event);
+        for (HoverBox hoverbox : hoverBoxes)
+            hoverbox.update(event);
     }
 }

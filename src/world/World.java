@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -17,6 +18,8 @@ import edu.stuy.starlorn.entities.Pickup;
 import edu.stuy.starlorn.entities.PlayerShip;
 import edu.stuy.starlorn.entities.ScorePopup;
 import edu.stuy.starlorn.entities.Ship;
+import edu.stuy.starlorn.highscores.HighScores;
+import edu.stuy.starlorn.highscores.NewHighScoreScreen;
 import edu.stuy.starlorn.menu.Menu;
 import edu.stuy.starlorn.upgrades.Upgrade;
 import edu.stuy.starlorn.util.Generator;
@@ -232,16 +235,24 @@ public class World extends DefaultHook {
     private void drawHUD(Graphics2D graphics) {
         graphics.setFont(smallFont);
         graphics.setColor(Color.WHITE);
-        graphics.drawString(String.format("Score: %d", score), 50, 50);
+        graphics.drawString(String.format("Score: %s",
+                            new DecimalFormat("#,###").format(score)), 50, 50);
         graphics.drawString(String.format("Level %d, Wave %d/%d", levelNo,
                             waveNo, level.numWaves()), 50, 75);
         graphics.drawString(String.format("Lives: %d", lives), 50, 100);
 
-        if (paused) {
+
+        if (Preferences.getValue("devMode") == 1)
+            drawDevUI(graphics);
+        if (paused)
             drawPaused(graphics);
-        }
         if (lives == 0 || (spawnedInWave == wave.getNumEnemies() && remaining == 0))
             drawLevelProgress(graphics);
+    }
+
+    private void drawDevUI(Graphics2D graphics) {
+        graphics.setColor(Color.GRAY);
+        graphics.drawString(String.format("Entities: %d", entities.size()), 50, 200);
     }
 
     private void drawPaused(Graphics2D graphics) {
@@ -297,10 +308,20 @@ public class World extends DefaultHook {
     }
 
     private void endGame() {
-        Menu menu = new Menu(screen);
-        menu.setup();
-        screen.removeHook(this);
-        screen.addHook(menu);
+        HighScores scores = new HighScores();
+        scores.load();
+        screen.showCursor();
+        if (score > 0 && scores.displaces(score)) {
+            NewHighScoreScreen hs = new NewHighScoreScreen(screen, scores, score);
+            screen.popHook();
+            screen.pushHook(hs);
+        }
+        else {
+            Menu menu = new Menu(screen);
+            menu.setup();
+            screen.popHook();
+            screen.pushHook(menu);
+        }
     }
 
     private int getXOffset(Graphics2D graphics, Font font, String message) {
@@ -308,6 +329,7 @@ public class World extends DefaultHook {
         return (int) (screen.getWidth() - fontWidth) / 2;
     }
 
+    @Override
     public void keyPressed(KeyEvent event) {
         if (event.getKeyCode() == Preferences.getValue("upKey"))
             player.setGoingUp(true);
@@ -323,6 +345,7 @@ public class World extends DefaultHook {
             paused = !paused;
     }
 
+    @Override
     public void keyReleased(KeyEvent event) {
         if (event.getKeyCode() == Preferences.getValue("upKey"))
             player.setGoingUp(false);

@@ -13,7 +13,7 @@ public class Starlorn {
         screen.setup();
         Preferences.load(screen.getWidth(), screen.getHeight());
         menu.setup();
-        screen.addHook(menu);
+        screen.pushHook(menu);
         screen.run();
         Preferences.save();
         System.exit(0);
