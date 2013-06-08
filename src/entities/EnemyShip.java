@@ -50,6 +50,8 @@ public class EnemyShip extends Ship {
                 pathIndex++;
                 rect.x = path.getCoords(0)[0];
                 rect.y = path.getCoords(0)[1];
+                if (rect.x <= rect.width)  // Hack to force spawning offscreen
+                    rect.x -= rect.width;
             }
 
             double relativeX = path.getCoords(pathIndex)[0] - rect.x,

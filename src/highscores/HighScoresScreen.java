@@ -94,7 +94,7 @@ public class HighScoresScreen extends DefaultHook {
         int i = 1;
         String longest = "";
         data = new ArrayList<String>();
-        int slen = (scores.getHighest().getFormattedScore() + "").length();
+        int slen = scores.getHighest().getFormattedScore().length();
         for (Score score : scores) {
             String formatted = String.format("#%2d   %" + slen + "s   %s", i,
                 score.getFormattedScore(), score.getName());
