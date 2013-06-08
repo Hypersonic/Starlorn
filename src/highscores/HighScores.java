@@ -31,10 +31,12 @@ public class HighScores implements Iterable<Score> {
         return _scores.size();
     }
 
-    public long getLowest() {
-        if (count() == 0)
-            return 0;
-        return _scores.first().getScore();
+    public Score getHighest() {
+        return _scores.last();
+    }
+
+    public Score getLowest() {
+        return _scores.first();
     }
 
     public Score popLowest() {
@@ -46,7 +48,7 @@ public class HighScores implements Iterable<Score> {
     }
 
     public boolean displaces(long score) {
-        return count() < MAX_SCORES || getLowest() < score;
+        return count() < MAX_SCORES || getLowest().getScore() < score;
     }
 
     public Iterator<Score> iterator() {
