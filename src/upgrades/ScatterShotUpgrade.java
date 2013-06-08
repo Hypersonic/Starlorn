@@ -16,7 +16,7 @@ public class ScatterShotUpgrade extends GunUpgrade {
     @Override
     public double getAimAngle() {
         // Random angle going forwards
-        return Math.PI * (Math.random() - .5);
+        return Math.PI * (2.0/3.0) * (Math.random() - .5);
     }
 
     @Override
