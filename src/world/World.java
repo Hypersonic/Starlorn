@@ -224,11 +224,18 @@ public class World extends DefaultHook {
                             waveNo, level.numWaves()), 50, 75);
         graphics.drawString(String.format("Lives: %d", lives), 50, 100);
 
-        if (paused) {
+
+        if (Preferences.getValue("devMode") == 1)
+            drawDevUI(graphics);
+        if (paused)
             drawPaused(graphics);
-        }
         if (lives == 0 || (spawnedInWave == wave.getNumEnemies() && remaining == 0))
             drawLevelProgress(graphics);
+    }
+
+    private void drawDevUI(Graphics2D graphics) {
+        graphics.setColor(Color.GRAY);
+        graphics.drawString(String.format("Entities: %d", entities.size()), 50, 200);
     }
 
     private void drawPaused(Graphics2D graphics) {

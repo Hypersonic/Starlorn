@@ -149,7 +149,7 @@ public class Entity {
     }
 
     public boolean onScreen() {
-        return (rect.x >= 0 && rect.x <= world.getScreen().getWidth() - rect.width &&
-                rect.y >= 0 && rect.y <= world.getScreen().getHeight() - rect.height);
+        return (rect.x + rect.width >= 0 && rect.x <= world.getScreen().getWidth() &&
+                rect.y + rect.height >= 0 && rect.y <= world.getScreen().getHeight());
     }
 }
