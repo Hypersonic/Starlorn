@@ -63,6 +63,28 @@ public class Score implements Comparable {
         return _date;
     }
 
+    public String serialize() {
+        String serial = "%s : %d : %d : %d : %d";
+        String name = getName().replace(":", "\\:").replace("\n", " ");
+        return String.format(serial, name, getScore(), getLevel(), getWave(),
+                             getDate().getTime());
+    }
+
+    public static Score deserialize(String input) {
+        String[] data = input.split(" : ");
+        if (data.length != 5) {
+            System.out.println("Some line in the scores file isn't formatted right. I'll ignore it");
+            return null;
+        }
+        // We escape their colons when saving, so unescape them when loading
+        String name = data[0].replace("\\:", ":");
+        long score = Long.parseLong(data[1]);
+        int level = Integer.parseInt(data[2]);
+        int wave = Integer.parseInt(data[3]);
+        long time = Long.parseLong(data[4]);
+        return new Score(name, score, level, wave, new Date(time));
+    }
+
     public int compareTo(Object o) {
         if (o instanceof Score) {
             long otherScore = ((Score) o).getScore();

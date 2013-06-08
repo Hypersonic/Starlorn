@@ -92,11 +92,14 @@ public class HighScoresScreen extends DefaultHook {
     }
 
     private void getData(Graphics2D graphics) {
-        int i = 1;
-        String longest = "";
+        int i = 1, slen;
         data = new ArrayList<String>();
-        int slen = scores.getHighest().getFormattedScore().length();
+        if (scores.count() == 0)
+            slen = 2;
+        else
+            slen = scores.getHighest().getFormattedScore().length();
         header = String.format("Place Score%" + (slen - 1) + "sLvl/Wv Name", " ");
+        String longest = header;
         String tmpl = "#%2d   %" + slen + "s   %2d/%2d   %s";
         for (Score score : scores) {
             String formatted = String.format(tmpl, i, score.getFormattedScore(), score.getLevel(), score.getWave(), score.getName());
