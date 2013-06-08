@@ -51,6 +51,10 @@ public class NewHighScoreScreen extends DefaultHook {
         if (name == null) {
             name = JOptionPane.showInputDialog(screen, "What is your name?",
                 "Name", JOptionPane.QUESTION_MESSAGE);
+            if (name == null) {
+                finish();
+                return;
+            }
             scoreObj = scores.add(name, score, date);
             while (scores.extraScores())
                 getDisplaced();
