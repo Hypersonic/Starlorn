@@ -295,7 +295,7 @@ public class World extends DefaultHook {
         scores.load();
         screen.showCursor();
         if (score > 0 && scores.displaces(score)) {
-            NewHighScoreScreen hs = new NewHighScoreScreen(screen, scores, score);
+            NewHighScoreScreen hs = new NewHighScoreScreen(screen, scores, levelNo, waveNo, score);
             screen.popHook();
             screen.pushHook(hs);
         }

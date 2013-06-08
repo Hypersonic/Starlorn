@@ -7,16 +7,15 @@ public class Score implements Comparable {
 
     private String _name;
     private long _score;
+    private int _level, _wave;
     private Date _date;
 
-    public Score(String name, long score, Date date) {
+    public Score(String name, long score, int level, int wave, Date date) {
         _name = name;
         _score = score;
+        _level = level;
+        _wave = wave;
         _date = date;
-    }
-
-    public Score(String name, long score) {
-        this(name, score, new Date());
     }
 
     public void setName(String name) {
@@ -38,6 +37,22 @@ public class Score implements Comparable {
     public String getFormattedScore() {
         DecimalFormat formatter = new DecimalFormat("#,###");
         return formatter.format(_score);
+    }
+
+    public void setLevel(int level) {
+        _level = level;
+    }
+
+    public int getLevel() {
+        return _level;
+    }
+
+    public void setWave(int wave) {
+        _wave = wave;
+    }
+
+    public int getWave() {
+        return _wave;
     }
 
     public void setDate(Date date) {

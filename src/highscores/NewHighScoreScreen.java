@@ -16,6 +16,7 @@ public class NewHighScoreScreen extends DefaultHook {
     private Screen screen;
     private HighScores scores;
     private long score;
+    private int level, wave;
     private Date date;
     private Score scoreObj;
     private String name, message, message2;
@@ -23,10 +24,12 @@ public class NewHighScoreScreen extends DefaultHook {
     private int timer;
     private boolean wait;
 
-    public NewHighScoreScreen(Screen screen, HighScores scores, long score) {
+    public NewHighScoreScreen(Screen screen, HighScores scores, int level, int wave, long score) {
         this.screen = screen;
         this.scores = scores;
         this.score = score;
+        this.level = level;
+        this.wave = wave;
         date = new Date();
         scoreObj = null;
         name = message = message2 = null;
@@ -55,7 +58,7 @@ public class NewHighScoreScreen extends DefaultHook {
                 finish();
                 return;
             }
-            scoreObj = scores.add(name, score, date);
+            scoreObj = scores.add(name, score, level, wave, date);
             while (scores.extraScores())
                 getDisplaced();
             scores.save();

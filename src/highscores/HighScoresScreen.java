@@ -20,7 +20,7 @@ public class HighScoresScreen extends DefaultHook {
     private Score highlight;
     private Font bigFont, smallFont;
     private ArrayList<String> data;
-    private String title;
+    private String title, header;
     private int titleOffset, dataOffset, highlightIndex;
     private Button button;
     private Star[] stars;
@@ -35,7 +35,7 @@ public class HighScoresScreen extends DefaultHook {
         title = "HIGH SCORES";
         titleOffset = dataOffset = 0;
         highlightIndex = -1;
-        button = new Button(screen, screen.getWidth() / 2 - 95, screen.getHeight() / 2 + 250,
+        button = new Button(screen, screen.getWidth() / 2 - 95, screen.getHeight() / 2 + 270,
                             190, 80, "Back", 18f, new BackButtonCallback());
         stars = new Star[400];
         for (int i = 0; i < 400; i++)
@@ -76,9 +76,10 @@ public class HighScoresScreen extends DefaultHook {
         graphics.setColor(Color.GRAY);
         graphics.setFont(bigFont);
         graphics.drawString(title, titleOffset, screen.getHeight() / 2 - 250);
-        graphics.setColor(Color.WHITE);
         graphics.setFont(smallFont);
-        int i = 0;
+        graphics.drawString(header, dataOffset, screen.getHeight() / 2 - 190);
+        graphics.setColor(Color.WHITE);
+        int i = 1;
         for (String datum : data) {
             if (i == highlightIndex)
                 graphics.setColor(Color.YELLOW);
@@ -95,14 +96,15 @@ public class HighScoresScreen extends DefaultHook {
         String longest = "";
         data = new ArrayList<String>();
         int slen = scores.getHighest().getFormattedScore().length();
+        header = String.format("Place Score%" + (slen - 1) + "sLvl/Wv Name", " ");
+        String tmpl = "#%2d   %" + slen + "s   %2d/%2d   %s";
         for (Score score : scores) {
-            String formatted = String.format("#%2d   %" + slen + "s   %s", i,
-                score.getFormattedScore(), score.getName());
+            String formatted = String.format(tmpl, i, score.getFormattedScore(), score.getLevel(), score.getWave(), score.getName());
             if (formatted.length() > longest.length())
                 longest = formatted;
             data.add(formatted);
             if (score == highlight)
-                highlightIndex = i - 1;
+                highlightIndex = i;
             i++;
         }
         dataOffset = (int) (screen.getWidth() - smallFont.getStringBounds(
