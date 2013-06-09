@@ -7,6 +7,17 @@ import edu.stuy.starlorn.entities.EnemyShip;
 import edu.stuy.starlorn.upgrades.*;
 
 public class Generator {
+    private static final GunUpgrade[] upgrades = {
+        new ScatterShotUpgrade(),
+        new TripleShotUpgrade(),
+        new DoubleShotUpgrade(),
+        new DualShotUpgrade(),
+        new SpeedShotUpgrade(),
+        new LawnSprinklerUpgrade(),
+        new GuidedMissileUpgrade(),
+        new SideShotUpgrade(),
+        new RapidFireUpgrade()
+    };
 
     public static Path generatePath(int numPoints, int firstx, int firsty) {
         Path p = new Path();
@@ -80,15 +91,6 @@ public class Generator {
     }
 
     public static GunUpgrade getRandomUpgrade() {
-        GunUpgrade[] upgrades = new GunUpgrade[8];
-        upgrades[0] = new ScatterShotUpgrade();
-        upgrades[1] = new TripleShotUpgrade();
-        upgrades[2] = new DoubleShotUpgrade();
-        upgrades[3] = new DualShotUpgrade();
-        upgrades[4] = new SpeedShotUpgrade();
-        upgrades[5] = new LawnSprinklerUpgrade();
-        upgrades[6] = new GuidedMissileUpgrade();
-        upgrades[7] = new SideShotUpgrade();
-        return upgrades[(int) (Math.random() * upgrades.length)];
+        return (GunUpgrade) upgrades[(int) (Math.random() * upgrades.length)].clone();
     }
 }
