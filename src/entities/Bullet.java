@@ -21,7 +21,7 @@ public class Bullet extends Entity {
         setXvel(speed * Math.cos(angle));
         setYvel(speed * -Math.sin(angle));
         ticksAlive = 0;
-        trackingTime = 150;
+        trackingTime = 200;
     }
 
     public Bullet clone() {
@@ -40,10 +40,8 @@ public class Bullet extends Entity {
         yvel = -speed * Math.sin(angle);
         if (isSeeking && ticksAlive < trackingTime)
             seekTarget();
-        else if (ticksAlive >= trackingTime) {
-            String spr = sprites[0];
-            sprites = new String[1];
-            sprites[0] = spr;
+        else if (ticksAlive == trackingTime) {
+            sprites = new String[]{sprites[0]};
             spriteIndex = 0;
             updateSprite(sprites[0]);
         }
