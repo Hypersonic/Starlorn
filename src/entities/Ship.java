@@ -72,7 +72,9 @@ public class Ship extends Entity {
             b.setAngle(b.getAngle() + up.getAimAngle());
             b.setSeeking(up.getSeeking(b.getSeeking()));
             b.setSpeed(up.getShotSpeed(b.getSpeed()));
-            b.getRect().x += up.getXOffset();
+            double xOffset = up.getXOffset();
+            b.getRect().y += Math.cos(b.getAngle()) * xOffset;
+            b.getRect().x += Math.sin(b.getAngle()) * xOffset;
             createdBullets.add(b);
         }
         return createdBullets;
