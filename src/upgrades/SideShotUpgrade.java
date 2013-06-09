@@ -34,6 +34,12 @@ public class SideShotUpgrade extends GunUpgrade {
     }
 
     @Override
+    public double getXOffset() {
+        if (_left) return 15;
+        else return -15;
+    }
+
+    @Override
     public Upgrade clone() {
         return new SideShotUpgrade();
     }
