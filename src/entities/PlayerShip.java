@@ -115,11 +115,11 @@ public class PlayerShip extends Ship {
     private void keepOnScreen() {
         if (rect.x < 0) {
             rect.x = 0;
-            hitbox.x = rect.x + rect.width / 2 - hitbox.width;
+            hitbox.x = rect.x + rect.width / 2 - hitbox.width/2;
         }
         else if (rect.x > world.getScreen().getWidth() - rect.width) {
             rect.x = world.getScreen().getWidth() - rect.width;
-            hitbox.x = rect.x + rect.width / 2 - hitbox.width;
+            hitbox.x = rect.x + rect.width / 2 - hitbox.width/2;
         }
         if (rect.y < 0) {
             rect.y = 0;
