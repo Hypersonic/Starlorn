@@ -69,12 +69,12 @@ public class Ship extends Entity {
         LinkedList<Bullet> createdBullets = new LinkedList<Bullet>();
         for (int i = 0; i < up.getNumShots(); i++) {
             Bullet b = bull.clone();
-            b.setAngle(b.getAngle() + up.getAimAngle());
-            b.setSeeking(up.getSeeking(b.getSeeking()));
-            b.setSpeed(up.getShotSpeed(b.getSpeed()));
             double xOffset = up.getXOffset();
             b.getRect().y += Math.cos(b.getAngle()) * xOffset;
             b.getRect().x += Math.sin(b.getAngle()) * xOffset;
+            b.setAngle(b.getAngle() + up.getAimAngle());
+            b.setSeeking(up.getSeeking(b.getSeeking()));
+            b.setSpeed(up.getShotSpeed(b.getSpeed()));
             createdBullets.add(b);
         }
         return createdBullets;
