@@ -5,10 +5,12 @@ package edu.stuy.starlorn.upgrades;
  */
 public class Upgrade {
     protected String _name, _description;
+    protected boolean _ownedByPlayer;
 
     public Upgrade() {
         _name = "Unnamed Upgrade";
         _description = "Upgrade!";
+        _ownedByPlayer = false;
     }
 
     /*
@@ -24,6 +26,14 @@ public class Upgrade {
      */
     public String getDescription() {
         return _description;
+    }
+
+    public boolean getOwnedByPlayer() {
+        return _ownedByPlayer;
+    }
+
+    public void setOwnedByPlayer(boolean owned) {
+        _ownedByPlayer = owned;
     }
 
     public Upgrade clone() {

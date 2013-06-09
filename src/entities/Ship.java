@@ -55,6 +55,7 @@ public class Ship extends Entity {
     }
 
     public void addUpgrade(Upgrade upgrade) {
+        upgrade.setOwnedByPlayer(this instanceof PlayerShip);
         if (upgrade instanceof GunUpgrade)
             gunUpgrades.add((GunUpgrade) upgrade);
     }
