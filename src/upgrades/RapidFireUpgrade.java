@@ -4,7 +4,7 @@ public class RapidFireUpgrade extends GunUpgrade {
 
     public RapidFireUpgrade() {
         super();
-        _name = "Rapidfire";
+        _name = "Rapid Fire";
         _description = "pew pew -> pew pew pew pew";
     }
 
