@@ -9,6 +9,7 @@ public class Bullet extends Entity {
     protected String[] sprites;
     protected int spriteIndex;
     protected Ship target;
+    protected long ticksAlive, trackingTime;
 
     public Bullet(String[] sprites, double angle, double speed) {
         super(sprites[0]);
@@ -19,6 +20,8 @@ public class Bullet extends Entity {
         spriteIndex = 0;
         setXvel(speed * Math.cos(angle));
         setYvel(speed * -Math.sin(angle));
+        ticksAlive = 0;
+        trackingTime = 150;
     }
 
     public Bullet clone() {
@@ -32,10 +35,18 @@ public class Bullet extends Entity {
 
     @Override
     public void step() {
+        ticksAlive++;
         xvel = speed * Math.cos(angle);
         yvel = -speed * Math.sin(angle);
-        if (isSeeking)
+        if (isSeeking && ticksAlive < trackingTime)
             seekTarget();
+        else if (ticksAlive >= trackingTime) {
+            String spr = sprites[0];
+            sprites = new String[1];
+            sprites[0] = spr;
+            spriteIndex = 0;
+            updateSprite(sprites[0]);
+        }
         super.step();
         if (!onScreen())
             kill();
