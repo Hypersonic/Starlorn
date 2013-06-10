@@ -1,6 +1,10 @@
 package edu.stuy.starlorn.entities;
 
+import java.awt.Graphics2D;
+import java.awt.Color;
+
 import edu.stuy.starlorn.world.Path;
+import edu.stuy.starlorn.util.Preferences;
 
 public class EnemyShip extends Ship {
 
@@ -85,6 +89,15 @@ public class EnemyShip extends Ship {
             }
         }
         super.step();
+    }
+
+    @Override
+    public void draw(Graphics2D graphics) {
+        super.draw(graphics);
+        if (Preferences.getValue("devMode") == 1) {
+            graphics.setColor(Color.GREEN);
+            graphics.drawLine((int) getRect().x + (int) getRect().width/2, (int) getRect().y + (int) getRect().height/2, getPath().getCoords(pathIndex)[0], getPath().getCoords(pathIndex)[1]);
+        }
     }
 
     public long getScoreValue() {
