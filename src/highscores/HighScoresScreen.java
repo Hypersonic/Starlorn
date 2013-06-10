@@ -94,14 +94,15 @@ public class HighScoresScreen extends DefaultHook {
         int i = 1, slen;
         data = new ArrayList<String>();
         if (scores.count() == 0)
-            slen = 2;
+            slen = 5;
         else
-            slen = scores.getHighest().getFormattedScore().length();
-        header = String.format("Place Score%" + (slen - 1) + "sLvl/Wv Name", " ");
+            slen = Math.max(5, scores.getHighest().getFormattedScore().length());
+        header = String.format("Place%" + (slen - 4) + "sScore   Level   Name", " ");
         String longest = header;
-        String tmpl = "#%2d   %" + slen + "s   %2d/%2d   %s";
+        String tmpl = "#%2d   %" + slen + "s   %s   %s";
         for (Score score : scores) {
-            String formatted = String.format(tmpl, i, score.getFormattedScore(), score.getLevel(), score.getWave(), score.getName());
+            String level = String.format("%2d.%-2d", score.getLevel(), score.getWave());
+            String formatted = String.format(tmpl, i, score.getFormattedScore(), level, score.getName());
             if (formatted.length() > longest.length())
                 longest = formatted;
             data.add(formatted);
