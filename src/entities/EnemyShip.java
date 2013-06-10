@@ -62,9 +62,9 @@ public class EnemyShip extends Ship {
             xvel = maxSpeed * Math.cos(theta);
             yvel = maxSpeed * Math.sin(theta);
 
-            if (xvel > 0 && Math.abs(xvel) > Math.abs(yvel))
+            if (xvel > 0 && Math.abs(xvel) > Math.abs(yvel)*2)
                 updateSprite("enemy/right");
-            else if (xvel < 0 && Math.abs(xvel) > Math.abs(yvel))
+            else if (xvel < 0 && Math.abs(xvel) > Math.abs(yvel)*2)
                 updateSprite("enemy/left");
             else
                 updateSprite("enemy/straight");
