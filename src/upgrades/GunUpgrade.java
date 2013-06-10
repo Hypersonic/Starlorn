@@ -1,5 +1,8 @@
 package edu.stuy.starlorn.upgrades;
 
+import edu.stuy.starlorn.entities.PlayerShip;
+import edu.stuy.starlorn.entities.Ship;
+
 /*
  * Upgrades that modify a ship's gun/shots
  */
@@ -30,6 +33,17 @@ public class GunUpgrade extends Upgrade {
     }
 
     /*
+     * Gives the name of the bullet sprites, as an array to be cycled through.
+     */
+    public String[] getSprites(String[] sprites, Ship ship) {
+        if (sprites != null)
+            return sprites;
+        if (ship instanceof PlayerShip)
+            return new String[]{"bullet/blue/long"};
+        return new String[]{"bullet/purple/long"};
+    }
+
+    /*
      * Gives a number of coordinates to offset the shot's origin
      * on the X axis from wherever shots would normally come from.
      * Not garunteed to return the same thing each time, should probably keep track of which shot this is (like getAimAngle)
@@ -51,6 +65,21 @@ public class GunUpgrade extends Upgrade {
      */
     public double getShotSpeed(double shotspeed) {
         return shotspeed;
+    }
+
+    /*
+     * Returns whether or not this upgrade causes shots to seek a target.
+     */
+    public boolean getSeeking(boolean seeking) {
+        return seeking;
+    }
+
+    /*
+     * Get the max turn angle of bullets created by this upgrade, in
+     * radians per tick.
+     */
+    public double getAgility(double agility) {
+        return agility;
     }
 
     @Override

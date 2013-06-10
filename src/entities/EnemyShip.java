@@ -1,23 +1,21 @@
 package edu.stuy.starlorn.entities;
 
 import edu.stuy.starlorn.world.Path;
-import edu.stuy.starlorn.upgrades.GunUpgrade;
 
 public class EnemyShip extends Ship {
 
     protected Path path;
     protected int pathIndex; // Index of our location on the path
 
-    private boolean killedByPlayer;
+    private boolean killedByPlayer, killedByCollision;
 
     public EnemyShip() {
         super("enemy/straight");
-        bulletSprite = "bullet/purple/long";
         shootRequested = true; // shoot as often as possible
         baseAim = 3 * Math.PI / 2; // Aim down
         path = null;
         pathIndex = -1;
-        killedByPlayer = false;
+        killedByPlayer = killedByCollision = false;
     }
 
     public EnemyShip(Path p) {
@@ -36,6 +34,7 @@ public class EnemyShip extends Ship {
         return e;
     }
 
+    @Override
     public boolean isHit(Bullet b) {
         if (b.wasFiredByPlayer() && super.isHit(b)) {
             killedByPlayer = true;
@@ -51,6 +50,8 @@ public class EnemyShip extends Ship {
                 pathIndex++;
                 rect.x = path.getCoords(0)[0];
                 rect.y = path.getCoords(0)[1];
+                if (rect.x <= rect.width)  // Hack to force spawning offscreen
+                    rect.x -= rect.width;
             }
 
             double relativeX = path.getCoords(pathIndex)[0] - rect.x,
@@ -58,8 +59,23 @@ public class EnemyShip extends Ship {
                    theta = Math.atan2(relativeY, relativeX),
                    dist = Math.sqrt(Math.pow(relativeX, 2) + Math.pow(relativeY, 2));
 
-            xvel = maxSpeed * Math.cos(theta);
-            yvel = maxSpeed * Math.sin(theta);
+            double targetxvel = maxSpeed * Math.cos(theta);
+            double targetyvel = maxSpeed * Math.sin(theta);
+
+            updateSprite("enemy/straight");
+
+            if (targetxvel < 0 && xvel > targetxvel) {
+                xvel -= .3;
+                updateSprite("enemy/left");
+            } else if (targetxvel > 0 && xvel < targetxvel) {
+                xvel += .3;
+                updateSprite("enemy/right");
+            }
+            if (targetyvel < 0 && yvel > targetyvel) {
+                yvel -= .3;
+            } else if (targetyvel > 0 && yvel < targetyvel) {
+                yvel += .3;
+            }
 
             if (dist <= maxSpeed)
                 pathIndex++;
@@ -69,6 +85,14 @@ public class EnemyShip extends Ship {
             }
         }
         super.step();
+    }
+
+    public long getScoreValue() {
+        long score = 100;
+        if (killedByCollision)
+            score -= 50;
+        score += getNumUpgrades() * 25;
+        return score;
     }
 
     @Override
@@ -92,4 +116,15 @@ public class EnemyShip extends Ship {
         return killedByPlayer;
     }
 
+    public void setKilledByPlayer(boolean value) {
+        killedByPlayer = value;
+    }
+
+    public boolean wasKilledByCollision() {
+        return killedByCollision;
+    }
+
+    public void setKilledByCollision(boolean value) {
+        killedByCollision = value;
+    }
 }

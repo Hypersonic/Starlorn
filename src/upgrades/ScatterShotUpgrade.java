@@ -16,7 +16,7 @@ public class ScatterShotUpgrade extends GunUpgrade {
     @Override
     public double getAimAngle() {
         // Random angle going forwards
-        return Math.PI * (Math.random() - .5);
+        return Math.PI * (2.0/3.0) * (Math.random() - .5);
     }
 
     @Override
@@ -24,6 +24,12 @@ public class ScatterShotUpgrade extends GunUpgrade {
         // Random speed, either 1, 2, or 3
         return Math.random() * 3 + shotspeed;
     }
+
+    @Override
+    public double getCooldown(double cooldown) {
+        return cooldown * 3;
+    }
+
 
     @Override
     public Upgrade clone() {

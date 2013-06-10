@@ -3,7 +3,9 @@ package edu.stuy.starlorn.entities;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.AffineTransform;
 
+import edu.stuy.starlorn.util.Preferences;
 import edu.stuy.starlorn.graphics.Anchor;
 import edu.stuy.starlorn.graphics.Sprite;
 import edu.stuy.starlorn.world.World;
@@ -14,7 +16,7 @@ import edu.stuy.starlorn.world.World;
  */
 public class Entity {
 
-    private static final boolean DRAW_OUTLINES = false;
+    private static final boolean DRAW_OUTLINES = Preferences.getValue("devMode")==1;
 
     protected Rectangle2D.Double rect;
     protected double xvel, yvel, angle;
@@ -24,7 +26,7 @@ public class Entity {
 
     public Entity(double x, double y, double width, double height) {
         rect = new Rectangle2D.Double(x, y, width, height);
-        xvel = yvel;
+        xvel = yvel = 0;
         angle = Math.PI / 2;
         dead = false;
     }
@@ -64,13 +66,15 @@ public class Entity {
     public void draw(Graphics2D graphics) {
         if (sprite != null) {
             graphics.setPaint(sprite.getPaint(rect));
-            if (angle != Math.PI / 2) {
+            if (angle != Math.PI / 2 && Preferences.getValue("fancyGraphics") == 1) {
                 double theta = Math.PI / 2 - angle,
                        centerx = rect.x + rect.width / 2,
                        centery = rect.y + rect.height / 2;
-                graphics.rotate(theta, centerx, centery);
-                graphics.fill(rect);
-                graphics.rotate(-theta, centerx, centery);
+                AffineTransform at = new AffineTransform();
+                at.translate(centerx, centery);
+                at.rotate(theta);
+                at.translate(-rect.width / 2, -rect.height / 2);
+                graphics.drawImage(sprite.getPaint(rect).getImage(), at, null);
             }
             else
                 graphics.fill(rect);
@@ -85,8 +89,10 @@ public class Entity {
      * Used for taking actions (moving, shooting, etc)
      */
     public void step() {
-        rect.x += xvel;
-        rect.y += yvel;
+        if (!dead) {
+            rect.x += xvel;
+            rect.y += yvel;
+        }
     }
 
     public Rectangle2D.Double getRect() {
@@ -143,7 +149,7 @@ public class Entity {
     }
 
     public boolean onScreen() {
-        return (rect.x >= 0 && rect.x <= world.getScreen().getWidth() - rect.width &&
-                rect.y >= 0 && rect.y <= world.getScreen().getHeight() - rect.height);
+        return (rect.x + rect.width >= 0 && rect.x <= world.getScreen().getWidth() &&
+                rect.y + rect.height >= 0 && rect.y <= world.getScreen().getHeight());
     }
 }

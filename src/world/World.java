@@ -4,18 +4,21 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import edu.stuy.starlorn.graphics.DefaultHook;
 import edu.stuy.starlorn.graphics.Screen;
-import edu.stuy.starlorn.entities.Bullet;
 import edu.stuy.starlorn.entities.Entity;
 import edu.stuy.starlorn.entities.EnemyShip;
 import edu.stuy.starlorn.entities.Pickup;
 import edu.stuy.starlorn.entities.PlayerShip;
+import edu.stuy.starlorn.entities.ScorePopup;
 import edu.stuy.starlorn.entities.Ship;
+import edu.stuy.starlorn.highscores.HighScores;
+import edu.stuy.starlorn.highscores.NewHighScoreScreen;
 import edu.stuy.starlorn.menu.Menu;
 import edu.stuy.starlorn.upgrades.Upgrade;
 import edu.stuy.starlorn.util.Generator;
@@ -34,7 +37,8 @@ public class World extends DefaultHook {
     private PlayerShip player;
     private Level level;
     private Wave wave;
-    private int playerLives, levelNo, waveNo, spawnedInWave, spawnedInLevel,
+    private long score;
+    private int lives, levelNo, waveNo, spawnedInWave, spawnedInLevel,
                 killedInLevel, remaining, spawnTicks, respawnTicks;
     private boolean paused, playerAlive, waitForPickup;
     private Upgrade upgrade;
@@ -57,8 +61,8 @@ public class World extends DefaultHook {
         level = Generator.generateLevel(1);
         wave = level.popWave();
 
-        playerLives = 3;
-        spawnedInWave = spawnedInLevel = killedInLevel = remaining = 0;
+        lives = 3;
+        score = spawnedInWave = spawnedInLevel = killedInLevel = remaining = 0;
         levelNo = waveNo = 1;
         spawnTicks = respawnTicks = 0;
         playerAlive = true;
@@ -74,6 +78,7 @@ public class World extends DefaultHook {
         entities.remove(e);
     }
 
+    @Override
     public void step(Graphics2D graphics) {
         stepLevelProgress();
         stepStars(graphics);
@@ -99,13 +104,10 @@ public class World extends DefaultHook {
                 spawnTicks++;
         }
         if (!playerAlive) {
-            if (respawnTicks == 90) {
-                if (playerLives == 0) {
-                    endGame();
-                    return;
-                }
+            if (lives > 0 && respawnTicks == 60)
                 spawnPlayer();
-            }
+            else if (lives == 0 && respawnTicks == 120)
+                endGame();
             else
                 respawnTicks++;
         }
@@ -121,8 +123,11 @@ public class World extends DefaultHook {
         ship.setMovementSpeed(speed);
         ship.setPath(Generator.generatePath(ship.getPath().getPathLength(),
                      ship.getPath().getCoords(0)[0], ship.getPath().getCoords(0)[1]));
-        if (Math.random() < .1)
+        int rarity = 1;
+        while (Math.random() * rarity < ((double) levelNo) / (10 + levelNo)) {
             ship.addUpgrade(Generator.getRandomUpgrade());
+            rarity++;
+        }
         ship.setWorld(this);
         ships.add(ship);
     }
@@ -152,6 +157,10 @@ public class World extends DefaultHook {
 
     private void stepStars(Graphics2D graphics) {
         for (Star star : stars) {
+            if (paused) {
+                star.draw(graphics);
+                continue;
+            }
             star.step();
             if (star.y >= screen.getHeight()) {
                 star.y = 0;
@@ -188,14 +197,17 @@ public class World extends DefaultHook {
 
     private void killPlayer(PlayerShip player) {
         playerAlive = false;
-        playerLives--;
+        lives--;
         ships.remove(player);
     }
 
     private void killEnemy(EnemyShip enemy) {
         remaining--;
         if (enemy.wasKilledByPlayer()) {
+            score += enemy.getScoreValue();
             killedInLevel++;
+            ScorePopup popup = new ScorePopup(screen, enemy);
+            popup.setWorld(this);
             if (level.isLastWave() && killedInLevel == spawnedInLevel &&
                     spawnedInWave == wave.getNumEnemies())
                 spawnPickup(enemy);
@@ -206,20 +218,29 @@ public class World extends DefaultHook {
     private void drawHUD(Graphics2D graphics) {
         graphics.setFont(smallFont);
         graphics.setColor(Color.WHITE);
+        graphics.drawString(String.format("Score: %s",
+                            new DecimalFormat("#,###").format(score)), 50, 50);
         graphics.drawString(String.format("Level %d, Wave %d/%d", levelNo,
-                            waveNo, level.numWaves()), 50, 50);
-        graphics.drawString(String.format("Lives: %d", playerLives), 50, 75);
+                            waveNo, level.numWaves()), 50, 75);
+        graphics.drawString(String.format("Lives: %d", lives), 50, 100);
 
-        if (paused) {
+
+        if (Preferences.getValue("devMode") == 1)
+            drawDevUI(graphics);
+        if (paused)
             drawPaused(graphics);
-        }
-        if (playerLives == 0 || (spawnedInWave == wave.getNumEnemies() && remaining == 0))
+        if (lives == 0 || (spawnedInWave == wave.getNumEnemies() && remaining == 0))
             drawLevelProgress(graphics);
+    }
+
+    private void drawDevUI(Graphics2D graphics) {
+        graphics.setColor(Color.GRAY);
+        graphics.drawString(String.format("Entities: %d", entities.size()), 50, 200);
     }
 
     private void drawPaused(Graphics2D graphics) {
         String message = "PAUSED";
-        int xOffset = getXOffset(graphics, bigFont, message);
+        int xOffset = screen.getXOffset(graphics, bigFont, message);
         graphics.setFont(bigFont);
         graphics.setColor(Color.GRAY);
         graphics.drawString(message, xOffset, screen.getHeight() / 2 - 100);
@@ -228,7 +249,7 @@ public class World extends DefaultHook {
     private void drawLevelProgress(Graphics2D graphics) {
         Color color;
         String message;
-        if (playerLives == 0) {
+        if (lives == 0) {
             color = Color.RED;
             message = "GAME OVER";
         }
@@ -242,7 +263,7 @@ public class World extends DefaultHook {
         }
         else
             return;
-        int xOffset = getXOffset(graphics, bigFont, message);
+        int xOffset = screen.getXOffset(graphics, bigFont, message);
         graphics.setFont(bigFont);
         graphics.setColor(color);
         graphics.drawString(message, xOffset, screen.getHeight() / 2 - 10);
@@ -253,8 +274,8 @@ public class World extends DefaultHook {
     private void drawUpgradeMessage(Graphics2D graphics) {
         String message1 = "YOU GOT: " + upgrade.getName().toUpperCase();
         String message2 = upgrade.getDescription().toUpperCase();
-        int xOffset1 = getXOffset(graphics, mediumFont, message1);
-        int xOffset2 = getXOffset(graphics, smallFont, message2);
+        int xOffset1 = screen.getXOffset(graphics, mediumFont, message1);
+        int xOffset2 = screen.getXOffset(graphics, smallFont, message2);
         graphics.setColor(Color.WHITE);
         graphics.setFont(mediumFont);
         graphics.drawString(message1, xOffset1, screen.getHeight() / 2 + 50);
@@ -270,17 +291,23 @@ public class World extends DefaultHook {
     }
 
     private void endGame() {
-        Menu menu = new Menu(screen);
-        menu.setup();
-        screen.removeHook(this);
-        screen.addHook(menu);
+        HighScores scores = new HighScores();
+        scores.load();
+        screen.showCursor();
+        if (score > 0 && scores.displaces(score)) {
+            NewHighScoreScreen hs = new NewHighScoreScreen(screen, scores, levelNo, waveNo, score);
+            screen.popHook();
+            screen.pushHook(hs);
+        }
+        else {
+            Menu menu = new Menu(screen);
+            menu.setup();
+            screen.popHook();
+            screen.pushHook(menu);
+        }
     }
 
-    private int getXOffset(Graphics2D graphics, Font font, String message) {
-        double fontWidth = font.getStringBounds(message, graphics.getFontRenderContext()).getWidth();
-        return (int) (screen.getWidth() - fontWidth) / 2;
-    }
-
+    @Override
     public void keyPressed(KeyEvent event) {
         if (event.getKeyCode() == Preferences.getValue("upKey"))
             player.setGoingUp(true);
@@ -296,6 +323,7 @@ public class World extends DefaultHook {
             paused = !paused;
     }
 
+    @Override
     public void keyReleased(KeyEvent event) {
         if (event.getKeyCode() == Preferences.getValue("upKey"))
             player.setGoingUp(false);

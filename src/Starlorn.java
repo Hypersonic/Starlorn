@@ -1,5 +1,5 @@
 package edu.stuy.starlorn;
-import java.io.IOException;
+
 import edu.stuy.starlorn.graphics.Screen;
 import edu.stuy.starlorn.menu.Menu;
 import edu.stuy.starlorn.util.Preferences;
@@ -13,8 +13,9 @@ public class Starlorn {
         screen.setup();
         Preferences.load(screen.getWidth(), screen.getHeight());
         menu.setup();
-        screen.addHook(menu);
+        screen.pushHook(menu);
         screen.run();
+        Preferences.save();
         System.exit(0);
     }
 }

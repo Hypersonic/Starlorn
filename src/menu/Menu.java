@@ -13,6 +13,7 @@ import javax.sound.sampled.Clip;
 
 import edu.stuy.starlorn.graphics.DefaultHook;
 import edu.stuy.starlorn.graphics.Screen;
+import edu.stuy.starlorn.highscores.HighScoresScreen;
 import edu.stuy.starlorn.world.World;
 
 public class Menu extends DefaultHook {
@@ -67,21 +68,27 @@ public class Menu extends DefaultHook {
     private class PlayButtonCallback implements Callback {
         public void invoke() {
             World world = new World(screen);
-            screen.removeHook(Menu.this);
-            screen.addHook(world);
+            screen.popHook();
+            screen.pushHook(world);
+            screen.hideCursor();
             clip.stop();
         }
     }
 
     private class HighScoresButtonCallback implements Callback {
         public void invoke() {
-            System.out.println("Not implemented yet!");
+            HighScoresScreen highscores = new HighScoresScreen(screen);
+            screen.popHook();
+            screen.pushHook(highscores);
         }
     }
 
     private class SettingsButtonCallback implements Callback {
         public void invoke() {
-            System.out.println("Not implemented yet!");
+            Settings settings = new Settings(screen);
+            settings.setup();
+            screen.popHook();
+            screen.pushHook(settings);
         }
     }
 
@@ -91,6 +98,7 @@ public class Menu extends DefaultHook {
         }
     }
 
+    @Override
     public void step(Graphics2D graphics) {
         drawTitle(graphics);
         graphics.setColor(Color.WHITE);
@@ -105,8 +113,8 @@ public class Menu extends DefaultHook {
     private void drawTitle(Graphics2D graphics) {
         String text1 = "STARLORN";
         String text2 = "by Josh Hofing, Ben Kurtovic, and Victor Jiao";
-        int xOffset1 = (int) (screen.getWidth() - bigFont.getStringBounds(text1, graphics.getFontRenderContext()).getWidth()) / 2;
-        int xOffset2 = (int) (screen.getWidth() - smallFont.getStringBounds(text2, graphics.getFontRenderContext()).getWidth()) / 2;
+        int xOffset1 = screen.getXOffset(graphics, bigFont, text1);
+        int xOffset2 = screen.getXOffset(graphics, smallFont, text2);
         graphics.setColor(Color.GRAY);
         graphics.setFont(bigFont);
         graphics.drawString(text1, xOffset1, screen.getHeight() / 2 - 250);

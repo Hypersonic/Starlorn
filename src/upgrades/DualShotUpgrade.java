@@ -25,7 +25,7 @@ public class DualShotUpgrade extends GunUpgrade {
             _right = !_right;
             direction = -1;
         }
-        return direction * 10;
+        return direction * 20;
     }
 
     @Override

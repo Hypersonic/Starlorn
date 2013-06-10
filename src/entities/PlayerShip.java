@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.stuy.starlorn.graphics.Anchor;
-import edu.stuy.starlorn.upgrades.GunUpgrade;
 
 public class PlayerShip extends Ship {
 
@@ -25,9 +24,10 @@ public class PlayerShip extends Ship {
         hitboxAlpha = 1;
         goingUp = goingDown = goingLeft = goingRight = incHitboxAlpha = false;
         frame = 0;
-        invincibility = 90;
+        invincibility = 120;
     }
 
+    @Override
     public boolean isHit(Bullet b) {
         if (!b.wasFiredByPlayer() && invincibility == 0) {
             Rectangle2D.Double brect = b.getRect();
@@ -37,12 +37,12 @@ public class PlayerShip extends Ship {
     }
 
     @Override
-    protected Bullet spawnBullet(GunUpgrade topShot, double shotSpeed) {
-        Bullet b = super.spawnBullet(topShot, shotSpeed);
+    protected void spawnBullet(Bullet b) {
+        super.spawnBullet(b);
         b.setFiredByPlayer(true);
-        return b;
     }
 
+    @Override
     public void draw(Graphics2D graphics) {
         if ((invincibility / 2) % 3 != 1)
             super.draw(graphics);
@@ -50,7 +50,17 @@ public class PlayerShip extends Ship {
         graphics.fill(hitbox);
     }
 
+    @Override
     public void step() {
+        updateVelocity();
+        super.step();
+        updateHitbox();
+        keepOnScreen();
+        updateSpriteImage();
+        updateInvincibility();
+    }
+
+    private void updateVelocity() {
         if (goingUp) {
             yvel--;
             if (yvel < -maxSpeed)
@@ -84,14 +94,11 @@ public class PlayerShip extends Ship {
             else if (xvel < 0)
                 xvel++;
         }
-        super.step();
+    }
+
+    private void updateHitbox() {
         hitbox.x += xvel;
         hitbox.y += yvel;
-        keepOnScreen();
-        updateSprite();
-        if (invincibility > 0)
-            invincibility--;
-
         if (incHitboxAlpha) {
             hitboxAlpha += 0.1;
             if (hitboxAlpha > 1) {
@@ -111,11 +118,11 @@ public class PlayerShip extends Ship {
     private void keepOnScreen() {
         if (rect.x < 0) {
             rect.x = 0;
-            hitbox.x = rect.x + rect.width / 2 - hitbox.width;
+            hitbox.x = rect.x + rect.width / 2 - hitbox.width/2;
         }
         else if (rect.x > world.getScreen().getWidth() - rect.width) {
             rect.x = world.getScreen().getWidth() - rect.width;
-            hitbox.x = rect.x + rect.width / 2 - hitbox.width;
+            hitbox.x = rect.x + rect.width / 2 - hitbox.width/2;
         }
         if (rect.y < 0) {
             rect.y = 0;
@@ -127,7 +134,7 @@ public class PlayerShip extends Ship {
         }
     }
 
-    private void updateSprite() {
+    private void updateSpriteImage() {
         String spritename = "player/";
         Anchor anchor;
         if (xvel < 0) {
@@ -159,10 +166,37 @@ public class PlayerShip extends Ship {
             frame = 0;
     }
 
+    private void updateInvincibility() {
+        if (invincibility > 0)
+            invincibility--;
+        else {
+            for (Ship that : world.getShips()) {
+                if (that != this && rect.intersects(that.getRect()))
+                    collideWithEnemy((EnemyShip) that);
+            }
+        }
+    }
+
+    private void collideWithEnemy(EnemyShip enemy) {
+        this.kill();
+        enemy.kill();
+        enemy.setKilledByPlayer(true);
+        enemy.setKilledByCollision(true);
+        Explosion e1 = new Explosion(), e2 = new Explosion();
+        double thatcx = enemy.getRect().x + enemy.getRect().width / 2,
+               thatcy = enemy.getRect().y + enemy.getRect().height / 2;
+        e1.getRect().x = rect.x + rect.width / 2 - e1.getRect().width / 2;
+        e1.getRect().y = rect.y + rect.height / 2 - e1.getRect().height / 2;
+        e2.getRect().x = thatcx - e2.getRect().width / 2;
+        e2.getRect().y = thatcy - e2.getRect().height / 2;
+        world.addEntity(e1);
+        world.addEntity(e2);
+    }
+
     @Override
     public Ship getNearestTarget() {
-        Ship closest = world.getShips().get(0);
-        double distance = Math.pow(this.getRect().x - closest.getRect().x, 2) + Math.pow(this.getRect().y - closest.getRect().y, 2) ;
+        Ship closest = null;
+        double distance = Double.MAX_VALUE;
         for (Ship ship : world.getShips()) {
             if (ship instanceof EnemyShip) {
                 double newDistance = Math.pow(this.getRect().x - ship.getRect().x, 2) + Math.pow(this.getRect().y - ship.getRect().y, 2) ;

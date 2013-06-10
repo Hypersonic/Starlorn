@@ -7,9 +7,19 @@ import edu.stuy.starlorn.entities.EnemyShip;
 import edu.stuy.starlorn.upgrades.*;
 
 public class Generator {
+    private static final GunUpgrade[] upgrades = {
+        new ScatterShotUpgrade(),
+        new TripleShotUpgrade(),
+        new DoubleShotUpgrade(),
+        new DualShotUpgrade(),
+        new SpeedShotUpgrade(),
+        new LawnSprinklerUpgrade(),
+        new GuidedMissileUpgrade(),
+        new SideShotUpgrade(),
+        new RapidFireUpgrade()
+    };
 
     public static Path generatePath(int numPoints, int firstx, int firsty) {
-        numPoints += 2;
         Path p = new Path();
         int screenWidth = Preferences.getValue("screenWidth");
         int screenHeight = Preferences.getValue("screenHeight") / 2;
@@ -37,10 +47,8 @@ public class Generator {
 
     public static Wave generateWave(int difficulty) {
         Wave wave = new Wave();
-        int numEnemies = (int) (difficulty / 2 + (Math.random() * difficulty));
+        int numEnemies = 2 + (int) (difficulty / 2 + (Math.random() * difficulty));
         EnemyShip enemyType = generateEnemy(difficulty);
-        Path path = generatePath();
-        wave.setPath(path);
         wave.setEnemyType(enemyType);
         wave.setNumEnemies(numEnemies);
         return wave;
@@ -59,16 +67,16 @@ public class Generator {
     }
 
     public static Level generateLevel(int number) {
-        return generateLevel(number + 1, number * 5);
+        return generateLevel(number + 1, number * 3);
     }
 
     public static EnemyShip generateEnemy(int difficulty) {
         Path path = generatePath(difficulty + 5);
         EnemyShip enemy = new EnemyShip(path);
         int shotSpeed = (int) (1 + Math.random() * difficulty) + 5;
-        int cooldown = (int) (Math.random() * (100 / difficulty) + 30);
-        int cooldownRate = (int) Math.sqrt(difficulty) + 1;
-        int maxSpeed = (int) Math.ceil(Math.random() * Math.log(difficulty)) * 5;
+        int cooldown = (int) (Math.random() * (100 / difficulty) + 35);
+        int cooldownRate = (int) Math.log10(difficulty) + 1;
+        int maxSpeed = (int) Math.ceil(Math.random() * Math.log10(difficulty)) * 5;
         enemy.setBaseShotSpeed(shotSpeed);
         enemy.setBaseCooldown(cooldown);
         enemy.setCooldownRate(cooldownRate);
@@ -81,13 +89,6 @@ public class Generator {
     }
 
     public static GunUpgrade getRandomUpgrade() {
-        GunUpgrade[] upgrades = new GunUpgrade[6];
-        upgrades[0] = new ScatterShotUpgrade();
-        upgrades[1] = new TripleShotUpgrade();
-        upgrades[2] = new DoubleShotUpgrade();
-        upgrades[3] = new DualShotUpgrade();
-        upgrades[4] = new SpeedShotUpgrade();
-        upgrades[5] = new LawnSprinklerUpgrade();
-        return upgrades[(int) (Math.random() * upgrades.length)];
+        return (GunUpgrade) upgrades[(int) (Math.random() * upgrades.length)].clone();
     }
 }
