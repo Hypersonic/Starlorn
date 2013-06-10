@@ -124,7 +124,7 @@ public class World extends DefaultHook {
         ship.setPath(Generator.generatePath(ship.getPath().getPathLength(),
                      ship.getPath().getCoords(0)[0], ship.getPath().getCoords(0)[1]));
         int rarity = 1;
-        while (Math.random() * rarity < ((double) levelNo) / (10 + levelNo)) {
+        while (Math.random() * rarity < ((double) levelNo) / (5 + levelNo)) {
             ship.addUpgrade(Generator.getRandomUpgrade());
             rarity++;
         }
