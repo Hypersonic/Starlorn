@@ -113,6 +113,11 @@ public class Screen extends JFrame implements Runnable, KeyListener, MouseInputL
         return font;
     }
 
+    public int getXOffset(Graphics2D graphics, Font font, String text) {
+        double fontWidth = font.getStringBounds(text, graphics.getFontRenderContext()).getWidth();
+        return (int) (getWidth() - fontWidth) / 2;
+    }
+
     public void hideCursor() {
         BufferedImage img = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
         Toolkit kit = Toolkit.getDefaultToolkit();

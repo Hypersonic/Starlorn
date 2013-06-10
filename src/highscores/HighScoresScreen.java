@@ -63,8 +63,7 @@ public class HighScoresScreen extends DefaultHook {
     @Override
     public void step(Graphics2D graphics) {
         if (data == null) {
-            titleOffset = (int) (screen.getWidth() - bigFont.getStringBounds(
-                title, graphics.getFontRenderContext()).getWidth()) / 2;
+            titleOffset = screen.getXOffset(graphics, bigFont, title);
             getData(graphics);
         }
 
@@ -110,8 +109,7 @@ public class HighScoresScreen extends DefaultHook {
                 highlightIndex = i;
             i++;
         }
-        dataOffset = (int) (screen.getWidth() - smallFont.getStringBounds(
-            longest, graphics.getFontRenderContext()).getWidth()) / 2;
+        dataOffset = screen.getXOffset(graphics, smallFont, longest);
     }
 
     @Override

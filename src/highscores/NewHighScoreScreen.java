@@ -64,11 +64,11 @@ public class NewHighScoreScreen extends DefaultHook {
             message = String.format("You got a new HIGH SCORE of %s!", scoreObj.getFormattedScore());
         }
 
-        int x = getXOffset(graphics, bigFont, message);
+        int x = screen.getXOffset(graphics, bigFont, message);
         graphics.setColor(Color.YELLOW);
         graphics.setFont(bigFont);
         if (message2 != null) {
-            int x2 = getXOffset(graphics, smallFont, message2);
+            int x2 = screen.getXOffset(graphics, smallFont, message2);
             graphics.drawString(message, x, screen.getHeight() / 2 - 100);
             graphics.setColor(Color.WHITE);
             graphics.setFont(smallFont);
@@ -87,11 +87,6 @@ public class NewHighScoreScreen extends DefaultHook {
             message2 = String.format("This displaces your earlier score of %s!", score.getFormattedScore());
         else
             message2 = String.format("This displaces a score of %s by %s!", score.getFormattedScore(), score.getName());
-    }
-
-    private int getXOffset(Graphics2D graphics, Font font, String message) {
-        double fontWidth = font.getStringBounds(message, graphics.getFontRenderContext()).getWidth();
-        return (int) (screen.getWidth() - fontWidth) / 2;
     }
 
     @Override

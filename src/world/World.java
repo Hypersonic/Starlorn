@@ -240,7 +240,7 @@ public class World extends DefaultHook {
 
     private void drawPaused(Graphics2D graphics) {
         String message = "PAUSED";
-        int xOffset = getXOffset(graphics, bigFont, message);
+        int xOffset = screen.getXOffset(graphics, bigFont, message);
         graphics.setFont(bigFont);
         graphics.setColor(Color.GRAY);
         graphics.drawString(message, xOffset, screen.getHeight() / 2 - 100);
@@ -263,7 +263,7 @@ public class World extends DefaultHook {
         }
         else
             return;
-        int xOffset = getXOffset(graphics, bigFont, message);
+        int xOffset = screen.getXOffset(graphics, bigFont, message);
         graphics.setFont(bigFont);
         graphics.setColor(color);
         graphics.drawString(message, xOffset, screen.getHeight() / 2 - 10);
@@ -274,8 +274,8 @@ public class World extends DefaultHook {
     private void drawUpgradeMessage(Graphics2D graphics) {
         String message1 = "YOU GOT: " + upgrade.getName().toUpperCase();
         String message2 = upgrade.getDescription().toUpperCase();
-        int xOffset1 = getXOffset(graphics, mediumFont, message1);
-        int xOffset2 = getXOffset(graphics, smallFont, message2);
+        int xOffset1 = screen.getXOffset(graphics, mediumFont, message1);
+        int xOffset2 = screen.getXOffset(graphics, smallFont, message2);
         graphics.setColor(Color.WHITE);
         graphics.setFont(mediumFont);
         graphics.drawString(message1, xOffset1, screen.getHeight() / 2 + 50);
@@ -305,11 +305,6 @@ public class World extends DefaultHook {
             screen.popHook();
             screen.pushHook(menu);
         }
-    }
-
-    private int getXOffset(Graphics2D graphics, Font font, String message) {
-        double fontWidth = font.getStringBounds(message, graphics.getFontRenderContext()).getWidth();
-        return (int) (screen.getWidth() - fontWidth) / 2;
     }
 
     @Override
