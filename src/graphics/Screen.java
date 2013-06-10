@@ -10,7 +10,7 @@ import javax.swing.event.*;
 
 import edu.stuy.starlorn.graphics.Hook;
 
-public class Screen extends JFrame implements Runnable, KeyListener, MouseInputListener {
+public class Screen extends Canvas implements Runnable, KeyListener, MouseInputListener {
 
     private static final long serialVersionUID = 1L;
     private static final int MAX_FPS = 60;
@@ -19,27 +19,34 @@ public class Screen extends JFrame implements Runnable, KeyListener, MouseInputL
     private boolean running;
     private long lastTick;
     private Stack<Hook> hooks;
+    private JFrame frame;
     private Font font;
 
     public Screen() {
         running = false;
         lastTick = 0;
         hooks = new Stack<Hook>();
+        frame = new JFrame();
         font = loadFont();
     }
 
     public void setup() {
         Rectangle bounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
         setPreferredSize(new Dimension(bounds.width, bounds.height));
+
+        setFocusable(true);
         addKeyListener(this);
         addMouseListener(this);
         addMouseMotionListener(this);
-        setTitle("Starlorn");
-        setResizable(true);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setUndecorated(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
+
+        frame.setTitle("Starlorn");
+        frame.setResizable(true);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setUndecorated(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.add(this);
+        frame.pack();
+        frame.setVisible(true);
     }
 
     private Font loadFont() {
