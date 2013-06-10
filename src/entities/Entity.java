@@ -64,7 +64,6 @@ public class Entity {
     }
 
     public void draw(Graphics2D graphics) {
-        DRAW_OUTLINES = Preferences.getValue("devMode")==1;
         if (sprite != null) {
             graphics.setPaint(sprite.getPaint(rect));
             if (angle != Math.PI / 2 && Preferences.getValue("fancyGraphics") == 1) {
@@ -79,9 +78,13 @@ public class Entity {
             }
             else
                 graphics.fill(rect);
-            if (DRAW_OUTLINES) {
+            if (Preferences.getValue("devMode")==1) {
                 graphics.setColor(Color.WHITE);
                 graphics.draw(rect);
+                graphics.setColor(Color.BLUE);
+                int ourx = (int) getRect().x + (int) getRect().width/2;
+                int oury = (int) getRect().y + (int) getRect().height/2;
+                graphics.drawLine(ourx, oury, ourx + (int) xvel*10, oury + (int) yvel*10);
             }
         }
     }
