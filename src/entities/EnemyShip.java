@@ -59,16 +59,23 @@ public class EnemyShip extends Ship {
                    theta = Math.atan2(relativeY, relativeX),
                    dist = Math.sqrt(Math.pow(relativeX, 2) + Math.pow(relativeY, 2));
 
-            xvel = maxSpeed * Math.cos(theta);
-            yvel = maxSpeed * Math.sin(theta);
+            double targetxvel = maxSpeed * Math.cos(theta);
+            double targetyvel = maxSpeed * Math.sin(theta);
 
-            if (xvel > 0 && Math.abs(xvel) > Math.abs(yvel)*2)
-                updateSprite("enemy/right");
-            else if (xvel < 0 && Math.abs(xvel) > Math.abs(yvel)*2)
+            updateSprite("enemy/straight");
+
+            if (targetxvel < 0 && xvel > targetxvel) {
+                xvel -= .3;
                 updateSprite("enemy/left");
-            else
-                updateSprite("enemy/straight");
-
+            } else if (targetxvel > 0 && xvel < targetxvel) {
+                xvel += .3;
+                updateSprite("enemy/right");
+            }
+            if (targetyvel < 0 && yvel > targetyvel) {
+                yvel -= .3;
+            } else if (targetyvel > 0 && yvel < targetyvel) {
+                yvel += .3;
+            }
 
             if (dist <= maxSpeed)
                 pathIndex++;
