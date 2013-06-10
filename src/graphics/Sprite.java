@@ -93,7 +93,7 @@ public class Sprite {
         else if (name.equals("explosion/7"))
             return new Rectangle(250, 390, 106, 98);
         else if (name.equals("explosion/8"))
-            return new Rectangle(386, 396, 106, 102);
+            return new Rectangle(386, 396, 106, 92);
 
         else if (name.equals("bullet/blue/long"))
             return new Rectangle(13, 267, 8, 20);
