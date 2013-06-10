@@ -321,7 +321,7 @@ public class World extends DefaultHook {
             player.setShootRequested(true);
         else if (event.getKeyCode() == Preferences.getValue("pauseKey"))
             paused = !paused;
-        else if (event.getKeyCode() == KeyEvent.VK_F3) {
+        else if (event.getKeyCode() == Preferences.getValue("debugKey")) {
             Preferences.put("devMode", Math.abs(Preferences.getValue("devMode")-1));
         }
     }

@@ -70,6 +70,7 @@ public class Preferences {
         if (force || !_data.containsKey("rightKey")) _data.put("rightKey", KeyEvent.VK_D);
         if (force || !_data.containsKey("shootKey")) _data.put("shootKey", KeyEvent.VK_SPACE);
         if (force || !_data.containsKey("pauseKey")) _data.put("pauseKey", KeyEvent.VK_P);
+        if (force || !_data.containsKey("debugKey")) _data.put("debugKey", KeyEvent.VK_F3);
 
         if (force || !_data.containsKey("fancyGraphics")) _data.put("fancyGraphics", 1);
         if (force || !_data.containsKey("devMode")) _data.put("devMode", 0);
