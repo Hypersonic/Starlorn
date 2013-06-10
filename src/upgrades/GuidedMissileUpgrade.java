@@ -11,7 +11,7 @@ public class GuidedMissileUpgrade extends GunUpgrade {
 
     @Override
     public String[] getSprites(String[] sprites, Ship ship) {
-        String color = _ownedByPlayer ? "red" : "purple";
+        String color = _ownedByPlayer ? "blue" : "purple";
         return new String[]{
             "bullet/missile/"+color+"/1", "bullet/missile/"+color+"/2", "bullet/missile/"+color+"/3",
             "bullet/missile/"+color+"/4", "bullet/missile/"+color+"/5"};
