@@ -1,7 +1,6 @@
 package edu.stuy.starlorn.entities;
 
 import edu.stuy.starlorn.world.Path;
-import edu.stuy.starlorn.upgrades.GunUpgrade;
 
 public class EnemyShip extends Ship {
 

@@ -1,5 +1,5 @@
 package edu.stuy.starlorn;
-import java.io.IOException;
+
 import edu.stuy.starlorn.graphics.Screen;
 import edu.stuy.starlorn.menu.Menu;
 import edu.stuy.starlorn.util.Preferences;

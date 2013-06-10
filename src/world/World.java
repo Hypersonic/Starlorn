@@ -11,7 +11,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import edu.stuy.starlorn.graphics.DefaultHook;
 import edu.stuy.starlorn.graphics.Screen;
-import edu.stuy.starlorn.entities.Bullet;
 import edu.stuy.starlorn.entities.Entity;
 import edu.stuy.starlorn.entities.EnemyShip;
 import edu.stuy.starlorn.entities.Pickup;

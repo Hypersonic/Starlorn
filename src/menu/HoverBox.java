@@ -7,10 +7,8 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyEvent;
 
-
 import edu.stuy.starlorn.graphics.Screen;
 import edu.stuy.starlorn.util.Preferences;
-
 
 public class HoverBox {
 

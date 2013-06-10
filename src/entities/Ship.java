@@ -1,11 +1,8 @@
 package edu.stuy.starlorn.entities;
 
-import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
 import java.util.Iterator;
 
-import edu.stuy.starlorn.graphics.Sprite;
 import edu.stuy.starlorn.upgrades.GunUpgrade;
 import edu.stuy.starlorn.upgrades.Upgrade;
 
@@ -61,8 +58,7 @@ public class Ship extends Entity {
     }
 
     public boolean isHit(Bullet b) {
-        Rectangle2D.Double brect = b.getRect();
-        return brect.intersects(rect);
+        return b.getRect().intersects(rect);
     }
 
     public LinkedList<Bullet> applyUpgrade(Bullet bull, GunUpgrade up) {

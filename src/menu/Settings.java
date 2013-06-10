@@ -8,7 +8,6 @@ import java.awt.event.MouseEvent;
 
 import edu.stuy.starlorn.graphics.DefaultHook;
 import edu.stuy.starlorn.graphics.Screen;
-import edu.stuy.starlorn.world.World;
 
 public class Settings extends DefaultHook {
 
