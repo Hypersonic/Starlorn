@@ -52,13 +52,13 @@ public class World extends DefaultHook {
         bigFont = screen.getFont().deriveFont(36f);
         entities = new ConcurrentLinkedQueue<Entity>();
         ships = new ArrayList<Ship>();
-        stars = new Star[250];
-        for (int i = 0; i < 250; i++)
+        stars = new Star[5000];
+        for (int i = 0; i < 5000; i++)
             stars[i] = new Star(Math.random() * screen.getWidth(),
                                 Math.random() * screen.getHeight());
-        rainbows = new Rainbow[21];
-        for (int i = 0; i < 21; i++) {
-            rainbows[i] = new Rainbow(screen.getWidth()/21, screen.getHeight(), i);
+        rainbows = new Rainbow[42];
+        for (int i = 0; i < 42; i++) {
+            rainbows[i] = new Rainbow(screen.getWidth()/42, screen.getHeight(), i);
         }
         player = new PlayerShip(screen.getWidth(), screen.getHeight());
         player.setInvincibility(0);
