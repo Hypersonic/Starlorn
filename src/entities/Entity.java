@@ -16,7 +16,7 @@ import edu.stuy.starlorn.world.World;
  */
 public class Entity {
 
-    private static final boolean DRAW_OUTLINES = Preferences.getValue("devMode")==1;
+    private static boolean DRAW_OUTLINES = Preferences.getValue("devMode")==1;
 
     protected Rectangle2D.Double rect;
     protected double xvel, yvel, angle;
@@ -64,6 +64,7 @@ public class Entity {
     }
 
     public void draw(Graphics2D graphics) {
+        DRAW_OUTLINES = Preferences.getValue("devMode")==1;
         if (sprite != null) {
             graphics.setPaint(sprite.getPaint(rect));
             if (angle != Math.PI / 2 && Preferences.getValue("fancyGraphics") == 1) {
