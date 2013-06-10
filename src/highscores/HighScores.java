@@ -54,6 +54,7 @@ public class HighScores implements Iterable<Score> {
         return count() < MAX_SCORES || getLowest().getScore() < score;
     }
 
+    @Override
     public Iterator<Score> iterator() {
         return _scores.descendingIterator();
     }

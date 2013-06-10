@@ -21,6 +21,7 @@ public class ScorePopup extends Entity {
         life = 60;
     }
 
+    @Override
     public void draw(Graphics2D graphics) {
         if (rect.width == 0) {
             rect.width = font.getStringBounds(score, graphics.getFontRenderContext()).getWidth();
@@ -36,6 +37,7 @@ public class ScorePopup extends Entity {
         graphics.drawString(score, (int) rect.x, (int) (rect.y + rect.height));
     }
 
+    @Override
     public void step() {
         life--;
         if (life <= 0)

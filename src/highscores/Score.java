@@ -85,6 +85,7 @@ public class Score implements Comparable {
         return new Score(name, score, level, wave, new Date(time));
     }
 
+    @Override
     public int compareTo(Object o) {
         if (o instanceof Score) {
             long otherScore = ((Score) o).getScore();

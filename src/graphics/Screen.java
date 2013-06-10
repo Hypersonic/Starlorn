@@ -126,51 +126,61 @@ public class Screen extends JFrame implements Runnable, KeyListener, MouseInputL
 
     /* EVENT HANDLERS */
 
+    @Override
     public void keyTyped(KeyEvent event) {
         if (!hooks.empty())
             hooks.peek().keyTyped(event);
     }
 
+    @Override
     public void keyPressed(KeyEvent event) {
         if (!hooks.empty())
             hooks.peek().keyPressed(event);
     }
 
+    @Override
     public void keyReleased(KeyEvent event) {
         if (!hooks.empty())
             hooks.peek().keyReleased(event);
     }
 
+    @Override
     public void mouseClicked(MouseEvent event) {
         if (!hooks.empty())
             hooks.peek().mouseClicked(event);
     }
 
+    @Override
     public void mouseEntered(MouseEvent event) {
         if (!hooks.empty())
             hooks.peek().mouseEntered(event);
     }
 
+    @Override
     public void mouseExited(MouseEvent event) {
         if (!hooks.empty())
             hooks.peek().mouseExited(event);
     }
 
+    @Override
     public void mousePressed(MouseEvent event) {
         if (!hooks.empty())
             hooks.peek().mousePressed(event);
     }
 
+    @Override
     public void mouseReleased(MouseEvent event) {
         if (!hooks.empty())
             hooks.peek().mouseReleased(event);
     }
 
+    @Override
     public void mouseDragged(MouseEvent event) {
         if (!hooks.empty())
             hooks.peek().mouseDragged(event);
     }
 
+    @Override
     public void mouseMoved(MouseEvent event) {
         if (!hooks.empty())
             hooks.peek().mouseMoved(event);

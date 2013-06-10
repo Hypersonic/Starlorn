@@ -62,6 +62,7 @@ public class Settings extends DefaultHook {
         }
     }
 
+    @Override
     public void step(Graphics2D graphics) {
         drawTitle(graphics);
         graphics.setColor(Color.WHITE);

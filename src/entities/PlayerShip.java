@@ -27,6 +27,7 @@ public class PlayerShip extends Ship {
         invincibility = 120;
     }
 
+    @Override
     public boolean isHit(Bullet b) {
         if (!b.wasFiredByPlayer() && invincibility == 0) {
             Rectangle2D.Double brect = b.getRect();
@@ -41,6 +42,7 @@ public class PlayerShip extends Ship {
         b.setFiredByPlayer(true);
     }
 
+    @Override
     public void draw(Graphics2D graphics) {
         if ((invincibility / 2) % 3 != 1)
             super.draw(graphics);
@@ -48,6 +50,7 @@ public class PlayerShip extends Ship {
         graphics.fill(hitbox);
     }
 
+    @Override
     public void step() {
         updateVelocity();
         super.step();

@@ -79,6 +79,7 @@ public class World extends DefaultHook {
         entities.remove(e);
     }
 
+    @Override
     public void step(Graphics2D graphics) {
         stepLevelProgress();
         stepStars(graphics);

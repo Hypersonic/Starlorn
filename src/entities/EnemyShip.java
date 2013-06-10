@@ -35,6 +35,7 @@ public class EnemyShip extends Ship {
         return e;
     }
 
+    @Override
     public boolean isHit(Bullet b) {
         if (b.wasFiredByPlayer() && super.isHit(b)) {
             killedByPlayer = true;
