@@ -73,8 +73,8 @@ public class Preferences {
 
         if (force || !_data.containsKey("fancyGraphics")) _data.put("fancyGraphics", 1);
         if (force || !_data.containsKey("devMode")) _data.put("devMode", 0);
-        if (force || !_data.containsKey("screenWidth")) _data.put("screenWidth", width);
-        if (force || !_data.containsKey("screenHeight")) _data.put("screenHeight", height);
+        if (force || true /*!_data.containsKey("screenWidth")*/) _data.put("screenWidth", width);
+        if (force || true /*!_data.containsKey("screenHeight")*/) _data.put("screenHeight", height);
         if (force || !_data.containsKey("fullscreen")) _data.put("fullScreen", 0);
     }
 
