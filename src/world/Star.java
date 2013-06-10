@@ -3,11 +3,9 @@ package edu.stuy.starlorn.world;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
-import java.util.Random;
 
 public class Star extends Rectangle2D.Double {
 
-    private Random random;
     private double speed;
     private Color color;
     private Color[] colors = {
@@ -22,12 +20,11 @@ public class Star extends Rectangle2D.Double {
 
     public Star(double x, double y) {
         super(x, y, 1, 1);
-        random = new Random();
         width = height = (int) Math.round(Math.random() + 1);
         speed = 1 + Math.random() * 2;
-        color = new Color(random.nextInt(255),
-                          random.nextInt(255),
-                          random.nextInt(255));
+        color = new Color((float) Math.random(),
+                          (float) Math.random(),
+                          (float) Math.random());
     }
 
     public void draw(Graphics2D graphics) {
