@@ -12,23 +12,29 @@ import edu.stuy.starlorn.util.Preferences;
 
 public class HoverBox {
 
+    public static int ABOVE = 0, RIGHT = 1, BELOW = 2, LEFT = 3;
+
     private Rectangle rect;
     private Font font;
     private String label;
-    private String name;
+    private String value;
+    private String button;
     private int xOffset, yOffset;
     private boolean hover, pressed;
     private boolean flicker;
     private boolean isflicker;
     private long old;
+    private int labeldirection;
 
     public HoverBox(Screen screen, int x, int y, int w, int h, String text,
-                  float size, String buttonname) {
+                  float size, String buttonname, int dir) {
         rect = new Rectangle(x, y, w, h);
         font = screen.getFont().deriveFont(size);
-        name = buttonname;
-        label = KeyEvent.getKeyText(Preferences.getValue(name));
+        label = text;
+        button = buttonname;
+        value = KeyEvent.getKeyText(Preferences.getValue(button));
         xOffset = yOffset = -1;
+        labeldirection = dir;
         hover = false;
         flicker = false;
         isflicker = false;
@@ -72,8 +78,8 @@ public class HoverBox {
 
     public void update(KeyEvent event) {
         if (isflicker && event.getKeyCode() != KeyEvent.VK_Q){
-            label = event.getKeyText(event.getKeyCode());
-            Preferences.put(name, event.getKeyCode());
+            value = event.getKeyText(event.getKeyCode());
+            Preferences.put(button, event.getKeyCode());
             xOffset = -1;
         }
         pressed = false;
@@ -109,11 +115,20 @@ public class HoverBox {
                 if (!flicker)
                     flicker = true;
             }
+        } else {
+            xOffset = (int) (rect.width - font.getStringBounds(value, graphics.getFontRenderContext()).getWidth()) / 2;
+            graphics.drawString(value, rect.x + xOffset, rect.y + yOffset);
         }
-        else {
-            xOffset = (int) (rect.width - font.getStringBounds(label, graphics.getFontRenderContext()).getWidth()) / 2;
-        graphics.drawString(label, rect.x + xOffset, rect.y + yOffset);
-        }
-        graphics.drawString(name, rect.x - rect.width, rect.y + yOffset);
+
+        int xcenterthis = (int) (rect.width - font.getStringBounds(label, graphics.getFontRenderContext()).getWidth()) / 2;
+        int ycenterthis = (int) (rect.height - font.getStringBounds(label, graphics.getFontRenderContext()).getHeight()) / 2;
+        if (labeldirection == ABOVE)
+            graphics.drawString(label, rect.x + xcenterthis, rect.y - ycenterthis);
+        else if (labeldirection == RIGHT)
+            graphics.drawString(label, rect.x + rect.width + xcenterthis, rect.y + yOffset);
+        else if (labeldirection == BELOW)
+            graphics.drawString(label, rect.x + xcenterthis, rect.y + rect.height + yOffset);
+        else // left (default)
+            graphics.drawString(label, rect.x - rect.width + xcenterthis, rect.y + yOffset);
     }
 }
