@@ -296,7 +296,9 @@ public class World extends DefaultHook {
 
     private void spawnPickup(Entity source) {
         Upgrade up = Generator.getRandomUpgrade();
-        Pickup bonus = new Pickup(up, source.getRect().x, source.getRect().y);
+        Rectangle2D.Double rect = source.getRect();
+        Pickup bonus = new Pickup(up, rect.x + rect.width / 2,
+                                      rect.y + rect.height / 2);
         bonus.setWorld(this);
         waitForPickup = true;
     }
