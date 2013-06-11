@@ -16,7 +16,6 @@ public class Ship extends Entity {
     public Ship(double x, double y, String name) {
         super(x, y, name);
         gunUpgrades = new LinkedList<GunUpgrade>();
-        gunUpgrades.add(new GunUpgrade()); // add default gunupgrade
         baseShotSpeed = 12;
         baseAim = Math.PI / 2; //Aim up by default
         baseCooldown = 10;
@@ -45,14 +44,12 @@ public class Ship extends Entity {
         s.cooldownRate = cooldownRate;
         s.maxSpeed = maxSpeed;
         s.baseAim = baseAim;
-        for (GunUpgrade up : gunUpgrades) {
-            if (up.getName() != "Default Gun")
-                s.addUpgrade(up.clone());
-        }
+        for (GunUpgrade up : gunUpgrades)
+            s.addUpgrade(up.clone());
     }
 
     public void addUpgrade(Upgrade upgrade) {
-        upgrade.setOwnedByPlayer(this instanceof PlayerShip);
+        upgrade.setOwnedByPlayer(isPlayer());
         if (upgrade instanceof GunUpgrade)
             gunUpgrades.add((GunUpgrade) upgrade);
     }
@@ -109,11 +106,16 @@ public class Ship extends Entity {
     public void shoot() {
         double cooling = baseCooldown;
         double agility = 0;
-        String[] sprites = null;
+        String[] sprites;
+        if (isPlayer())
+            sprites = new String[]{"bullet/blue/long"};
+        else
+            sprites = new String[]{"bullet/purple/long"};
+
         for (GunUpgrade up : gunUpgrades) {
             cooling = up.getCooldown(cooling);
             agility = up.getAgility(agility);
-            sprites = up.getSprites(sprites, this);
+            sprites = up.getSprites(sprites);
         }
         cooldownTimer = (int) cooling;
         for (Bullet b : applyAllUpgrades(sprites)) {
@@ -140,8 +142,12 @@ public class Ship extends Entity {
         super.step();
     }
 
+    public boolean isPlayer() {
+        return false;
+    }
+
     public int getNumUpgrades() {
-        return gunUpgrades.size() - 1;  // Ignore default GunUpgrade
+        return gunUpgrades.size();
     }
 
     public Ship getNearestTarget() {

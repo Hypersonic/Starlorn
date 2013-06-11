@@ -1,6 +1,5 @@
 package edu.stuy.starlorn.upgrades;
 
-import edu.stuy.starlorn.entities.PlayerShip;
 import edu.stuy.starlorn.entities.Ship;
 
 /*
@@ -35,12 +34,8 @@ public class GunUpgrade extends Upgrade {
     /*
      * Gives the name of the bullet sprites, as an array to be cycled through.
      */
-    public String[] getSprites(String[] sprites, Ship ship) {
-        if (sprites != null)
-            return sprites;
-        if (ship instanceof PlayerShip)
-            return new String[]{"bullet/blue/long"};
-        return new String[]{"bullet/purple/long"};
+    public String[] getSprites(String[] sprites) {
+        return sprites;
     }
 
     /*

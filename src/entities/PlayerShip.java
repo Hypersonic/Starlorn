@@ -194,6 +194,11 @@ public class PlayerShip extends Ship {
     }
 
     @Override
+    public boolean isPlayer() {
+        return true;
+    }
+
+    @Override
     public Ship getNearestTarget() {
         Ship closest = null;
         double distance = Double.MAX_VALUE;
