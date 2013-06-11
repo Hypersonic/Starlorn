@@ -203,7 +203,7 @@ public class PlayerShip extends Ship {
         Ship closest = null;
         double distance = Double.MAX_VALUE;
         for (Ship ship : world.getShips()) {
-            if (ship instanceof EnemyShip) {
+            if (!ship.isPlayer()) {
                 double newDistance = Math.pow(this.getRect().x - ship.getRect().x, 2) + Math.pow(this.getRect().y - ship.getRect().y, 2) ;
                 if (newDistance < distance) {
                     closest = ship;
