@@ -26,8 +26,8 @@ public class HoverBox {
     private long old;
     private int labeldirection;
 
-    public HoverBox(Screen screen, int x, int y, int w, int h, String text,
-                  float size, String buttonname, int dir) {
+    public HoverBox(Screen screen, int x, int y, int w, int h, int dir,
+                    String text, float size, String buttonname) {
         rect = new Rectangle(x, y, w, h);
         font = screen.getFont().deriveFont(size);
         label = text;

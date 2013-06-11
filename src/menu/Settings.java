@@ -33,18 +33,12 @@ public class Settings extends DefaultHook {
             18f, new BackButtonCallback());
 
         hoverBoxes = new HoverBox[6];
-        hoverBoxes[0] = new HoverBox(screen, cx - 200, cy - 50, 100, 50, "Up",
-            18f, "upKey", HoverBox.ABOVE);
-        hoverBoxes[1] = new HoverBox(screen, cx - 200, cy     , 100, 50, "Down",
-            18f, "downKey", HoverBox.BELOW);
-        hoverBoxes[2] = new HoverBox(screen, cx - 300, cy     , 100, 50, "Left",
-            18f, "leftKey", HoverBox.BELOW);
-        hoverBoxes[3] = new HoverBox(screen, cx - 100, cy     , 100, 50, "Right",
-            18f, "rightKey", HoverBox.BELOW);
-        hoverBoxes[4] = new HoverBox(screen, cx + 200, cy - 50, 150, 50, "Shoot",
-            18f, "shootKey", HoverBox.LEFT);
-        hoverBoxes[5] = new HoverBox(screen, cx + 200, cy + 25, 150, 50, "Pause",
-            18f, "pauseKey", HoverBox.LEFT);
+        hoverBoxes[0] = new HoverBox(screen, cx - 200, cy - 50, 100, 50, HoverBox.ABOVE, "Up"   , 18f, "upKey"   );
+        hoverBoxes[1] = new HoverBox(screen, cx - 200, cy     , 100, 50, HoverBox.BELOW, "Down" , 18f, "downKey" );
+        hoverBoxes[2] = new HoverBox(screen, cx - 300, cy     , 100, 50, HoverBox.BELOW, "Left" , 18f, "leftKey" );
+        hoverBoxes[3] = new HoverBox(screen, cx - 100, cy     , 100, 50, HoverBox.BELOW, "Right", 18f, "rightKey");
+        hoverBoxes[4] = new HoverBox(screen, cx + 200, cy - 50, 150, 50, HoverBox.LEFT , "Shoot", 18f, "shootKey");
+        hoverBoxes[5] = new HoverBox(screen, cx + 200, cy + 25, 150, 50, HoverBox.LEFT , "Pause", 18f, "pauseKey");
 
         stars = new Star[400];
         for (int i = 0; i < 400; i++)
