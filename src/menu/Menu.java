@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.BufferedInputStream;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -16,6 +16,8 @@ import edu.stuy.starlorn.graphics.Screen;
 import edu.stuy.starlorn.highscores.HighScoresScreen;
 import edu.stuy.starlorn.world.World;
 
+import javazoom.jl.player.Player;
+
 public class Menu extends DefaultHook {
 
     private static final String MUSIC_FILE = "res/title.wav";
@@ -24,7 +26,8 @@ public class Menu extends DefaultHook {
     private long lastFrame;
     private Button[] buttons;
     private Star[] stars;
-    private Clip clip;
+    private Player sound;
+
 
     public Menu(Screen scr) {
         screen = scr;
@@ -51,14 +54,13 @@ public class Menu extends DefaultHook {
             stars[i] = new Star(screen.getWidth(), screen.getHeight());
 
         try {
-            InputStream stream = new FileInputStream(MUSIC_FILE);
-            AudioInputStream audio = AudioSystem.getAudioInputStream(stream);
-            clip = AudioSystem.getClip();
-            clip.open(audio);
-            clip.start();
+            FileInputStream fis = new FileInputStream("res/title.mp3");
+            BufferedInputStream bis = new BufferedInputStream(fis);
+            sound = new Player(bis);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        sound.play();
     }
 
     public interface Callback {
@@ -71,7 +73,7 @@ public class Menu extends DefaultHook {
             screen.popHook();
             screen.pushHook(world);
             screen.hideCursor();
-            clip.stop();
+            sound.close();
         }
     }
 
