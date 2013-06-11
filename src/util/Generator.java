@@ -49,8 +49,10 @@ public class Generator {
         Wave wave = new Wave();
         int numEnemies = 2 + (int) (difficulty / 2 + (Math.random() * difficulty));
         EnemyShip enemyType = generateEnemy(difficulty);
+        int intermission = (int) Math.ceil(500.0 / difficulty);
         wave.setEnemyType(enemyType);
         wave.setNumEnemies(numEnemies);
+        wave.setIntermission(intermission);
         return wave;
     }
 
