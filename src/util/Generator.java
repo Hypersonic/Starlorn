@@ -76,12 +76,10 @@ public class Generator {
         Path path = generatePath(difficulty + 5);
         EnemyShip enemy = new EnemyShip(path);
         int shotSpeed = (int) (1 + Math.random() * difficulty) + 5;
-        int cooldown = (int) (Math.random() * (100 / difficulty) + 35);
-        int cooldownRate = (int) Math.log10(difficulty) + 1;
+        int cooldown = (int) ((Math.random() * (100 / difficulty) + 35) / (Math.log10(difficulty) + 1));
         int maxSpeed = 3 + (int) Math.ceil(Math.random() * Math.log10(difficulty)) * 5;
         enemy.setBaseShotSpeed(shotSpeed);
         enemy.setBaseCooldown(cooldown);
-        enemy.setCooldownRate(cooldownRate);
         enemy.setMovementSpeed(maxSpeed);
         return enemy;
     }

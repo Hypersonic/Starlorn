@@ -9,7 +9,7 @@ import edu.stuy.starlorn.upgrades.Upgrade;
 public class Ship extends Entity {
 
     protected LinkedList<GunUpgrade> gunUpgrades;
-    protected int baseShotSpeed, cooldownTimer, baseCooldown, cooldownRate, maxSpeed;
+    protected int baseShotSpeed, cooldownTimer, baseCooldown, maxSpeed;
     protected double baseAim;
     protected boolean shootRequested;
 
@@ -20,7 +20,6 @@ public class Ship extends Entity {
         baseAim = Math.PI / 2; //Aim up by default
         baseCooldown = 10;
         cooldownTimer = 0;
-        cooldownRate = 1;
         maxSpeed = 10;
         shootRequested = false;
     }
@@ -41,7 +40,6 @@ public class Ship extends Entity {
         s.sprite = sprite;
         s.baseShotSpeed = baseShotSpeed;
         s.baseCooldown = baseCooldown;
-        s.cooldownRate = cooldownRate;
         s.maxSpeed = maxSpeed;
         s.baseAim = baseAim;
         for (GunUpgrade up : gunUpgrades)
@@ -134,11 +132,10 @@ public class Ship extends Entity {
     @Override
     public void step() {
         //Only baseCooldown if we're below the rate, otherwise the ship hasn't tried to shoot
-        if (cooldownTimer <= 0 && shootRequested) {
+        if (cooldownTimer <= 0 && shootRequested)
             this.shoot();
-        } else {
-            cooldownTimer -= cooldownRate;
-        }
+        if (cooldownTimer > 0)
+            cooldownTimer--;
         super.step();
     }
 
@@ -190,14 +187,6 @@ public class Ship extends Entity {
 
     public int getCooldownTimer() {
         return cooldownTimer;
-    }
-
-    public void setCooldownRate(int rate) {
-        cooldownRate = rate;
-    }
-
-    public int getCooldownRate() {
-        return cooldownRate;
     }
 
     public void setMovementSpeed(int speed) {
