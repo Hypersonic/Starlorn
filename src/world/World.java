@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -11,6 +12,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import edu.stuy.starlorn.graphics.DefaultHook;
 import edu.stuy.starlorn.graphics.Screen;
+import edu.stuy.starlorn.graphics.Sprite;
 import edu.stuy.starlorn.entities.Entity;
 import edu.stuy.starlorn.entities.EnemyShip;
 import edu.stuy.starlorn.entities.Pickup;
@@ -41,11 +43,13 @@ public class World extends DefaultHook {
     private int lives, levelNo, waveNo, spawnedInWave, spawnedInLevel,
                 killedInLevel, remaining, spawnTicks, respawnTicks;
     private boolean paused, playerAlive, waitForPickup;
+    private Sprite lifeSprite;
+    private Rectangle2D lifeRect;
     private Upgrade upgrade;
 
     public World(Screen scr) {
         screen = scr;
-        smallFont = screen.getFont().deriveFont(12f);
+        smallFont = screen.getFont().deriveFont(14f);
         mediumFont = screen.getFont().deriveFont(24f);
         bigFont = screen.getFont().deriveFont(36f);
         entities = new ConcurrentLinkedQueue<Entity>();
@@ -67,6 +71,9 @@ public class World extends DefaultHook {
         spawnTicks = respawnTicks = 0;
         playerAlive = true;
         paused = waitForPickup = false;
+        lifeSprite = Sprite.getSprite("hud/lives");
+        lifeRect = new Rectangle2D.Double(50, screen.getHeight() - 50 - lifeSprite.getHeight() / 2,
+            lifeSprite.getWidth(), lifeSprite.getHeight());
         upgrade = null;
     }
 
@@ -221,9 +228,13 @@ public class World extends DefaultHook {
         graphics.drawString(String.format("Score: %s",
                             new DecimalFormat("#,###").format(score)), 50, 50);
         graphics.drawString(String.format("Level %d, Wave %d/%d", levelNo,
-                            waveNo, level.numWaves()), 50, 75);
-        graphics.drawString(String.format("Lives: %d", lives), 50, 100);
+                            waveNo, level.numWaves()), 50, 80);
 
+        String text = "x" + lives;
+        int yOffset = (int) (smallFont.getLineMetrics(text, graphics.getFontRenderContext()).getAscent() / 2);
+        graphics.drawString(text, 60 + lifeSprite.getWidth(), screen.getHeight() - 50 + yOffset);
+        graphics.setPaint(lifeSprite.getPaint(lifeRect));
+        graphics.fill(lifeRect);
 
         if (Preferences.getValue("devMode") == 1)
             drawDevUI(graphics);

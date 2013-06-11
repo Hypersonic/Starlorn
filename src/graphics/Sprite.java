@@ -120,6 +120,8 @@ public class Sprite {
         else if (name.equals("bullet/missile/purple/5"))
             return new Rectangle(210, 268, 12, 30);
 
+        else if (name.equals("hud/lives"))
+            return new Rectangle(280, 512, 39, 36);
         else if (name.equals("upgrade/generic"))
             return new Rectangle(444, 610, 16, 20);
         return null;
