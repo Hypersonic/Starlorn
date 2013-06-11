@@ -149,6 +149,21 @@ public class Ship extends Entity {
     public int getNumUpgrades() {
         return gunUpgrades.size();
     }
+    
+    public String[] getGunUpgrades() {
+        if (getNumUpgrades() > 0) {
+            String[] upgrades = new String[getNumUpgrades()];
+            int i = 0;
+            for (GunUpgrade up : gunUpgrades) {
+                upgrades[i] = up.getName();
+                i++;
+            }
+            return upgrades;
+        } else {
+            String[] none = new String[]{"None"};
+            return none;
+        }
+    }
 
     public Ship getNearestTarget() {
         return world.getPlayer();
@@ -178,6 +193,10 @@ public class Ship extends Entity {
         return baseCooldown;
     }
 
+    public int getCooldownTimer() {
+        return cooldownTimer;
+    }
+    
     public void setCooldownRate(int rate) {
         cooldownRate = rate;
     }

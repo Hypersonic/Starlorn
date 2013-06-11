@@ -228,8 +228,15 @@ public class World extends DefaultHook {
         graphics.drawString(String.format("Score: %s",
                             new DecimalFormat("#,###").format(score)), 50, 50);
         graphics.drawString(String.format("Level %d, Wave %d/%d", levelNo,
-                            waveNo, level.numWaves()), 50, 80);
+                            waveNo, level.numWaves()), 50, 75);
 
+        graphics.drawString("Upgrades:", 50, 125);
+        int upgradeyoffset = 150;
+        for (String upgrade : player.getGunUpgrades()) {
+            graphics.drawString(upgrade, 100, upgradeyoffset);
+            upgradeyoffset += 25;
+        }
+        
         String text = "x" + lives;
         int yOffset = (int) (smallFont.getLineMetrics(text, graphics.getFontRenderContext()).getAscent() / 2);
         graphics.drawString(text, 60 + lifeSprite.getWidth(), screen.getHeight() - 50 + yOffset);
@@ -245,10 +252,18 @@ public class World extends DefaultHook {
     }
 
     private void drawDevUI(Graphics2D graphics) {
+        int xoff = screen.getWidth() - 400;
         graphics.setColor(Color.GRAY);
-        graphics.drawString(String.format("Entities: %d", entities.size()), 50, 200);
-        graphics.drawString(String.format("Time until next spawn: %d", wave.getIntermission()-spawnTicks), 50, 225);
-        graphics.drawString(String.format("Enemies left in wave: %d", wave.getNumEnemies()-spawnedInWave), 50, 250);
+        graphics.drawString(String.format("Entities: %d", entities.size()), xoff, 50);
+        graphics.drawString(String.format("Time until next spawn: %d", wave.getIntermission()-spawnTicks), xoff, 75);
+        graphics.drawString(String.format("Enemies left in wave: %d", wave.getNumEnemies()-spawnedInWave), xoff, 100);
+        
+        graphics.drawString(String.format("baseCooldown: %d", player.getBaseCooldown()), xoff, 125);
+        int timer = player.getCooldownTimer();
+        if (timer < 0)
+            timer = 0;
+        graphics.drawString(String.format("cooldownTimer: %d", timer), xoff, 150);
+        graphics.drawString(String.format("cooldownRate: %d", player.getCooldownRate()), xoff, 175);
     }
 
     private void drawPaused(Graphics2D graphics) {
