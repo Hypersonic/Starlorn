@@ -121,14 +121,14 @@ public class HoverBox {
         }
 
         int xcenterthis = (int) (rect.width - font.getStringBounds(label, graphics.getFontRenderContext()).getWidth()) / 2;
-        int ycenterthis = (int) (rect.height - font.getStringBounds(label, graphics.getFontRenderContext()).getHeight()) / 2;
+        int ycenterthis = (int) (rect.height + font.getStringBounds(label, graphics.getFontRenderContext()).getHeight()) / 2;
         if (labeldirection == ABOVE)
             graphics.drawString(label, rect.x + xcenterthis, rect.y - ycenterthis);
         else if (labeldirection == RIGHT)
-            graphics.drawString(label, rect.x + rect.width + xcenterthis, rect.y + yOffset);
+            graphics.drawString(label, rect.x + rect.width + xcenterthis, rect.y + ycenterthis);
         else if (labeldirection == BELOW)
-            graphics.drawString(label, rect.x + xcenterthis, rect.y + rect.height + yOffset);
+            graphics.drawString(label, rect.x + xcenterthis, rect.y + rect.height + ycenterthis);
         else // left (default)
-            graphics.drawString(label, rect.x - rect.width + xcenterthis, rect.y + yOffset);
+            graphics.drawString(label, rect.x - rect.width + xcenterthis, rect.y + ycenterthis);
     }
 }
