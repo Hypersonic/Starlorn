@@ -247,6 +247,8 @@ public class World extends DefaultHook {
     private void drawDevUI(Graphics2D graphics) {
         graphics.setColor(Color.GRAY);
         graphics.drawString(String.format("Entities: %d", entities.size()), 50, 200);
+        graphics.drawString(String.format("Time until next spawn: %d", wave.getIntermission()-spawnTicks), 50, 225);
+        graphics.drawString(String.format("Enemies left in wave: %d", wave.getNumEnemies()-spawnedInWave), 50, 250);
     }
 
     private void drawPaused(Graphics2D graphics) {
