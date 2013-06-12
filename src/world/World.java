@@ -255,12 +255,11 @@ public class World extends DefaultHook {
 
     private void drawDevUI(Graphics2D graphics) {
         int xoff = screen.getWidth() - 400;
-        int timer = player.getCooldownTimer();
         graphics.setColor(Color.GRAY);
         graphics.drawString(String.format("Entities: %d", entities.size()), xoff, 50);
         graphics.drawString(String.format("Time until next spawn: %d", wave.getIntermission()-spawnTicks), xoff, 75);
         graphics.drawString(String.format("Enemies left in wave: %d", wave.getNumEnemies()-spawnedInWave), xoff, 100);
-        graphics.drawString(String.format("Cooldown timer: %d", timer), xoff, 125);
+        graphics.drawString(String.format("Cooldown timer: %d", player.getCooldownTimer()), xoff, 125);
     }
 
     private void drawPaused(Graphics2D graphics) {
