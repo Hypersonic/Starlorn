@@ -89,6 +89,13 @@ public class World extends DefaultHook {
     public void step(Graphics2D graphics) {
         stepLevelProgress();
         stepStars(graphics);
+        if (player.getGoingUp()) {
+            stepStars(graphics);
+        }
+        if (player.getGoingDown()) {
+        } else {
+            stepStars(graphics);
+        }
         stepEntities(graphics);
         drawHUD(graphics);
     }

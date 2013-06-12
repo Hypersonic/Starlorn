@@ -14,10 +14,7 @@ public class Path {
     }
 
     public void addCoords(int x, int y) {
-        Integer[] coords = new Integer[2];
-        coords[0] = x;
-        coords[1] = y;
-        _path.add(coords);
+        _path.add(new Integer[]{x, y});
     }
     
     public int getPathLength() {
