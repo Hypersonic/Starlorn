@@ -55,8 +55,8 @@ public class World extends DefaultHook {
         bigFont = screen.getFont().deriveFont(36f);
         entities = new ConcurrentLinkedQueue<Entity>();
         ships = new ArrayList<Ship>();
-        stars = new Star[5000];
-        for (int i = 0; i < 5000; i++)
+        stars = new Star[2500];
+        for (int i = 0; i < 2500; i++)
             stars[i] = new Star(Math.random() * screen.getWidth(),
                                 Math.random() * screen.getHeight());
         rainbows = new Rainbow[42];
@@ -95,6 +95,13 @@ public class World extends DefaultHook {
         stepLevelProgress();
         stepRainbow(graphics);
         stepStars(graphics);
+        if (player.getGoingUp()) {
+            stepStars(graphics);
+        }
+        if (player.getGoingDown()) {
+        } else {
+            stepStars(graphics);
+        }
         stepEntities(graphics);
         drawHUD(graphics);
     }
