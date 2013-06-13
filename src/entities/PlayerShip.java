@@ -218,39 +218,23 @@ public class PlayerShip extends Ship {
         goingUp = value;
     }
 
-    public boolean getGoingUp() {
-        return goingUp;
-    }
-
     public void setGoingDown(boolean value) {
         goingDown = value;
-    }
-
-    public boolean getGoingDown() {
-        return goingDown;
     }
 
     public void setGoingLeft(boolean value) {
         goingLeft = value;
     }
 
-    public boolean getGoingLeft() {
-        return goingLeft;
-    }
-
     public void setGoingRight(boolean value) {
         goingRight = value;
     }
 
-    public boolean getGoingRight() {
-        return goingRight;
+    public int getInvincibility() {
+        return invincibility;
     }
 
     public void setInvincibility(int value) {
         invincibility = value;
-    }
-
-    public int getInvincibility() {
-        return invincibility;
     }
 }
