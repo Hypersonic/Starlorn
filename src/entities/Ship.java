@@ -9,19 +9,17 @@ import edu.stuy.starlorn.upgrades.Upgrade;
 public class Ship extends Entity {
 
     protected LinkedList<GunUpgrade> gunUpgrades;
-    protected int baseShotSpeed, cooldownTimer, baseCooldown, cooldownRate, maxSpeed;
+    protected int baseShotSpeed, cooldownTimer, baseCooldown, maxSpeed;
     protected double baseAim;
     protected boolean shootRequested;
 
     public Ship(double x, double y, String name) {
         super(x, y, name);
         gunUpgrades = new LinkedList<GunUpgrade>();
-        gunUpgrades.add(new GunUpgrade()); // add default gunupgrade
         baseShotSpeed = 12;
         baseAim = Math.PI / 2; //Aim up by default
         baseCooldown = 10;
         cooldownTimer = 0;
-        cooldownRate = 1;
         maxSpeed = 10;
         shootRequested = false;
     }
@@ -42,17 +40,14 @@ public class Ship extends Entity {
         s.sprite = sprite;
         s.baseShotSpeed = baseShotSpeed;
         s.baseCooldown = baseCooldown;
-        s.cooldownRate = cooldownRate;
         s.maxSpeed = maxSpeed;
         s.baseAim = baseAim;
-        for (GunUpgrade up : gunUpgrades) {
-            if (up.getName() != "Default Gun")
-                s.addUpgrade(up.clone());
-        }
+        for (GunUpgrade up : gunUpgrades)
+            s.addUpgrade(up.clone());
     }
 
     public void addUpgrade(Upgrade upgrade) {
-        upgrade.setOwnedByPlayer(this instanceof PlayerShip);
+        upgrade.setOwnedByPlayer(isPlayer());
         if (upgrade instanceof GunUpgrade)
             gunUpgrades.add((GunUpgrade) upgrade);
     }
@@ -109,11 +104,16 @@ public class Ship extends Entity {
     public void shoot() {
         double cooling = baseCooldown;
         double agility = 0;
-        String[] sprites = null;
+        String[] sprites;
+        if (isPlayer())
+            sprites = new String[]{"bullet/blue/long"};
+        else
+            sprites = new String[]{"bullet/purple/long"};
+
         for (GunUpgrade up : gunUpgrades) {
             cooling = up.getCooldown(cooling);
             agility = up.getAgility(agility);
-            sprites = up.getSprites(sprites, this);
+            sprites = up.getSprites(sprites);
         }
         cooldownTimer = (int) cooling;
         for (Bullet b : applyAllUpgrades(sprites)) {
@@ -132,16 +132,29 @@ public class Ship extends Entity {
     @Override
     public void step() {
         //Only baseCooldown if we're below the rate, otherwise the ship hasn't tried to shoot
-        if (cooldownTimer <= 0 && shootRequested) {
+        if (cooldownTimer <= 0 && shootRequested)
             this.shoot();
-        } else {
-            cooldownTimer -= cooldownRate;
-        }
+        if (cooldownTimer > 0)
+            cooldownTimer--;
         super.step();
     }
 
+    public boolean isPlayer() {
+        return false;
+    }
+
     public int getNumUpgrades() {
-        return gunUpgrades.size() - 1;  // Ignore default GunUpgrade
+        return gunUpgrades.size();
+    }
+
+    public String[] getGunUpgrades() {
+        String[] upgrades = new String[getNumUpgrades()];
+        int i = 0;
+        for (GunUpgrade up : gunUpgrades) {
+            upgrades[i] = up.getName();
+            i++;
+        }
+        return upgrades;
     }
 
     public Ship getNearestTarget() {
@@ -172,12 +185,8 @@ public class Ship extends Entity {
         return baseCooldown;
     }
 
-    public void setCooldownRate(int rate) {
-        cooldownRate = rate;
-    }
-
-    public int getCooldownRate() {
-        return cooldownRate;
+    public int getCooldownTimer() {
+        return cooldownTimer;
     }
 
     public void setMovementSpeed(int speed) {

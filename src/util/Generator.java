@@ -47,9 +47,9 @@ public class Generator {
 
     public static Wave generateWave(int difficulty) {
         Wave wave = new Wave();
-        int numEnemies = 2 + (int) (difficulty / 2 + (Math.random() * difficulty));
+        int numEnemies = 2 + difficulty/2;
         EnemyShip enemyType = generateEnemy(difficulty);
-        int intermission = (int) Math.ceil(500.0 / difficulty);
+        int intermission = (int) Math.ceil(200.0 / difficulty);
         wave.setEnemyType(enemyType);
         wave.setNumEnemies(numEnemies);
         wave.setIntermission(intermission);
@@ -76,12 +76,10 @@ public class Generator {
         Path path = generatePath(difficulty + 5);
         EnemyShip enemy = new EnemyShip(path);
         int shotSpeed = (int) (1 + Math.random() * difficulty) + 5;
-        int cooldown = (int) (Math.random() * (100 / difficulty) + 35);
-        int cooldownRate = (int) Math.log10(difficulty) + 1;
+        int cooldown = (int) ((Math.random() * (100 / difficulty) + 35) / (Math.log10(difficulty) + 1));
         int maxSpeed = 3 + (int) Math.ceil(Math.random() * Math.log10(difficulty)) * 5;
         enemy.setBaseShotSpeed(shotSpeed);
         enemy.setBaseCooldown(cooldown);
-        enemy.setCooldownRate(cooldownRate);
         enemy.setMovementSpeed(maxSpeed);
         return enemy;
     }

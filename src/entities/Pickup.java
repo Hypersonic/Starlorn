@@ -30,13 +30,12 @@ public class Pickup extends Entity {
                playery = playerRect.y + playerRect.height / 2,
                thisx = getRect().x + getRect().width / 2,
                thisy = getRect().y + getRect().height / 2,
-               theta = Math.atan2(playery - thisy, playerx - thisx),
-               dist = Math.sqrt(Math.pow(playerx - thisx, 2) + Math.pow(playery - thisy, 2));
+               theta = Math.atan2(playery - thisy, playerx - thisx);
 
         setXvel(speed * Math.cos(theta));
         setYvel(speed * Math.sin(theta));
         super.step();
-        if (dist < 50) {
+        if (playerRect.intersects(rect)) {
             world.getPlayer().addUpgrade(getUpgrade());
             kill();
         }
