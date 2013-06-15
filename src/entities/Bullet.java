@@ -5,7 +5,7 @@ import edu.stuy.starlorn.graphics.Anchor;
 public class Bullet extends Entity {
 
     protected double speed, agility;
-    protected boolean firedByPlayer, isSeeking;
+    protected boolean successful, firedByPlayer, isSeeking;
     protected String[] sprites;
     protected int spriteIndex;
     protected Ship target;
@@ -16,7 +16,7 @@ public class Bullet extends Entity {
         this.angle = angle;
         this.speed = speed;
         this.sprites = sprites;
-        firedByPlayer = isSeeking = false;
+        successful = firedByPlayer = isSeeking = false;
         spriteIndex = 0;
         setXvel(speed * Math.cos(angle));
         setYvel(speed * -Math.sin(angle));
@@ -88,6 +88,7 @@ public class Bullet extends Entity {
     private void explode(Ship that) {
         this.kill();
         that.kill();
+        successful = true;
         Explosion e = new Explosion();
         double thatcx = that.getRect().x + that.getRect().width / 2,
                thatcy = that.getRect().y + that.getRect().height / 2;
@@ -108,6 +109,10 @@ public class Bullet extends Entity {
 
     public double getSpeed() {
         return speed;
+    }
+
+    public boolean wasSuccessful() {
+        return successful;
     }
 
     public void setSeeking(boolean seek) {

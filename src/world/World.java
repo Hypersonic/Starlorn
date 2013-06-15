@@ -13,8 +13,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import edu.stuy.starlorn.graphics.DefaultHook;
 import edu.stuy.starlorn.graphics.Screen;
 import edu.stuy.starlorn.graphics.Sprite;
-import edu.stuy.starlorn.entities.Entity;
+import edu.stuy.starlorn.entities.Bullet;
 import edu.stuy.starlorn.entities.EnemyShip;
+import edu.stuy.starlorn.entities.Entity;
 import edu.stuy.starlorn.entities.Pickup;
 import edu.stuy.starlorn.entities.PlayerShip;
 import edu.stuy.starlorn.entities.ScorePopup;
@@ -41,7 +42,9 @@ public class World extends DefaultHook {
     private Wave wave;
     private long score;
     private int lives, levelNo, waveNo, spawnedInWave, spawnedInLevel,
-                killedInLevel, remaining, spawnTicks, respawnTicks;
+                killedInLevel, remaining;
+    private int successfulShots, allShots, successfulShotsLevel, allShotsLevel;
+    private int spawnTicks, respawnTicks;
     private boolean paused, playerAlive, waitForPickup;
     private Sprite lifeSprite;
     private Rectangle2D lifeRect;
@@ -66,8 +69,9 @@ public class World extends DefaultHook {
         wave = level.popWave();
 
         lives = 3;
-        score = spawnedInWave = spawnedInLevel = killedInLevel = remaining = 0;
         levelNo = waveNo = 1;
+        score = spawnedInWave = spawnedInLevel = killedInLevel = remaining = 0;
+        successfulShots = allShots = successfulShotsLevel = allShotsLevel = 0;
         spawnTicks = respawnTicks = 0;
         playerAlive = true;
         paused = waitForPickup = false;
@@ -149,6 +153,7 @@ public class World extends DefaultHook {
         levelNo++;
         waveNo = 1;
         spawnTicks = spawnedInWave = spawnedInLevel = killedInLevel = remaining = 0;
+        successfulShotsLevel = allShotsLevel = 0;
         upgrade = null;
         level = Generator.generateLevel(levelNo);
         wave = level.popWave();
@@ -191,6 +196,8 @@ public class World extends DefaultHook {
                     killPlayer((PlayerShip) entity);
                 else if (entity instanceof EnemyShip)
                     killEnemy((EnemyShip) entity);
+                else if (entity instanceof Bullet)
+                    killBullet((Bullet) entity);
                 else if (entity instanceof Pickup) {
                     waitForPickup = false;
                     upgrade = ((Pickup) entity).getUpgrade();
@@ -220,6 +227,17 @@ public class World extends DefaultHook {
                 spawnPickup(enemy);
         }
         ships.remove(enemy);
+    }
+
+    private void killBullet(Bullet bullet) {
+        if (bullet.wasFiredByPlayer()) {
+            if (bullet.wasSuccessful()) {
+                successfulShots++;
+                successfulShotsLevel++;
+            }
+            allShots++;
+            allShotsLevel++;
+        }
     }
 
     private void drawHUD(Graphics2D graphics) {
@@ -260,6 +278,16 @@ public class World extends DefaultHook {
         graphics.drawString(String.format("Time until next spawn: %d", wave.getIntermission()-spawnTicks), xoff, 75);
         graphics.drawString(String.format("Enemies left in wave: %d", wave.getNumEnemies()-spawnedInWave), xoff, 100);
         graphics.drawString(String.format("Cooldown timer: %d", player.getCooldownTimer()), xoff, 125);
+        graphics.drawString(String.format("Accuracy: %d/%d = %f", successfulShots, allShots, getAccuracy()), xoff, 150);
+        graphics.drawString(String.format(" (level): %d/%d = %f", successfulShotsLevel, allShotsLevel, getAccuracyLevel()), xoff, 175);
+    }
+
+    private double getAccuracy() {
+        return ((double) successfulShots) / allShots * 100;
+    }
+
+    private double getAccuracyLevel() {
+        return ((double) successfulShotsLevel) / allShotsLevel * 100;
     }
 
     private void drawPaused(Graphics2D graphics) {
