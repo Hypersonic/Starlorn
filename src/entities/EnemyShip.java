@@ -18,22 +18,21 @@ public class EnemyShip extends Ship {
         shootRequested = true; // shoot as often as possible
         baseAim = 3 * Math.PI / 2; // Aim down
         path = null;
-        pathIndex = -1;
+        pathIndex = 0;
         killedByPlayer = killedByCollision = false;
     }
 
     public EnemyShip(Path p) {
         this();
         path = p;
-    }
-
-    protected void clone(EnemyShip e) {
-        super.clone(e);
-        e.path = path;
+        rect.x = path.getCoords(0)[0];
+        rect.y = path.getCoords(0)[1];
+        if (rect.x <= rect.width)  // Hack to force spawning offscreen
+            rect.x -= rect.width;
     }
 
     public EnemyShip clone() {
-        EnemyShip e = new EnemyShip();
+        EnemyShip e = new EnemyShip(path);
         clone(e);
         return e;
     }
@@ -50,14 +49,6 @@ public class EnemyShip extends Ship {
     @Override
     public void step() {
         if (path != null) {
-            if (pathIndex == -1) {
-                pathIndex++;
-                rect.x = path.getCoords(0)[0];
-                rect.y = path.getCoords(0)[1];
-                if (rect.x <= rect.width)  // Hack to force spawning offscreen
-                    rect.x -= rect.width;
-            }
-
             double relativeX = path.getCoords(pathIndex)[0] - rect.x,
                    relativeY = path.getCoords(pathIndex)[1] - rect.y,
                    theta = Math.atan2(relativeY, relativeX),
