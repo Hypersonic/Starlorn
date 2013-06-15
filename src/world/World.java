@@ -117,7 +117,7 @@ public class World extends DefaultHook {
         if (!playerAlive) {
             if (lives > 0 && respawnTicks == 60)
                 spawnPlayer();
-            else if (lives == 0 && respawnTicks == 120)
+            else if (lives == 0 && respawnTicks == 180)
                 endGame();
             else
                 respawnTicks++;
@@ -278,8 +278,8 @@ public class World extends DefaultHook {
         graphics.drawString(String.format("Time until next spawn: %d", wave.getIntermission()-spawnTicks), xoff, 75);
         graphics.drawString(String.format("Enemies left in wave: %d", wave.getNumEnemies()-spawnedInWave), xoff, 100);
         graphics.drawString(String.format("Cooldown timer: %d", player.getCooldownTimer()), xoff, 125);
-        graphics.drawString(String.format("Accuracy: %d/%d = %f", successfulShots, allShots, getAccuracy()), xoff, 150);
-        graphics.drawString(String.format(" (level): %d/%d = %f", successfulShotsLevel, allShotsLevel, getAccuracyLevel()), xoff, 175);
+        graphics.drawString(String.format("Accuracy: %4d/%4d = %.1f%%", successfulShots, allShots, getAccuracy()), xoff, 150);
+        graphics.drawString(String.format(" (level): %4d/%4d = %.1f%%", successfulShotsLevel, allShotsLevel, getAccuracyLevel()), xoff, 175);
     }
 
     private double getAccuracy() {
@@ -304,6 +304,7 @@ public class World extends DefaultHook {
         if (lives == 0) {
             color = Color.RED;
             message = "GAME OVER";
+            drawAccuracyMessage(graphics);
         }
         else if (level.isLastWave() && spawnTicks >= 30 && spawnTicks <= 270) {
             color = Color.YELLOW;
@@ -321,6 +322,20 @@ public class World extends DefaultHook {
         graphics.drawString(message, xOffset, screen.getHeight() / 2 - 10);
         if (upgrade != null)
             drawUpgradeMessage(graphics);
+    }
+
+    private void drawAccuracyMessage(Graphics2D graphics) {
+        for (Entity entity : entities) {
+            if (entity instanceof Bullet && ((Bullet) entity).wasFiredByPlayer()) {
+                respawnTicks = 0;  // Don't end until player sees accuracy
+                return;
+            }
+        }
+        String message = String.format("YOUR ACCURACY: %.1f%%", getAccuracy());
+        int xOffset = screen.getXOffset(graphics, mediumFont, message);
+        graphics.setColor(Color.RED);
+        graphics.setFont(mediumFont);
+        graphics.drawString(message, xOffset, screen.getHeight() / 2 + 50);
     }
 
     private void drawUpgradeMessage(Graphics2D graphics) {
