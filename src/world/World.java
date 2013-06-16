@@ -304,7 +304,7 @@ public class World extends DefaultHook {
         String message1 = "REALLY QUIT?";
         String message2 = "Press 'q' to quit, 'esc' to cancel";
         int xOffset1 = screen.getXOffset(graphics, bigFont, message1);
-        int xOffset2 = screen.getXOffset(graphics, mediumFont, message2);
+        int xOffset2 = screen.getXOffset(graphics, smallFont, message2);
         double fontHeight = bigFont.getStringBounds(message1, graphics.getFontRenderContext()).getHeight();
         double boxX = xOffset2 - 50;
         double boxY = screen.getHeight() / 2 - 100 - fontHeight;
@@ -316,7 +316,7 @@ public class World extends DefaultHook {
         graphics.draw(box);
         graphics.setFont(bigFont);
         graphics.drawString(message1, xOffset1, screen.getHeight() / 2 - 50);
-        graphics.setFont(mediumFont);
+        graphics.setFont(smallFont);
         graphics.drawString(message2, xOffset2, screen.getHeight() / 2);
     }
 
