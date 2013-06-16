@@ -45,7 +45,7 @@ public class World extends DefaultHook {
                 killedInLevel, remaining;
     private int successfulShots, allShots, successfulShotsLevel, allShotsLevel;
     private int spawnTicks, respawnTicks;
-    private boolean paused, playerAlive, waitForPickup;
+    private boolean paused, playerAlive, waitForPickup, quitRequested;
     private Sprite lifeSprite;
     private Rectangle2D lifeRect;
     private Upgrade upgrade;
@@ -74,7 +74,7 @@ public class World extends DefaultHook {
         successfulShots = allShots = successfulShotsLevel = allShotsLevel = 0;
         spawnTicks = respawnTicks = 0;
         playerAlive = true;
-        paused = waitForPickup = false;
+        paused = waitForPickup = quitRequested = false;
         lifeSprite = Sprite.getSprite("hud/lives");
         lifeRect = new Rectangle2D.Double(50, screen.getHeight() - 50 - lifeSprite.getHeight() / 2,
             lifeSprite.getWidth(), lifeSprite.getHeight());
@@ -98,7 +98,7 @@ public class World extends DefaultHook {
     }
 
     private void stepLevelProgress() {
-        if (paused)
+        if (paused || quitRequested)
             return;
         if (spawnedInWave < wave.getNumEnemies()) {
             if (spawnTicks < wave.getIntermission())
@@ -169,7 +169,7 @@ public class World extends DefaultHook {
 
     private void stepStars(Graphics2D graphics) {
         for (Star star : stars) {
-            if (paused) {
+            if (paused || quitRequested) {
                 star.draw(graphics);
                 continue;
             }
@@ -186,7 +186,7 @@ public class World extends DefaultHook {
         Iterator<Entity> it = entities.iterator();
         while (it.hasNext()) {
             Entity entity = it.next();
-            if (paused) {
+            if (paused || quitRequested) {
                 entity.draw(graphics);
                 continue;
             }
@@ -267,6 +267,8 @@ public class World extends DefaultHook {
             drawDevUI(graphics);
         if (paused)
             drawPaused(graphics);
+        if (quitRequested)
+            drawQuitConfirmation(graphics);
         if (lives == 0 || (spawnedInWave == wave.getNumEnemies() && remaining == 0))
             drawLevelProgress(graphics);
     }
@@ -296,6 +298,26 @@ public class World extends DefaultHook {
         graphics.setFont(bigFont);
         graphics.setColor(Color.GRAY);
         graphics.drawString(message, xOffset, screen.getHeight() / 2 - 100);
+    }
+
+    private void drawQuitConfirmation(Graphics2D graphics) {
+        String message1 = "REALLY QUIT?";
+        String message2 = "Press 'q' to quit, 'esc' to cancel";
+        int xOffset1 = screen.getXOffset(graphics, bigFont, message1);
+        int xOffset2 = screen.getXOffset(graphics, mediumFont, message2);
+        double fontHeight = bigFont.getStringBounds(message1, graphics.getFontRenderContext()).getHeight();
+        double boxX = xOffset2 - 50;
+        double boxY = screen.getHeight() / 2 - 100 - fontHeight;
+        Rectangle2D box = new Rectangle2D.Double(boxX, boxY, screen.getWidth() - 2 * boxX, screen.getHeight() / 2 - boxY + 50);
+
+        graphics.setColor(Color.BLACK);
+        graphics.fill(box);
+        graphics.setColor(Color.WHITE);
+        graphics.draw(box);
+        graphics.setFont(bigFont);
+        graphics.drawString(message1, xOffset1, screen.getHeight() / 2 - 50);
+        graphics.setFont(mediumFont);
+        graphics.drawString(message2, xOffset2, screen.getHeight() / 2);
     }
 
     private void drawLevelProgress(Graphics2D graphics) {
@@ -390,9 +412,8 @@ public class World extends DefaultHook {
             player.setShootRequested(true);
         else if (event.getKeyCode() == Preferences.getValue("pauseKey"))
             paused = !paused;
-        else if (event.getKeyCode() == Preferences.getValue("debugKey")) {
+        else if (event.getKeyCode() == Preferences.getValue("debugKey"))
             Preferences.put("devMode", Math.abs(Preferences.getValue("devMode")-1));
-        }
     }
 
     @Override
@@ -407,8 +428,14 @@ public class World extends DefaultHook {
             player.setGoingRight(false);
         else if (event.getKeyCode() == Preferences.getValue("shootKey"))
             player.setShootRequested(false);
-        else if (event.getKeyCode() == KeyEvent.VK_Q)
-            endGame();
+        else if (event.getKeyCode() == KeyEvent.VK_ESCAPE)
+            quitRequested = !quitRequested;
+        else if (event.getKeyCode() == KeyEvent.VK_Q) {
+            if (quitRequested)
+                endGame();
+            else
+                quitRequested = true;
+        }
     }
 
     public Screen getScreen() {
