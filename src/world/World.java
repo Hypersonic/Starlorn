@@ -438,6 +438,8 @@ public class World extends DefaultHook {
                 quitRequested = false;
             else if (lives > 0)
                 quitRequested = true;
+            else
+                endGame();
         }
         else if (event.getKeyCode() == KeyEvent.VK_Q) {
             if (quitRequested) {
@@ -449,6 +451,8 @@ public class World extends DefaultHook {
             }
             else if (lives > 0)
                 quitRequested = true;
+            else
+                endGame();
         }
     }
 
