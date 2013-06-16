@@ -285,10 +285,14 @@ public class World extends DefaultHook {
     }
 
     private double getAccuracy() {
+        if (allShots == 0)
+            return 0;
         return ((double) successfulShots) / allShots * 100;
     }
 
     private double getAccuracyLevel() {
+        if (allShotsLevel == 0)
+            return 0;
         return ((double) successfulShotsLevel) / allShotsLevel * 100;
     }
 
