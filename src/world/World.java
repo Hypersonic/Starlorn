@@ -428,12 +428,21 @@ public class World extends DefaultHook {
             player.setGoingRight(false);
         else if (event.getKeyCode() == Preferences.getValue("shootKey"))
             player.setShootRequested(false);
-        else if (event.getKeyCode() == KeyEvent.VK_ESCAPE)
-            quitRequested = !quitRequested;
-        else if (event.getKeyCode() == KeyEvent.VK_Q) {
+        else if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
             if (quitRequested)
-                endGame();
-            else
+                quitRequested = false;
+            else if (lives > 0)
+                quitRequested = true;
+        }
+        else if (event.getKeyCode() == KeyEvent.VK_Q) {
+            if (quitRequested) {
+                player.explode();
+                killPlayer(player);
+                entities.remove(player);
+                lives = 0;
+                quitRequested = false;
+            }
+            else if (lives > 0)
                 quitRequested = true;
         }
     }

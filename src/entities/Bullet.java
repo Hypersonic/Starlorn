@@ -87,14 +87,8 @@ public class Bullet extends Entity {
 
     private void explode(Ship that) {
         this.kill();
-        that.kill();
+        that.explode();
         successful = true;
-        Explosion e = new Explosion();
-        double thatcx = that.getRect().x + that.getRect().width / 2,
-               thatcy = that.getRect().y + that.getRect().height / 2;
-        e.getRect().x = thatcx - e.getRect().width / 2;
-        e.getRect().y = thatcy - e.getRect().height / 2;
-        world.addEntity(e);
     }
 
     public void seek(double agility, Ship target) {

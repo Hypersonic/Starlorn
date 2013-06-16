@@ -151,6 +151,14 @@ public class Entity {
         dead = true;
     }
 
+    public void explode() {
+        kill();
+        Explosion expl = new Explosion();
+        expl.getRect().x = rect.x + rect.width / 2 - expl.getRect().width / 2;
+        expl.getRect().y = rect.y + rect.height / 2 - expl.getRect().height / 2;
+        world.addEntity(expl);
+    }
+
     public boolean onScreen() {
         return (rect.x + rect.width >= 0 && rect.x <= world.getScreen().getWidth() &&
                 rect.y + rect.height >= 0 && rect.y <= world.getScreen().getHeight());
