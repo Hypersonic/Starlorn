@@ -326,7 +326,6 @@ public class World extends DefaultHook {
         if (lives == 0) {
             color = Color.RED;
             message = "GAME OVER";
-            drawAccuracyMessage(graphics);
         }
         else if (level.isLastWave() && spawnTicks >= 30 && spawnTicks <= 270) {
             color = Color.YELLOW;
@@ -342,7 +341,9 @@ public class World extends DefaultHook {
         graphics.setFont(bigFont);
         graphics.setColor(color);
         graphics.drawString(message, xOffset, screen.getHeight() / 2 - 10);
-        if (upgrade != null)
+        if (lives == 0)
+            drawAccuracyMessage(graphics);
+        else if (upgrade != null)
             drawUpgradeMessage(graphics);
     }
 
