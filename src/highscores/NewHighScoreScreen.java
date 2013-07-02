@@ -84,9 +84,9 @@ public class NewHighScoreScreen extends DefaultHook {
     private void getDisplaced() {
         Score score = scores.popLowest();
         if (score.getName().equals(name))
-            message2 = String.format("This displaces your earlier score of %s!", score.getFormattedScore());
+            message2 = String.format("You beat your earlier score of %s!", score.getFormattedScore());
         else
-            message2 = String.format("This displaces a score of %s by %s!", score.getFormattedScore(), score.getName());
+            message2 = String.format("You knocked %s's score of %s off the board!", score.getName(), score.getFormattedScore());
     }
 
     @Override
