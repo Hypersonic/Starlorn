@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project basedir="." default="build" name="Starlorn">
     <property environment="env"/>
+    <property name="ant.build.javac.source" value="1.8"/>
+    <property name="ant.build.javac.target" value="1.8"/>
     <property name="debuglevel" value="source,lines,vars"/>
-    <property name="target" value="1.6"/>
-    <property name="source" value="1.6"/>
     <property name="bin" value="bin"/>
     <property name="src" value="src"/>
 
@@ -35,7 +35,7 @@
     <target name="build">
         <echo message="${ant.project.name}: ${ant.file}"/>
         <javac debug="true" debuglevel="${debuglevel}" destdir="${bin}"
-               source="${source}" target="${target}" includeantruntime="false">
+               includeantruntime="false">
             <src path="${src}"/>
             <classpath refid="javac_path"/>
         </javac>
