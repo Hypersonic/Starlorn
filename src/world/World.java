@@ -165,6 +165,9 @@ public class World extends DefaultHook {
         player = new PlayerShip(screen.getWidth(), screen.getHeight());
         player.setWorld(this);
         ships.add(player);
+        for (Pickup pickup : pickups) {
+            player.addUpgrade(pickup.getUpgrade());
+        }
         playerAlive = true;
         respawnTicks = 0;
     }
@@ -217,7 +220,9 @@ public class World extends DefaultHook {
         playerAlive = false;
         lives--;
         ships.remove(player);
-        pickups.clear();
+        if (pickups.size() > 0) {
+            pickups.remove(pickups.size()-1);
+        }
     }
 
     private void killEnemy(EnemyShip enemy) {
