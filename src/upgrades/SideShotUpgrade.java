@@ -40,6 +40,11 @@ public class SideShotUpgrade extends GunUpgrade {
     }
 
     @Override
+    public String getSpriteName() {
+        return "upgrade/sideshot";
+    }
+
+    @Override
     public Upgrade clone() {
         return new SideShotUpgrade();
     }

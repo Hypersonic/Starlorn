@@ -124,6 +124,24 @@ public class Sprite {
             return new Rectangle(280, 512, 39, 36);
         else if (name.equals("upgrade/generic"))
             return new Rectangle(444, 610, 16, 20);
+        else if (name.equals("upgrade/doubleshot"))
+            return new Rectangle(256, 680, 16, 20);
+        else if (name.equals("upgrade/dualshot"))
+            return new Rectangle(280, 680, 16, 20);
+        else if (name.equals("upgrade/guidedmissile"))
+            return new Rectangle(304, 680, 16, 20);
+        else if (name.equals("upgrade/lawnsprinkler"))
+            return new Rectangle(328, 680, 16, 20);
+        else if (name.equals("upgrade/rapidfire"))
+            return new Rectangle(352, 680, 16, 20);
+        else if (name.equals("upgrade/scattershot"))
+            return new Rectangle(376, 680, 16, 20);
+        else if (name.equals("upgrade/sideshot"))
+            return new Rectangle(400, 680, 16, 20);
+        else if (name.equals("upgrade/speedshot"))
+            return new Rectangle(424, 680, 16, 20);
+        else if (name.equals("upgrade/tripleshot"))
+            return new Rectangle(448, 680, 16, 20);
         return null;
     }
 

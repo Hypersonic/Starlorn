@@ -29,6 +29,11 @@ public class DualShotUpgrade extends GunUpgrade {
     }
 
     @Override
+    public String getSpriteName() {
+        return "upgrade/dualshot";
+    }
+
+    @Override
     public Upgrade clone() {
         return new DualShotUpgrade();
     }

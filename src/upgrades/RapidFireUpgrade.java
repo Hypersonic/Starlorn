@@ -14,6 +14,11 @@ public class RapidFireUpgrade extends GunUpgrade {
     }
 
     @Override
+    public String getSpriteName() {
+        return "upgrade/rapidfire";
+    }
+
+    @Override
     public Upgrade clone() {
         return new RapidFireUpgrade();
     }

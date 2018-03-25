@@ -38,6 +38,11 @@ public class GuidedMissileUpgrade extends GunUpgrade {
     }
 
     @Override
+    public String getSpriteName() {
+        return "upgrade/guidedmissile";
+    }
+
+    @Override
     public Upgrade clone() {
         return new GuidedMissileUpgrade();
     }

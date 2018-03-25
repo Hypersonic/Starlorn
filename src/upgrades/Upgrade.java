@@ -36,11 +36,12 @@ public class Upgrade {
         _ownedByPlayer = owned;
     }
 
-    public Upgrade clone() {
-        return new Upgrade();
-    }
-    
     public String getSpriteName() {
         return "upgrade/generic";
     }
+
+    public Upgrade clone() {
+        return new Upgrade();
+    }
+
 }

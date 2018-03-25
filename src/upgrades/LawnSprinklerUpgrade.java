@@ -31,6 +31,11 @@ public class LawnSprinklerUpgrade extends GunUpgrade {
     }
 
     @Override
+    public String getSpriteName() {
+        return "upgrade/lawnsprinkler";
+    }
+
+    @Override
     public Upgrade clone() {
         return new LawnSprinklerUpgrade();
     }

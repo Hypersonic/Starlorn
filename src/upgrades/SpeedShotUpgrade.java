@@ -18,6 +18,11 @@ public class SpeedShotUpgrade extends GunUpgrade {
     }
 
     @Override
+    public String getSpriteName() {
+        return "upgrade/speedshot";
+    }
+
+    @Override
     public Upgrade clone() {
         return new SpeedShotUpgrade();
     }

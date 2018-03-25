@@ -30,6 +30,10 @@ public class ScatterShotUpgrade extends GunUpgrade {
         return cooldown * 3;
     }
 
+    @Override
+    public String getSpriteName() {
+        return "upgrade/scattershot";
+    }
 
     @Override
     public Upgrade clone() {

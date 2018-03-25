@@ -34,6 +34,11 @@ public class DoubleShotUpgrade extends GunUpgrade {
     }
 
     @Override
+    public String getSpriteName() {
+        return "upgrade/doubleshot";
+    }
+
+    @Override
     public Upgrade clone() {
         return new DoubleShotUpgrade();
     }
