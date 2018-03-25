@@ -147,16 +147,6 @@ public class Ship extends Entity {
         return gunUpgrades.size();
     }
 
-    public String[] getGunUpgrades() {
-        String[] upgrades = new String[getNumUpgrades()];
-        int i = 0;
-        for (GunUpgrade up : gunUpgrades) {
-            upgrades[i] = up.getName();
-            i++;
-        }
-        return upgrades;
-    }
-
     public Ship getNearestTarget() {
         return world.getPlayer();
     }

@@ -38,6 +38,7 @@ public class World extends DefaultHook {
     private ArrayList<Ship> ships;
     private Star[] stars;
     private PlayerShip player;
+    private ArrayList<Pickup> pickups;
     private Level level;
     private Wave wave;
     private long score;
@@ -65,6 +66,7 @@ public class World extends DefaultHook {
         player.setInvincibility(0);
         player.setWorld(this);
         ships.add(player);
+        pickups = new ArrayList<Pickup>();
         level = Generator.generateLevel(1);
         wave = level.popWave();
 
@@ -201,6 +203,8 @@ public class World extends DefaultHook {
                 else if (entity instanceof Pickup) {
                     waitForPickup = false;
                     upgrade = ((Pickup) entity).getUpgrade();
+                    double yoff = 150 - 8 + 25 * pickups.size();
+                    pickups.add(new Pickup(upgrade, 75, yoff));
                 }
                 it.remove();
             }
@@ -213,6 +217,7 @@ public class World extends DefaultHook {
         playerAlive = false;
         lives--;
         ships.remove(player);
+        pickups.clear();
     }
 
     private void killEnemy(EnemyShip enemy) {
@@ -248,12 +253,15 @@ public class World extends DefaultHook {
         graphics.drawString(String.format("Level %d, Wave %d/%d", levelNo,
                             waveNo, level.numWaves()), 50, 75);
 
-        if (player.getNumUpgrades() > 0) {
+        if (pickups.size() > 0) {
             graphics.drawString("Upgrades:", 50, 125);
-            int upgradeyoffset = 150;
-            for (String upgrade : player.getGunUpgrades()) {
-                graphics.drawString(upgrade, 100, upgradeyoffset);
-                upgradeyoffset += 25;
+            for (Pickup pickup : pickups) {
+                Upgrade up = pickup.getUpgrade();
+                Rectangle2D rect = pickup.getRect();
+                int yoff = (int) (rect.getY() + rect.getHeight() - 2);
+                pickup.draw(graphics);
+                graphics.setColor(Color.WHITE);
+                graphics.drawString(up.getName(), 100, yoff);
             }
         }
 
