@@ -140,6 +140,8 @@ public class Sprite {
             return new Rectangle(400, 680, 16, 20);
         else if (name.equals("upgrade/speedshot"))
             return new Rectangle(424, 680, 16, 20);
+        else if (name.equals("upgrade/stuttershot"))
+            return new Rectangle(424, 680, 16, 20); // same as speedshot
         else if (name.equals("upgrade/tripleshot"))
             return new Rectangle(448, 680, 16, 20);
         return null;

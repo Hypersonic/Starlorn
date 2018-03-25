@@ -16,7 +16,8 @@ public class Generator {
         new LawnSprinklerUpgrade(),
         new GuidedMissileUpgrade(),
         new SideShotUpgrade(),
-        new RapidFireUpgrade()
+        new RapidFireUpgrade(),
+        new StutterShotUpgrade()
     };
 
     public static Path generatePath(int numPoints, int firstx, int firsty) {
