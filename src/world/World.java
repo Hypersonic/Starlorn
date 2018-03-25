@@ -221,7 +221,7 @@ public class World extends DefaultHook {
         lives--;
         ships.remove(player);
         if (pickups.size() > 0) {
-            pickups.remove(pickups.size()-1);
+            pickups.subList(pickups.size() / 2, pickups.size()).clear();
         }
     }
 
