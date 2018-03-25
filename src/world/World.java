@@ -475,4 +475,8 @@ public class World extends DefaultHook {
     public ArrayList<Ship> getShips() {
         return ships;
     }
+
+    public boolean isPlayerAlive() {
+        return playerAlive;
+    }
 }

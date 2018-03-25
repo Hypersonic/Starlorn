@@ -25,9 +25,15 @@ public class Pickup extends Entity {
 
     @Override
     public void step() {
-        Rectangle2D.Double playerRect = world.getPlayer().getRect();
-        double playerx = playerRect.x + playerRect.width / 2,
-               playery = playerRect.y + playerRect.height / 2,
+        Rectangle2D.Double target;
+        if (world.isPlayerAlive())
+            target = world.getPlayer().getRect();
+        else
+            target = new Rectangle2D.Double(world.getScreen().getWidth() / 2,
+                world.getScreen().getHeight() + 32, 0, 0);
+
+        double playerx = target.x + target.width / 2,
+               playery = target.y + target.height / 2,
                thisx = getRect().x + getRect().width / 2,
                thisy = getRect().y + getRect().height / 2,
                theta = Math.atan2(playery - thisy, playerx - thisx);
@@ -35,7 +41,8 @@ public class Pickup extends Entity {
         setXvel(speed * Math.cos(theta));
         setYvel(speed * Math.sin(theta));
         super.step();
-        if (playerRect.intersects(rect)) {
+
+        if (world.isPlayerAlive() && target.intersects(rect)) {
             world.getPlayer().addUpgrade(getUpgrade());
             kill();
         }
