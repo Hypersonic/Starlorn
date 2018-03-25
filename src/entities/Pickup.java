@@ -1,5 +1,6 @@
 package edu.stuy.starlorn.entities;
 
+import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.stuy.starlorn.upgrades.Upgrade;
@@ -8,11 +9,15 @@ public class Pickup extends Entity {
 
     protected Upgrade upgrade;
     protected double speed;
+    protected boolean pickedUp;
+    protected int lifetime;
 
     public Pickup(Upgrade up, double x, double y) {
         super(x, y, up.getSpriteName());
         upgrade = up;
         speed = 5;
+        pickedUp = false;
+        lifetime = 300;
     }
 
     public Pickup(Upgrade up) {
@@ -23,8 +28,24 @@ public class Pickup extends Entity {
         return upgrade;
     }
 
+    public boolean wasPickedUp() {
+        return pickedUp;
+    }
+
+    @Override
+    public void draw(Graphics2D graphics) {
+        if (lifetime > 120 || (lifetime / 2) % 3 != 1)
+            super.draw(graphics);
+    }
+
     @Override
     public void step() {
+        lifetime--;
+        if (lifetime <= 0) {
+            kill();
+            return;
+        }
+
         Rectangle2D.Double target;
         if (world.isPlayerAlive())
             target = world.getPlayer().getRect();
@@ -43,6 +64,7 @@ public class Pickup extends Entity {
         super.step();
 
         if (world.isPlayerAlive() && target.intersects(rect)) {
+            pickedUp = true;
             world.getPlayer().addUpgrade(getUpgrade());
             kill();
         }

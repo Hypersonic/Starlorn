@@ -205,9 +205,11 @@ public class World extends DefaultHook {
                     killBullet((Bullet) entity);
                 else if (entity instanceof Pickup) {
                     waitForPickup = false;
-                    upgrade = ((Pickup) entity).getUpgrade();
-                    double yoff = 150 - 8 + 25 * pickups.size();
-                    pickups.add(new Pickup(upgrade, 75, yoff));
+                    if (((Pickup) entity).wasPickedUp()) {
+                        upgrade = ((Pickup) entity).getUpgrade();
+                        double yoff = 150 - 8 + 25 * pickups.size();
+                        pickups.add(new Pickup(upgrade, 75, yoff));
+                    }
                 }
                 it.remove();
             }
