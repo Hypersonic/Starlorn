@@ -32,7 +32,7 @@ public class StutterShotUpgrade extends GunUpgrade {
 
     @Override
     public Upgrade clone() {
-        return new SpeedShotUpgrade();
+        return new StutterShotUpgrade();
     }
 }
 
