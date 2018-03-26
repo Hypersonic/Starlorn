@@ -9,15 +9,19 @@ public class Pickup extends Entity {
 
     protected Upgrade upgrade;
     protected double speed;
-    protected boolean pickedUp;
+    protected boolean pickedUp, lost;
     protected int lifetime;
+    protected Rectangle2D.Double offscreenTarget;
 
     public Pickup(Upgrade up, double x, double y) {
         super(x, y, up.getSpriteName());
         upgrade = up;
         speed = 5;
         pickedUp = false;
+        lost = false;
         lifetime = 300;
+        offscreenTarget = new Rectangle2D.Double(0, 0, 0, 0);
+        setTargetAngle(2 * Math.PI * (Math.random() - 0.5));
     }
 
     public Pickup(Upgrade up) {
@@ -30,6 +34,20 @@ public class Pickup extends Entity {
 
     public boolean wasPickedUp() {
         return pickedUp;
+    }
+
+    public boolean wasLost() {
+        return lost;
+    }
+
+    public void setLost(boolean val) {
+        lost = val;
+    }
+
+    public void setTargetAngle(double angle) {
+        final double FAR_AWAY = 1000000000.;
+        offscreenTarget.x = Math.cos(angle) * FAR_AWAY;
+        offscreenTarget.y = Math.sin(angle) * FAR_AWAY;
     }
 
     @Override
@@ -46,27 +64,33 @@ public class Pickup extends Entity {
             return;
         }
 
-        Rectangle2D.Double target;
-        if (world.isPlayerAlive())
-            target = world.getPlayer().getRect();
-        else
-            target = new Rectangle2D.Double(world.getScreen().getWidth() / 2,
-                world.getScreen().getHeight() + 32, 0, 0);
-
-        double playerx = target.x + target.width / 2,
-               playery = target.y + target.height / 2,
+        Rectangle2D.Double target = getTarget();
+        double targetx = target.x + target.width / 2,
+               targety = target.y + target.height / 2,
                thisx = getRect().x + getRect().width / 2,
                thisy = getRect().y + getRect().height / 2,
-               theta = Math.atan2(playery - thisy, playerx - thisx);
+               theta = Math.atan2(targety - thisy, targetx - thisx);
 
-        setXvel(speed * Math.cos(theta));
-        setYvel(speed * Math.sin(theta));
+        setXvel(getSpeed() * Math.cos(theta));
+        setYvel(getSpeed() * Math.sin(theta));
         super.step();
 
-        if (world.isPlayerAlive() && target.intersects(rect)) {
+        if (!lost && world.isPlayerAlive() && target.intersects(rect)) {
             pickedUp = true;
             world.getPlayer().addUpgrade(getUpgrade());
             kill();
         }
+    }
+
+    protected Rectangle2D.Double getTarget() {
+        if (!lost && world.isPlayerAlive())
+            return world.getPlayer().getRect();
+        return offscreenTarget;
+    }
+
+    protected double getSpeed() {
+        if (lost)
+            return speed * 2;
+        return speed;
     }
 }

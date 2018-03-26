@@ -8,6 +8,7 @@ import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import edu.stuy.starlorn.graphics.DefaultHook;
@@ -36,9 +37,9 @@ public class World extends DefaultHook {
     private Font smallFont, mediumFont, bigFont;
     private ConcurrentLinkedQueue<Entity> entities;
     private ArrayList<Ship> ships;
+    private ArrayList<Pickup> pickups;
     private Star[] stars;
     private PlayerShip player;
-    private ArrayList<Pickup> pickups;
     private Level level;
     private Wave wave;
     private long score;
@@ -58,15 +59,14 @@ public class World extends DefaultHook {
         bigFont = screen.getFont().deriveFont(36f);
         entities = new ConcurrentLinkedQueue<Entity>();
         ships = new ArrayList<Ship>();
+        pickups = new ArrayList<Pickup>();
         stars = new Star[250];
         for (int i = 0; i < 250; i++)
             stars[i] = new Star(Math.random() * screen.getWidth(),
                                 Math.random() * screen.getHeight());
-        player = new PlayerShip(screen.getWidth(), screen.getHeight());
+
+        spawnPlayer();
         player.setInvincibility(0);
-        player.setWorld(this);
-        ships.add(player);
-        pickups = new ArrayList<Pickup>();
         level = Generator.generateLevel(1);
         wave = level.popWave();
 
@@ -75,7 +75,6 @@ public class World extends DefaultHook {
         score = spawnedInWave = spawnedInLevel = killedInLevel = remaining = 0;
         successfulShots = allShots = successfulShotsLevel = allShotsLevel = 0;
         spawnTicks = respawnTicks = 0;
-        playerAlive = true;
         paused = waitForPickup = quitRequested = false;
         lifeSprite = Sprite.getSprite("hud/lives");
         lifeRect = new Rectangle2D.Double(50, screen.getHeight() - 50 - lifeSprite.getHeight() / 2,
@@ -204,11 +203,13 @@ public class World extends DefaultHook {
                 else if (entity instanceof Bullet)
                     killBullet((Bullet) entity);
                 else if (entity instanceof Pickup) {
-                    waitForPickup = false;
-                    if (((Pickup) entity).wasPickedUp()) {
-                        upgrade = ((Pickup) entity).getUpgrade();
-                        double yoff = 150 - 8 + 25 * pickups.size();
-                        pickups.add(new Pickup(upgrade, 75, yoff));
+                    if (!((Pickup) entity).wasLost()) {
+                        waitForPickup = false;
+                        if (((Pickup) entity).wasPickedUp()) {
+                            upgrade = ((Pickup) entity).getUpgrade();
+                            double yoff = 150 - 8 + 25 * pickups.size();
+                            pickups.add(new Pickup(upgrade, 75, yoff));
+                        }
                     }
                 }
                 it.remove();
@@ -222,9 +223,30 @@ public class World extends DefaultHook {
         playerAlive = false;
         lives--;
         ships.remove(player);
-        if (pickups.size() > 0) {
-            pickups.subList(pickups.size() / 2, pickups.size()).clear();
+
+        int npickups = pickups.size();
+        if (lives <= 0)
+            dropPickups(0, npickups);
+        else
+            dropPickups(npickups / 2, npickups);
+    }
+
+    private void dropPickups(int start, int end) {
+        List<Pickup> lost = pickups.subList(start, end);
+        int nlost = lost.size();
+        Rectangle2D.Double playerRect = player.getRect();
+        double offset = Math.random();
+
+        for (int i = 0; i < nlost; i++) {
+            Pickup pick = lost.get(i);
+            Rectangle2D.Double rect = pick.getRect();
+            pick.setWorld(this);
+            pick.setLost(true);
+            pick.setTargetAngle(2 * Math.PI * (offset + ((float) i / nlost)));
+            rect.x = playerRect.x + playerRect.width  / 2 - rect.width  / 2;
+            rect.y = playerRect.y + playerRect.height / 2 - rect.height / 2;
         }
+        lost.clear();
     }
 
     private void killEnemy(EnemyShip enemy) {
