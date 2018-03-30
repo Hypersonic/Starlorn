@@ -52,7 +52,7 @@ public class Pickup extends Entity {
 
     @Override
     public void draw(Graphics2D graphics) {
-        if (lifetime > 120 || (lifetime / 2) % 3 != 1)
+        if ((!lost && lifetime > 120) || (lifetime / 2) % 3 != 1)
             super.draw(graphics);
     }
 
