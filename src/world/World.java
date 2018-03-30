@@ -43,13 +43,10 @@ public class World extends DefaultHook {
     private Level level;
     private Wave wave;
     private long score;
-    private int lives, levelNo, waveNo, spawnedInWave, spawnedInLevel,
-                killedInLevel, remaining;
+    private int levelNo, waveNo, spawnedInWave, spawnedInLevel, killedInLevel, remaining;
     private int successfulShots, allShots, successfulShotsLevel, allShotsLevel;
     private int spawnTicks, respawnTicks;
-    private boolean paused, playerAlive, waitForPickup, quitRequested;
-    private Sprite lifeSprite;
-    private Rectangle2D lifeRect;
+    private boolean paused, isGameOver, playerAlive, waitForPickup, quitRequested;
     private Upgrade upgrade;
 
     public World(Screen scr) {
@@ -70,15 +67,11 @@ public class World extends DefaultHook {
         level = Generator.generateLevel(1);
         wave = level.popWave();
 
-        lives = 3;
         levelNo = waveNo = 1;
         score = spawnedInWave = spawnedInLevel = killedInLevel = remaining = 0;
         successfulShots = allShots = successfulShotsLevel = allShotsLevel = 0;
         spawnTicks = respawnTicks = 0;
-        paused = waitForPickup = quitRequested = false;
-        lifeSprite = Sprite.getSprite("hud/lives");
-        lifeRect = new Rectangle2D.Double(50, screen.getHeight() - 50 - lifeSprite.getHeight() / 2,
-            lifeSprite.getWidth(), lifeSprite.getHeight());
+        paused = isGameOver = waitForPickup = quitRequested = false;
         upgrade = null;
     }
 
@@ -116,9 +109,9 @@ public class World extends DefaultHook {
                 spawnTicks++;
         }
         if (!playerAlive) {
-            if (lives > 0 && respawnTicks == 60)
+            if (!isGameOver && respawnTicks == 60)
                 spawnPlayer();
-            else if (lives == 0 && respawnTicks == 180)
+            else if (isGameOver && respawnTicks == 180)
                 endGame();
             else
                 respawnTicks++;
@@ -197,7 +190,7 @@ public class World extends DefaultHook {
             entity.step();
             if (entity.isDead()) {
                 if (entity instanceof PlayerShip)
-                    killPlayer((PlayerShip) entity);
+                    killPlayer((PlayerShip) entity, false);
                 else if (entity instanceof EnemyShip)
                     killEnemy((EnemyShip) entity);
                 else if (entity instanceof Bullet)
@@ -219,13 +212,14 @@ public class World extends DefaultHook {
         }
     }
 
-    private void killPlayer(PlayerShip player) {
+    private void killPlayer(PlayerShip player, boolean dropAll) {
         playerAlive = false;
-        lives--;
         ships.remove(player);
 
         int npickups = pickups.size();
-        if (lives <= 0)
+        if (npickups == 0)
+            isGameOver = true;
+        else if (dropAll)
             dropPickups(0, npickups);
         else
             dropPickups(npickups / 2, npickups);
@@ -294,19 +288,13 @@ public class World extends DefaultHook {
             }
         }
 
-        String text = "x" + lives;
-        int yOffset = (int) (smallFont.getLineMetrics(text, graphics.getFontRenderContext()).getAscent() / 2);
-        graphics.drawString(text, 60 + lifeSprite.getWidth(), screen.getHeight() - 50 + yOffset);
-        graphics.setPaint(lifeSprite.getPaint(lifeRect));
-        graphics.fill(lifeRect);
-
         if (Preferences.getValue("devMode") == 1)
             drawDevUI(graphics);
         if (paused)
             drawPaused(graphics);
         if (quitRequested)
             drawQuitConfirmation(graphics);
-        if (lives == 0 || (spawnedInWave == wave.getNumEnemies() && remaining == 0))
+        if (isGameOver || (spawnedInWave == wave.getNumEnemies() && remaining == 0))
             drawLevelProgress(graphics);
     }
 
@@ -364,7 +352,7 @@ public class World extends DefaultHook {
     private void drawLevelProgress(Graphics2D graphics) {
         Color color;
         String message;
-        if (lives == 0) {
+        if (isGameOver) {
             color = Color.RED;
             message = "GAME OVER";
         }
@@ -382,7 +370,7 @@ public class World extends DefaultHook {
         graphics.setFont(bigFont);
         graphics.setColor(color);
         graphics.drawString(message, xOffset, screen.getHeight() / 2 - 10);
-        if (lives == 0)
+        if (isGameOver)
             drawAccuracyMessage(graphics);
         else if (upgrade != null)
             drawUpgradeMessage(graphics);
@@ -473,7 +461,7 @@ public class World extends DefaultHook {
         else if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
             if (quitRequested)
                 quitRequested = false;
-            else if (lives > 0)
+            else if (!isGameOver)
                 quitRequested = true;
             else
                 endGame();
@@ -481,12 +469,12 @@ public class World extends DefaultHook {
         else if (event.getKeyCode() == KeyEvent.VK_Q) {
             if (quitRequested) {
                 player.explode();
-                killPlayer(player);
+                killPlayer(player, true);
                 entities.remove(player);
-                lives = 0;
+                isGameOver = true;
                 quitRequested = false;
             }
-            else if (lives > 0)
+            else if (!isGameOver)
                 quitRequested = true;
             else
                 endGame();
