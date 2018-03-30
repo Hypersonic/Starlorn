@@ -20,8 +20,8 @@ public class PlayerShip extends Ship {
         super("player/straight/still");
         rect.x = displayx / 2 - rect.width / 2;
         rect.y = displayy - 200;
-        hitbox = new Rectangle2D.Double(rect.x + rect.width / 2 - 3,
-                                        rect.y + rect.height / 2 - 3, 6, 6);
+        hitbox = new Rectangle2D.Double(rect.x + rect.width / 2 - 5,
+                                        rect.y + rect.height / 2 - 5, 9, 9);
         hitboxAlpha = 1;
         goingUp = goingDown = goingLeft = goingRight = incHitboxAlpha = false;
         frame = 0;
