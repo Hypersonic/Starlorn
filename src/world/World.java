@@ -196,14 +196,7 @@ public class World extends DefaultHook {
                 else if (entity instanceof Bullet)
                     killBullet((Bullet) entity);
                 else if (entity instanceof Pickup) {
-                    if (!((Pickup) entity).wasLost()) {
-                        waitForPickup = false;
-                        if (((Pickup) entity).wasPickedUp()) {
-                            upgrade = ((Pickup) entity).getUpgrade();
-                            double yoff = 150 - 8 + 25 * pickups.size();
-                            pickups.add(new Pickup(upgrade, 75, yoff));
-                        }
-                    }
+                    killPickup((Pickup) entity);
                 }
                 it.remove();
             }
@@ -268,6 +261,18 @@ public class World extends DefaultHook {
         }
     }
 
+    private void killPickup(Pickup pickup) {
+        if (pickup.wasLost())
+            return;
+        waitForPickup = false;
+        if (pickup.wasPickedUp()) {
+            double yoff = 115 - 8 + 25 * pickups.size();
+            Rectangle2D rect = pickup.getRect();
+            upgrade = pickup.getUpgrade();
+            pickups.add(new Pickup(upgrade, 50 + rect.getWidth() / 2, yoff));
+        }
+    }
+
     private void drawHUD(Graphics2D graphics) {
         graphics.setFont(smallFont);
         graphics.setColor(Color.WHITE);
@@ -277,14 +282,13 @@ public class World extends DefaultHook {
                             waveNo, level.numWaves()), 50, 75);
 
         if (pickups.size() > 0) {
-            graphics.drawString("Upgrades:", 50, 125);
             for (Pickup pickup : pickups) {
                 Upgrade up = pickup.getUpgrade();
                 Rectangle2D rect = pickup.getRect();
                 int yoff = (int) (rect.getY() + rect.getHeight() - 2);
                 pickup.draw(graphics);
                 graphics.setColor(Color.WHITE);
-                graphics.drawString(up.getName(), 100, yoff);
+                graphics.drawString(up.getName(), 80, yoff);
             }
         }
 
@@ -440,8 +444,10 @@ public class World extends DefaultHook {
             player.setGoingRight(true);
         else if (event.getKeyCode() == Preferences.getValue("shootKey"))
             player.setShootRequested(true);
-        else if (event.getKeyCode() == Preferences.getValue("pauseKey"))
-            paused = !paused;
+        else if (event.getKeyCode() == Preferences.getValue("pauseKey")) {
+            if (!isGameOver)
+                paused = !paused;
+        }
         else if (event.getKeyCode() == Preferences.getValue("debugKey"))
             Preferences.put("devMode", Math.abs(Preferences.getValue("devMode")-1));
     }
