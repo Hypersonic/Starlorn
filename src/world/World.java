@@ -38,6 +38,7 @@ public class World extends DefaultHook {
     private ConcurrentLinkedQueue<Entity> entities;
     private ArrayList<Ship> ships;
     private ArrayList<Pickup> pickups;
+    private ArrayList<Upgrade> newUpgrades;
     private Star[] stars;
     private PlayerShip player;
     private Level level;
@@ -47,7 +48,6 @@ public class World extends DefaultHook {
     private int successfulShots, allShots, successfulShotsLevel, allShotsLevel;
     private int spawnTicks, respawnTicks;
     private boolean paused, isGameOver, playerAlive, waitForPickup, quitRequested;
-    private Upgrade upgrade;
 
     public World(Screen scr) {
         screen = scr;
@@ -57,6 +57,7 @@ public class World extends DefaultHook {
         entities = new ConcurrentLinkedQueue<Entity>();
         ships = new ArrayList<Ship>();
         pickups = new ArrayList<Pickup>();
+        newUpgrades = new ArrayList<Upgrade>();
         stars = new Star[250];
         for (int i = 0; i < 250; i++)
             stars[i] = new Star(Math.random() * screen.getWidth(),
@@ -72,7 +73,6 @@ public class World extends DefaultHook {
         successfulShots = allShots = successfulShotsLevel = allShotsLevel = 0;
         spawnTicks = respawnTicks = 0;
         paused = isGameOver = waitForPickup = quitRequested = false;
-        upgrade = null;
     }
 
     public void addEntity(Entity e) {
@@ -140,6 +140,7 @@ public class World extends DefaultHook {
     private void spawnNextWave() {
         waveNo++;
         spawnTicks = spawnedInWave = remaining = 0;
+        newUpgrades.clear();
         wave = level.popWave();
     }
 
@@ -148,7 +149,7 @@ public class World extends DefaultHook {
         waveNo = 1;
         spawnTicks = spawnedInWave = spawnedInLevel = killedInLevel = remaining = 0;
         successfulShotsLevel = allShotsLevel = 0;
-        upgrade = null;
+        newUpgrades.clear();
         level = Generator.generateLevel(levelNo);
         wave = level.popWave();
     }
@@ -274,9 +275,10 @@ public class World extends DefaultHook {
             return;
         waitForPickup = false;
         if (pickup.wasPickedUp()) {
+            Upgrade upgrade = pickup.getUpgrade();
             double yoff = 115 - 8 + 25 * pickups.size();
             Rectangle2D rect = pickup.getRect();
-            upgrade = pickup.getUpgrade();
+            newUpgrades.add(upgrade);
             pickups.add(new Pickup(upgrade, 50 + rect.getWidth() / 2, yoff));
         }
     }
@@ -384,8 +386,8 @@ public class World extends DefaultHook {
         graphics.drawString(message, xOffset, screen.getHeight() / 2 - 10);
         if (isGameOver)
             drawAccuracyMessage(graphics);
-        else if (upgrade != null)
-            drawUpgradeMessage(graphics);
+        else if (!newUpgrades.isEmpty())
+            drawUpgradeMessages(graphics);
     }
 
     private void drawAccuracyMessage(Graphics2D graphics) {
@@ -402,16 +404,24 @@ public class World extends DefaultHook {
         graphics.drawString(message, xOffset, screen.getHeight() / 2 + 50);
     }
 
-    private void drawUpgradeMessage(Graphics2D graphics) {
+    private void drawUpgradeMessages(Graphics2D graphics) {
+        int yoff = screen.getHeight() / 2 + 50;
+        for (Upgrade upgrade : newUpgrades) {
+            drawUpgradeMessage(graphics, upgrade, yoff);
+            yoff += 100;
+        }
+    }
+
+    private void drawUpgradeMessage(Graphics2D graphics, Upgrade upgrade, int yoff) {
         String message1 = "YOU GOT: " + upgrade.getName().toUpperCase();
         String message2 = upgrade.getDescription().toUpperCase();
         int xOffset1 = screen.getXOffset(graphics, mediumFont, message1);
         int xOffset2 = screen.getXOffset(graphics, smallFont, message2);
         graphics.setColor(Color.WHITE);
         graphics.setFont(mediumFont);
-        graphics.drawString(message1, xOffset1, screen.getHeight() / 2 + 50);
+        graphics.drawString(message1, xOffset1, yoff);
         graphics.setFont(smallFont);
-        graphics.drawString(message2, xOffset2, screen.getHeight() / 2 + 80);
+        graphics.drawString(message2, xOffset2, yoff + 30);
     }
 
     private void spawnPickup(Entity source) {
