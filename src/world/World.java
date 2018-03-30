@@ -222,14 +222,22 @@ public class World extends DefaultHook {
         List<Pickup> lost = pickups.subList(start, end);
         int nlost = lost.size();
         Rectangle2D.Double playerRect = player.getRect();
-        double offset = Math.random();
+        double offset;
+
+        if (nlost > 2 || !player.hasCollisionAngle()) {
+            offset = 2 * Math.PI * Math.random();
+        } else {
+            offset = player.getCollisionAngle() + Math.PI / 2;
+            if (Math.random() < 0.5)
+                offset += Math.PI;
+        }
 
         for (int i = 0; i < nlost; i++) {
             Pickup pick = lost.get(i);
             Rectangle2D.Double rect = pick.getRect();
             pick.setWorld(this);
             pick.setLost(true);
-            pick.setTargetAngle(2 * Math.PI * (offset + ((float) i / nlost)));
+            pick.setTargetAngle(offset + 2 * Math.PI * ((float) i / nlost));
             rect.x = playerRect.x + playerRect.width  / 2 - rect.width  / 2;
             rect.y = playerRect.y + playerRect.height / 2 - rect.height / 2;
         }

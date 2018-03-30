@@ -14,6 +14,7 @@ public class PlayerShip extends Ship {
     private float hitboxAlpha;
     private boolean goingUp, goingDown, goingLeft, goingRight, incHitboxAlpha;
     private int frame, invincibility;
+    private double collisionAngle;
 
     public PlayerShip(double displayx, double displayy) {
         super("player/straight/still");
@@ -25,6 +26,7 @@ public class PlayerShip extends Ship {
         goingUp = goingDown = goingLeft = goingRight = incHitboxAlpha = false;
         frame = 0;
         invincibility = 120;
+        collisionAngle = Double.POSITIVE_INFINITY;
     }
 
     @Override
@@ -179,6 +181,9 @@ public class PlayerShip extends Ship {
 
     private void collideWithEnemy(EnemyShip enemy) {
         this.explode();
+        collisionAngle = Math.atan2(
+            getRect().y - enemy.getRect().y, getRect().x - enemy.getRect().x);
+
         enemy.explode();
         enemy.setKilledByPlayer(true);
         enemy.setKilledByCollision(true);
@@ -227,5 +232,13 @@ public class PlayerShip extends Ship {
 
     public void setInvincibility(int value) {
         invincibility = value;
+    }
+
+    public boolean hasCollisionAngle() {
+        return !Double.isInfinite(collisionAngle);
+    }
+
+    public double getCollisionAngle() {
+        return collisionAngle;
     }
 }
